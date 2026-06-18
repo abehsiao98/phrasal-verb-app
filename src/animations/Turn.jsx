@@ -16,7 +16,7 @@ export function TurnIntoAnim() {
     <div style={{ ...C, gap: 14 }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: 10, color: '#888', marginBottom: 6 }}>小作坊</div>
-        <div style={{ width: 55, height: 55, animation: 'morph 2.5s ease-in-out infinite alternate' }} />
+        <div style={{ width: 55, height: 55, animation: 'morph 2.5s ease-in-out infinite alternate', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>🏠</div>
       </div>
       <div style={{ fontSize: 30, color: '#555', animation: 'arrow-beat 1.2s ease-in-out infinite' }}>→</div>
       <div style={{ textAlign: 'center' }}>
@@ -31,14 +31,19 @@ export function TurnDownAnim() {
   return (
     <div style={{ ...C, gap: 35 }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 10, color: '#666', marginBottom: 6 }}>音量旋鈕</div>
+        <div style={{ fontSize: 10, color: '#666', marginBottom: 6 }}>旋鈕往下轉</div>
         <Knob anim="knob-left" />
         <div style={{ fontSize: 9, color: '#999', marginTop: 4 }}>逆時針 ↺</div>
       </div>
-      <div style={{ textAlign: 'center', animation: 'dim-out 2.2s ease-in-out infinite alternate' }}>
-        <div style={{ fontSize: 42 }}>💌</div>
-        <div style={{ fontSize: 10, color: '#e53935', fontWeight: 'bold', marginTop: 4 }}>No thanks</div>
-        <div style={{ fontSize: 9, color: '#999' }}>拒絕邀請</div>
+      <div style={{ position: 'relative', width: 60, height: 70 }}>
+        <div style={{ position: 'absolute', inset: 0, textAlign: 'center', animation: 'phase-1of2 5s ease-in-out infinite' }}>
+          <div style={{ fontSize: 36 }}>🔊</div>
+          <div style={{ fontSize: 9, color: '#999', marginTop: 4 }}>調低音量</div>
+        </div>
+        <div style={{ position: 'absolute', inset: 0, textAlign: 'center', animation: 'phase-2of2 5s ease-in-out infinite' }}>
+          <div style={{ fontSize: 36 }}>💌</div>
+          <div style={{ fontSize: 9, color: '#e53935', fontWeight: 'bold', marginTop: 4 }}>拒絕</div>
+        </div>
       </div>
     </div>
   );
@@ -72,17 +77,26 @@ export function TurnUpAnim() {
 
 export function TurnOutAnim() {
   return (
-    <div style={{ ...C, gap: 18 }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 10, color: '#666', marginBottom: 4 }}>生產中</div>
-        <div style={{ fontSize: 40, display: 'inline-block', animation: 'spin 1.5s linear infinite' }}>⚙️</div>
-        <div style={{ fontSize: 9, color: '#999', marginTop: 2 }}>轉啊轉...</div>
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* Phase 1: 結果是 */}
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, animation: 'phase-1of2 6s ease-in-out infinite' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 32, animation: 'spin 1.5s linear infinite' }}>⚙️</div>
+        </div>
+        <div style={{ fontSize: 22, color: '#555' }}>→</div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 32 }}>📦</div>
+          <div style={{ fontSize: 10, color: '#388e3c', fontWeight: 'bold' }}>結果出爐！</div>
+        </div>
       </div>
-      <div style={{ fontSize: 26, color: '#555' }}>→</div>
-      <div style={{ textAlign: 'center', animation: 'slide-reveal 2.8s ease-in-out infinite' }}>
-        <div style={{ fontSize: 42 }}>📦</div>
-        <div style={{ fontSize: 11, color: '#388e3c', fontWeight: 'bold', marginTop: 2 }}>結果出爐！</div>
+      {/* Phase 2: 出席 */}
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, animation: 'phase-2of2 6s ease-in-out infinite' }}>
+        <div style={{ fontSize: 24, animation: 'squeeze-in 2.5s ease-out infinite' }}>🧑</div>
+        <div style={{ fontSize: 24, animation: 'squeeze-in 2.5s ease-out 0.2s infinite' }}>🧑</div>
+        <div style={{ fontSize: 24, animation: 'squeeze-in 2.5s ease-out 0.4s infinite' }}>🧑</div>
+        <div style={{ fontSize: 24, animation: 'squeeze-in 2.5s ease-out 0.6s infinite' }}>🧑</div>
       </div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>結果是 / 出席</div>
     </div>
   );
 }

@@ -25,20 +25,24 @@ export function BreakIntoAnim() {
 
 export function BreakDownAnim() {
   return (
-    <div style={{ ...C, flexDirection: 'column', gap: 10 }}>
-      {/* Server icon tilting/collapsing */}
-      <div style={{ fontSize: 44, animation: 'collapse-tilt 3s ease-in-out infinite' }}>🖥️</div>
-      {/* Status bar */}
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 9, color: '#666', marginBottom: 4 }}>系統狀態</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <div style={{ width: 70, height: 12, border: '2px solid #424242', borderRadius: 3, overflow: 'hidden', background: '#fafafa' }}>
-            <div style={{ height: '100%', animation: 'status-drain 3s linear infinite' }} />
-          </div>
-          <div style={{ fontSize: 11, color: '#f44336', fontWeight: 'bold', animation: 'blink 3s ease-in-out infinite' }}>故障!</div>
-        </div>
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* Phase 1: 故障 — 機器崩潰 */}
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, animation: 'phase-1of2 6s ease-in-out infinite' }}>
+        <div style={{ fontSize: 40, animation: 'collapse-tilt 3s ease-in-out infinite' }}>🖥️</div>
+        <div style={{ fontSize: 11, color: '#f44336', fontWeight: 'bold' }}>故障！</div>
       </div>
-      <div style={{ fontSize: 10, color: '#888' }}>崩潰 / 分解分析</div>
+      {/* Phase 2: 拆解分析 — 大塊變小塊 */}
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, animation: 'phase-2of2 6s ease-in-out infinite' }}>
+        <div style={{ display: 'flex', gap: 4 }}>
+          <div style={{ fontSize: 28 }}>📦</div>
+          <div style={{ fontSize: 16, color: '#1e88e5' }}>→</div>
+          <div style={{ fontSize: 16 }}>📄</div>
+          <div style={{ fontSize: 16 }}>📄</div>
+          <div style={{ fontSize: 16 }}>📄</div>
+        </div>
+        <div style={{ fontSize: 11, color: '#1e88e5', fontWeight: 'bold' }}>拆解分析</div>
+      </div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>故障 / 拆解</div>
     </div>
   );
 }

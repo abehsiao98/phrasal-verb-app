@@ -33,16 +33,23 @@ export function BringDownAnim() {
 
 export function BringUpAnim() {
   return (
-    <div style={{ position: 'relative', width: 210, height: 130, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', bottom: 2, left: 8, right: 8, fontSize: 10, color: '#bbb', lineHeight: 1.6 }}>
-        議題A &nbsp; 問題C &nbsp; 想法D &nbsp; 議題B
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* 核心：雙手捧著重物往上提 */}
+      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, textAlign: 'center', fontSize: 22 }}>🤲</div>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 8, textAlign: 'center', animation: 'rise-up 2.8s ease-in-out infinite' }}>
+        {/* Phase 1: 提出話題 */}
+        <div style={{ position: 'absolute', left: 0, right: 0, animation: 'phase-1of2 6s ease-in-out infinite' }}>
+          <div style={{ fontSize: 28 }}>💬</div>
+          <div style={{ fontSize: 10, fontWeight: 'bold', color: '#0070f3' }}>提出話題</div>
+        </div>
+        {/* Phase 2: 撫養 */}
+        <div style={{ position: 'absolute', left: 0, right: 0, animation: 'phase-2of2 6s ease-in-out infinite' }}>
+          <div style={{ fontSize: 28 }}>👶</div>
+          <div style={{ fontSize: 10, fontWeight: 'bold', color: '#e65100' }}>撫養長大</div>
+        </div>
       </div>
-      <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: 0, animation: 'hand-up 2.8s ease-in-out infinite', fontSize: 24 }}>☝️</div>
-      <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: 22, animation: 'rise-up 2.8s ease-in-out infinite', textAlign: 'center' }}>
-        <div style={{ fontSize: 30 }}>💬</div>
-        <div style={{ fontSize: 11, fontWeight: 'bold', color: '#0070f3', whiteSpace: 'nowrap' }}>重要議題！</div>
-      </div>
-      <div style={{ position: 'absolute', bottom: 4, right: 8, fontSize: 10, color: '#888' }}>主動提及</div>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 55, textAlign: 'center', fontSize: 14, color: '#1e88e5', animation: 'up-bob 1.1s ease-in-out infinite' }}>↑↑</div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>提及 / 撫養</div>
     </div>
   );
 }

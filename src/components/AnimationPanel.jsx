@@ -4,16 +4,16 @@ export default function AnimationPanel({ animKey, animMap }) {
   const AnimComponent = animMap[animKey];
   return (
     <div style={{
-      height: '150px',
-      background: 'linear-gradient(135deg, #f0f4ff, #e8f5e9)',
-      borderRadius: '10px',
+      height: '240px',
+      borderRadius: '12px',
       marginBottom: '20px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
-      border: '1px solid #dce8ff',
       position: 'relative',
+      border: '1px solid #e0e0e0',
+      boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
     }}>
       {AnimComponent ? <AnimComponent key={animKey} /> : null}
     </div>

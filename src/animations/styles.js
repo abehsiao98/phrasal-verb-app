@@ -42,6 +42,27 @@ const STYLES = `
     50%       { transform: translateX(7px); }
   }
 
+  /* ── Look forward ── */
+  @keyframes look-fwd-arrow {
+    0%, 100% { transform: translateX(0px); opacity: 0.4; }
+    50%       { transform: translateX(12px); opacity: 1; }
+  }
+
+  /* ── Make out ── */
+  @keyframes make-out-focus {
+    0%   { filter: blur(4px); opacity: 0.4; }
+    60%  { filter: blur(0px); opacity: 1; }
+    85%  { filter: blur(0px); opacity: 1; }
+    100% { filter: blur(4px); opacity: 0.4; }
+  }
+
+  /* ── Take off ── */
+  @keyframes take-off-fly {
+    0%   { transform: translateX(0px) translateY(0px) rotate(0deg); }
+    80%  { transform: translateX(60px) translateY(-70px) rotate(-25deg); }
+    100% { transform: translateX(70px) translateY(-80px) rotate(-25deg); opacity: 0; }
+  }
+
   /* ── Turn into ── */
   @keyframes morph {
     0%   { border-radius: 50%; background: #42a5f5; transform: scale(1); }
@@ -593,6 +614,35 @@ const STYLES = `
     0%, 40%  { opacity: 0; transform: translateX(-20px); }
     70%, 100%{ opacity: 1; transform: translateX(0px); }
   }
+
+  /* ── Meaning cycle: 3-phase switch ── */
+  @keyframes phase-1of3 {
+    0%, 30%   { opacity: 1; }
+    35%, 100% { opacity: 0; }
+  }
+  @keyframes phase-2of3 {
+    0%, 33%   { opacity: 0; }
+    38%, 63%  { opacity: 1; }
+    68%, 100% { opacity: 0; }
+  }
+  @keyframes phase-3of3 {
+    0%, 66%   { opacity: 0; }
+    71%, 95%  { opacity: 1; }
+    100%      { opacity: 0; }
+  }
+
+  /* ── Meaning cycle: 2-phase switch ── */
+  @keyframes phase-1of2 {
+    0%, 45%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  @keyframes phase-2of2 {
+    0%, 48%   { opacity: 0; }
+    53%, 95%  { opacity: 1; }
+    100%      { opacity: 0; }
+  }
 `;
 
-export default STYLES;
+import MODULAR_STYLES from './modularStyles';
+
+export default STYLES + MODULAR_STYLES;

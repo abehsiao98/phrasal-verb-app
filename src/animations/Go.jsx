@@ -186,31 +186,22 @@ export function GoBackAnim() {
 
 export function GoOffAnim() {
   return (
-    <div style={{ position: 'relative', width: 230, height: 130 }}>
-      {/* Concentric ripple rings */}
-      {[1, 2, 3].map((i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -60%)',
-            width: i * 40,
-            height: i * 40,
-            borderRadius: '50%',
-            border: '2px solid #e53935',
-            opacity: 0,
-            animation: `ripple-out 3s ease-in-out infinite`,
-            animationDelay: `${(i - 1) * 0.8}s`,
-          }}
-        />
-      ))}
-      {/* Alarm clock center */}
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -65%)', fontSize: 40, animation: 'alarm-shake 3s ease-in-out infinite' }}>⏰</div>
-      {/* Blinking warning text */}
-      <div style={{ position: 'absolute', bottom: 28, left: 0, right: 0, textAlign: 'center', fontSize: 12, fontWeight: 'bold', color: '#c62828', animation: 'blink 1.2s ease-in-out infinite' }}>警報響了!</div>
-      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>響 / 爆炸 / 壞掉</div>
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* Phase 1: 警報突然響 — 脫離安靜狀態 */}
+      <div style={{ position: 'absolute', inset: 0, animation: 'phase-1of2 6s ease-in-out infinite' }}>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 8, textAlign: 'center', fontSize: 10, color: '#888' }}>原本安靜...</div>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 25, textAlign: 'center', fontSize: 36, animation: 'alarm-shake 2s ease-in-out infinite' }}>⏰</div>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 68, textAlign: 'center', fontSize: 12, fontWeight: 'bold', color: '#c62828', animation: 'blink 1.2s ease-in-out infinite' }}>突然爆走！</div>
+      </div>
+      {/* Phase 2: 炸彈突然爆炸 — 脫離靜止狀態 */}
+      <div style={{ position: 'absolute', inset: 0, animation: 'phase-2of2 6s ease-in-out infinite' }}>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 8, textAlign: 'center', fontSize: 10, color: '#888' }}>原本靜止...</div>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 22, textAlign: 'center', fontSize: 36, animation: 'explosion 2.5s ease-in-out infinite' }}>💥</div>
+        <div style={{ position: 'absolute', left: 40, top: 20, fontSize: 14, animation: 'smoke-drift 2.5s ease-out infinite' }}>💨</div>
+        <div style={{ position: 'absolute', right: 40, top: 24, fontSize: 14, animation: 'smoke-drift 2.5s ease-out 0.5s infinite' }}>💨</div>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 68, textAlign: 'center', fontSize: 12, fontWeight: 'bold', color: '#c62828', animation: 'blink 1.2s ease-in-out infinite' }}>突然爆發！</div>
+      </div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>突然脫離正常狀態</div>
     </div>
   );
 }
@@ -246,6 +237,18 @@ export function GoForAnim() {
         <div style={{ fontSize: 8, color: '#e65100', fontWeight: 'bold', marginTop: 2 }}>目標</div>
       </div>
       <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>追求 / 選擇</div>
+    </div>
+  );
+}
+
+export function GoWithAnim() {
+  return (
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      <div style={{ position: 'absolute', left: 25, top: 28, fontSize: 28 }}>🧑</div>
+      <div style={{ position: 'absolute', left: 60, top: 25, fontSize: 24, animation: 'march-ahead 2.5s ease-in-out infinite' }}>🤝</div>
+      <div style={{ position: 'absolute', right: 20, top: 22, fontSize: 26, animation: 'goal-pulse 2s ease-in-out infinite' }}>📦</div>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 68, textAlign: 'center', fontSize: 12, color: '#1e88e5', fontWeight: 'bold', animation: 'fade-cycle 2.5s ease-in-out infinite' }}>就選這個！</div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>選擇</div>
     </div>
   );
 }

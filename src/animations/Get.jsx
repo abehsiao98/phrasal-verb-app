@@ -51,58 +51,44 @@ export function GetUpAnim() {
 
 export function GetOutAnim() {
   return (
-    <div style={{ position: 'relative', width: 230, height: 130, overflow: 'hidden' }}>
-      {/* Prison/contract box */}
-      <div style={{ position: 'absolute', left: 18, top: 14, width: 75, height: 95, border: '5px solid #546e7a', borderRadius: 6, background: '#eceff1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-        {/* Bars */}
-        {[28, 46, 64].map(x => (
-          <div key={x} style={{ position: 'absolute', top: 0, bottom: 0, left: x, width: 4, background: '#546e7a', opacity: 0.5 }} />
-        ))}
-        <div style={{ fontSize: 18, zIndex: 1 }}>📄</div>
-        <div style={{ fontSize: 8, color: '#546e7a', fontWeight: 'bold', zIndex: 1 }}>合約</div>
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* Phase 1: 逃脫 — 從困境跑出來 */}
+      <div style={{ position: 'absolute', inset: 0, animation: 'phase-1of2 6s ease-in-out infinite' }}>
+        <div style={{ position: 'absolute', left: 20, top: 15, width: 65, height: 65, border: '4px solid #546e7a', borderRadius: 6, background: '#eceff1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ fontSize: 16 }}>📄 合約</span>
+        </div>
+        <div style={{ position: 'absolute', left: 60, top: 30, fontSize: 26, animation: 'escape 2.8s ease-in-out infinite' }}>🏃</div>
+        <div style={{ position: 'absolute', right: 12, top: 55, fontSize: 10, color: '#388e3c', fontWeight: 'bold' }}>脫身！</div>
       </div>
-      {/* Door opening on the right side of box */}
-      <div style={{ position: 'absolute', left: 78, top: 14, width: 18, height: 95, background: '#90a4ae', transformOrigin: 'left center', animation: 'door-open 2.8s ease-in-out infinite' }} />
-      {/* Escaping person */}
-      <div style={{ position: 'absolute', top: 44, left: 60, fontSize: 28, animation: 'escape 2.8s ease-in-out infinite' }}>🏃</div>
-      <div style={{ position: 'absolute', bottom: 4, right: 8, fontSize: 10, color: '#388e3c', fontWeight: 'bold' }}>脫身！</div>
+      {/* Phase 2: 消息洩漏 — 秘密變廣播 */}
+      <div style={{ position: 'absolute', inset: 0, animation: 'phase-2of2 6s ease-in-out infinite' }}>
+        <div style={{ position: 'absolute', left: 30, top: 22, fontSize: 28 }}>🔒</div>
+        <div style={{ position: 'absolute', left: 70, top: 32, fontSize: 14, color: '#c62828', animation: 'look-fwd-arrow 1.5s ease-in-out infinite' }}>→ →</div>
+        <div style={{ position: 'absolute', right: 25, top: 22, fontSize: 28, animation: 'fade-cycle 2.5s ease-in-out infinite' }}>📢</div>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', fontSize: 11, color: '#c62828', fontWeight: 'bold' }}>消息洩漏了！</div>
+      </div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>逃脫 / 洩漏</div>
     </div>
   );
 }
 
 export function GetOverAnim() {
   return (
-    <div style={{ position: 'relative', width: 230, height: 130, overflow: 'hidden' }}>
-      {/* Wall obstacle in center */}
-      <div style={{ position: 'absolute', left: '50%', top: 28, transform: 'translateX(-50%)', width: 18, height: 72, background: '#5d4037', borderRadius: 3, border: '2px solid #3e2723', zIndex: 2 }} />
-      {/* Person rising on left side, uses rise-up keyframe */}
-      <div style={{
-        position: 'absolute',
-        top: 44,
-        left: 42,
-        fontSize: 30,
-        animation: 'rise-up 2.8s ease-in-out infinite',
-        zIndex: 3,
-      }}>🧗</div>
-      {/* Person landing on right side */}
-      <div style={{
-        position: 'absolute',
-        top: 60,
-        right: 38,
-        fontSize: 28,
-        animation: 'pop-out 2.8s ease-in-out infinite',
-        animationDelay: '1.4s',
-      }}>💪</div>
-      {/* Sparkle of triumph */}
-      <div style={{
-        position: 'absolute',
-        top: 14,
-        right: 28,
-        fontSize: 18,
-        animation: 'blink 2.8s ease-in-out infinite',
-        animationDelay: '1.6s',
-      }}>✨</div>
-      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>克服困難</div>
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* 核心：牆壁（永遠存在） */}
+      <div style={{ position: 'absolute', left: '50%', top: 18, transform: 'translateX(-50%)', width: 12, height: 60, background: '#5d4037', borderRadius: 3, zIndex: 2 }} />
+      <div style={{ position: 'absolute', left: '50%', top: 50, transform: 'translateX(-50%)', fontSize: 10, color: '#888', zIndex: 3 }}>↷</div>
+      {/* Phase 1: 爬過牆 — 克服困難 */}
+      <div style={{ position: 'absolute', inset: 0, animation: 'phase-1of2 6s ease-in-out infinite' }}>
+        <div style={{ position: 'absolute', left: 25, top: 22, fontSize: 28, animation: 'rise-up 2.8s ease-in-out infinite' }}>🧗</div>
+        <div style={{ position: 'absolute', right: 25, top: 40, fontSize: 24, animation: 'fade-cycle 2.5s ease-in-out 1.5s infinite' }}>💪</div>
+      </div>
+      {/* Phase 2: 心碎 → 癒合 — 從低谷走出 */}
+      <div style={{ position: 'absolute', inset: 0, animation: 'phase-2of2 6s ease-in-out infinite' }}>
+        <div style={{ position: 'absolute', left: 25, top: 28, fontSize: 28 }}>💔</div>
+        <div style={{ position: 'absolute', right: 25, top: 28, fontSize: 28, animation: 'fade-cycle 2.5s ease-in-out infinite' }}>❤️‍🩹</div>
+      </div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>克服 / 恢復</div>
     </div>
   );
 }
@@ -124,16 +110,14 @@ export function GetThroughAnim() {
         fontSize: 30,
         animation: 'pass-thru 2.5s ease-in-out infinite',
         zIndex: 3,
-      }}>📞</div>
-      {/* Label on right side indicating connection */}
+      }}>🧑</div>
       <div style={{
         position: 'absolute',
         top: 40,
         right: 18,
         fontSize: 24,
-        animation: 'pop-out 2.5s ease-in-out infinite',
-        animationDelay: '1.2s',
-      }}>🤙</div>
+        animation: 'fade-cycle 2.5s ease-in-out infinite',
+      }}>✅</div>
       <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>撐過 / 聯繫上</div>
     </div>
   );

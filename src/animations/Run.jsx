@@ -10,6 +10,7 @@ export function RunIntoAnim() {
       <div style={{ position: 'absolute', top: 50, left: 10, width: 35, height: 2, background: '#90caf9', opacity: 0.6, borderRadius: 1 }} />
       <div style={{ position: 'absolute', top: 58, left: 5, width: 25, height: 2, background: '#90caf9', opacity: 0.4, borderRadius: 1 }} />
       <div style={{ position: 'absolute', top: 66, left: 15, width: 30, height: 2, background: '#90caf9', opacity: 0.5, borderRadius: 1 }} />
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>巧遇 / 撞見問題</div>
     </div>
   );
 }
@@ -52,35 +53,44 @@ export function RunUpAnim() {
 
 export function RunOutAnim() {
   return (
-    <div style={{ position: 'relative', width: 220, height: 130 }}>
-      <div style={{ position: 'absolute', left: 45, top: 10 }}>
-        <div style={{ fontSize: 10, color: '#888', marginBottom: 4, textAlign: 'center' }}>存量</div>
-        <div style={{ width: 60, height: 80, border: '4px solid #546e7a', borderTop: 'none', borderRadius: '0 0 10px 10px', position: 'relative', overflow: 'hidden', background: '#fafafa' }}>
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* 容器 */}
+      <div style={{ position: 'absolute', left: 55, top: 8 }}>
+        <div style={{ fontSize: 9, color: '#888', textAlign: 'center', marginBottom: 2 }}>容器</div>
+        <div style={{ width: 55, height: 65, border: '3px solid #546e7a', borderTop: 'none', borderRadius: '0 0 10px 10px', position: 'relative', overflow: 'hidden', background: '#fafafa' }}>
+          {/* 液面下降 */}
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(180deg, #81d4fa 0%, #0288d1 100%)', animation: 'water-drop 3.2s ease-in-out infinite' }} />
         </div>
       </div>
-      <div style={{ position: 'absolute', bottom: 8, left: 32, fontSize: 12, color: '#e53935', fontWeight: 'bold', animation: 'blink 3.2s ease-in-out infinite' }}>用光了！</div>
-      <div style={{ position: 'absolute', bottom: 14, right: 0, fontSize: 24, animation: 'run-away 3.2s linear infinite' }}>🏃</div>
-      <div style={{ position: 'absolute', bottom: 4, right: 8, fontSize: 10, color: '#888' }}>耗盡</div>
+      {/* 物質往外跑的箭頭 */}
+      <div style={{ position: 'absolute', right: 15, top: 35, fontSize: 12, color: '#0288d1', animation: 'depart-right 2s ease-in infinite' }}>💧</div>
+      <div style={{ position: 'absolute', right: 20, top: 50, fontSize: 12, color: '#0288d1', animation: 'depart-right 2s ease-in 0.5s infinite' }}>💧</div>
+      {/* 用光了 */}
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 82, textAlign: 'center', fontSize: 11, color: '#e53935', fontWeight: 'bold', animation: 'blink 3.2s ease-in-out infinite' }}>跑出去了！用光了！</div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>耗盡</div>
     </div>
   );
 }
 
 export function RunOverAnim() {
   return (
-    <div style={{ position: 'relative', width: 220, height: 130, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 12, left: 16 }}>
-        <div style={{ fontSize: 38 }}>⏰</div>
-        <div style={{ fontSize: 11, color: '#555', textAlign: 'center', marginTop: 2 }}>30 min</div>
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* Phase 1: 超時 */}
+      <div style={{ position: 'absolute', inset: 0, animation: 'phase-1of2 6s ease-in-out infinite' }}>
+        <div style={{ position: 'absolute', left: 20, top: 18, fontSize: 32 }}>⏰</div>
+        <div style={{ position: 'absolute', left: 65, top: 22, fontSize: 12, color: '#e53935', fontWeight: 'bold' }}>+30min</div>
+        <div style={{ position: 'absolute', right: 18, top: 16 }}>
+          <div style={{ background: '#e53935', color: '#fff', fontSize: 10, fontWeight: 'bold', padding: '2px 6px', borderRadius: 4, animation: 'fade-cycle 2.5s ease-in-out infinite' }}>OVER</div>
+        </div>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', fontSize: 10, color: '#888' }}>超時</div>
       </div>
-      <div style={{ position: 'absolute', top: 10, left: 72 }}>
-        <div style={{ fontSize: 11, color: '#555', marginBottom: 4 }}>會議時間</div>
-        <div style={{ fontSize: 13, color: '#e53935', fontWeight: 'bold' }}>+30min</div>
+      {/* Phase 2: 輾過 */}
+      <div style={{ position: 'absolute', inset: 0, animation: 'phase-2of2 6s ease-in-out infinite' }}>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 45, textAlign: 'center', fontSize: 10, color: '#90a4ae' }}>〰️〰️〰️〰️〰️</div>
+        <div style={{ position: 'absolute', left: 20, top: 22, fontSize: 28, animation: 'cross-path 2.5s ease-in-out infinite' }}>🚗</div>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', fontSize: 10, color: '#888' }}>輾過</div>
       </div>
-      <div style={{ position: 'absolute', top: 8, right: 12, animation: 'bug-pop 2.5s ease-in-out infinite' }}>
-        <div style={{ background: '#e53935', color: '#fff', fontSize: 11, fontWeight: 'bold', padding: '2px 7px', borderRadius: 4 }}>OVER</div>
-      </div>
-      <div style={{ position: 'absolute', bottom: 6, right: 8, fontSize: 10, color: '#888' }}>超出時限</div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>超時 / 輾過</div>
     </div>
   );
 }

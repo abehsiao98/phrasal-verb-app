@@ -46,24 +46,30 @@ export function SetDownAnim() {
 
 export function SetUpAnim() {
   const blocks = [
-    { color: '#ef5350', label: 'API', anim: 'block1-slide', delay: '0s' },
-    { color: '#42a5f5', label: 'DB', anim: 'block2-slide', delay: '0s' },
-    { color: '#66bb6a', label: 'CI', anim: 'block3-slide', delay: '0s' },
+    { color: '#ef5350', label: 'API', anim: 'block1-slide' },
+    { color: '#42a5f5', label: 'DB', anim: 'block2-slide' },
+    { color: '#66bb6a', label: 'CI', anim: 'block3-slide' },
   ];
   return (
-    <div style={{ ...C, flexDirection: 'column', gap: 8 }}>
-      <div style={{ fontSize: 10, color: '#666' }}>建立新環境</div>
-      {/* Assembling blocks */}
-      <div style={{ display: 'flex', gap: 6, alignItems: 'center', overflow: 'hidden' }}>
-        {blocks.map((b, i) => (
-          <div key={i} style={{ width: 46, height: 36, background: b.color, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 11, fontWeight: 'bold', boxShadow: '0 2px 6px rgba(0,0,0,0.2)', animation: `${b.anim} 3s ease-in-out infinite` }}>
-            {b.label}
-          </div>
-        ))}
-        {/* Checkmark */}
-        <div style={{ fontSize: 28, animation: 'check-pop 3s ease-in-out infinite' }}>✅</div>
+    <div style={{ position: 'relative', width: 210, height: 130 }}>
+      {/* Phase 1: 架設 */}
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, animation: 'phase-1of2 6s ease-in-out infinite' }}>
+        <div style={{ fontSize: 10, color: '#666' }}>建立新環境</div>
+        <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+          {blocks.map((b, i) => (
+            <div key={i} style={{ width: 40, height: 30, background: b.color, borderRadius: 5, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 10, fontWeight: 'bold', animation: `${b.anim} 3s ease-in-out infinite` }}>{b.label}</div>
+          ))}
+          <div style={{ fontSize: 22, animation: 'check-pop 3s ease-in-out infinite' }}>✅</div>
+        </div>
+        <div style={{ fontSize: 10, color: '#388e3c', fontWeight: 'bold' }}>架設完成!</div>
       </div>
-      <div style={{ fontSize: 10, color: '#388e3c', fontWeight: 'bold' }}>系統架設完成!</div>
+      {/* Phase 2: 設局 */}
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, animation: 'phase-2of2 6s ease-in-out infinite' }}>
+        <div style={{ fontSize: 10, color: '#666' }}>預先布置好...</div>
+        <div style={{ fontSize: 40, animation: 'fade-cycle 2.5s ease-in-out infinite' }}>🪤</div>
+        <div style={{ fontSize: 10, color: '#c62828', fontWeight: 'bold' }}>設局陷害!</div>
+      </div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>架設 / 設局</div>
     </div>
   );
 }
