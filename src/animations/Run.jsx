@@ -1,154 +1,269 @@
 import React from 'react';
-import { C } from './utils';
+import { motion } from 'framer-motion';
 
+/* ── Run into (巧遇) ── Running figure crashing into wall ── */
 export function RunIntoAnim() {
   return (
-    <div style={{ position: 'relative', width: 250, height: 130, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 38, left: 55, width: 46, height: 46, background: 'linear-gradient(135deg, #1565c0, #1e88e5)', borderRadius: 8, animation: 'rush 2.8s ease-in-out infinite', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 18, fontWeight: 'bold', boxShadow: '0 3px 8px rgba(0,0,0,0.3)' }}>▶</div>
-      <div style={{ position: 'absolute', top: 18, right: 25, width: 75, height: 75, borderRadius: '50%', background: 'radial-gradient(circle at 35% 35%, #ef5350, #b71c1c)', animation: 'wall-shake 2.8s ease-in-out infinite', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 11, fontWeight: 'bold', boxShadow: '0 3px 10px rgba(183,28,28,0.4)' }}>WALL</div>
-      <div style={{ position: 'absolute', top: 4, right: 18, animation: 'bug-pop 2.8s ease-in-out infinite', fontSize: 16, fontWeight: 'bold', color: '#b71c1c', whiteSpace: 'nowrap' }}>🐛 Bug!</div>
-      <div style={{ position: 'absolute', top: 50, left: 10, width: 35, height: 2, background: '#90caf9', opacity: 0.6, borderRadius: 1 }} />
-      <div style={{ position: 'absolute', top: 58, left: 5, width: 25, height: 2, background: '#90caf9', opacity: 0.4, borderRadius: 1 }} />
-      <div style={{ position: 'absolute', top: 66, left: 15, width: 30, height: 2, background: '#90caf9', opacity: 0.5, borderRadius: 1 }} />
-      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>巧遇 / 撞見問題</div>
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', bottom: 13, left: 0, right: 0, height: 2, background: '#e0e0e0' }} />
+      {/* Wall */}
+      <div style={{ position: 'absolute', right: 35, top: 10, width: 12, height: 85, background: '#78909c', borderRadius: 2 }} />
+      {/* Running figure */}
+      <motion.div
+        style={{ position: 'absolute', bottom: 17 }}
+        animate={{ x: [10, 120, 115, 10] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.5, 1] }}
+      >
+        <div style={{ width: 14, height: 14, borderRadius: '50%', background: '#546e7a', margin: '0 auto' }} />
+        <div style={{ width: 20, height: 5, background: '#546e7a', borderRadius: 1, margin: '0 auto' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6 }}>
+          <motion.div style={{ width: 2, height: 12, background: '#546e7a' }} animate={{ rotate: [-15, 15, -15] }} transition={{ duration: 0.3, repeat: Infinity }} />
+          <motion.div style={{ width: 2, height: 12, background: '#546e7a' }} animate={{ rotate: [15, -15, 15] }} transition={{ duration: 0.3, repeat: Infinity }} />
+        </div>
+      </motion.div>
+      {/* Impact star */}
+      <motion.div
+        style={{ position: 'absolute', right: 42, top: 40, width: 12, height: 12, background: '#ffeb3b', borderRadius: '50%' }}
+        animate={{ scale: [0, 0, 1.5, 0], opacity: [0, 0, 1, 0] }}
+        transition={{ duration: 3, repeat: Infinity, times: [0, 0.35, 0.45, 0.55] }}
+      />
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>巧遇</div>
     </div>
   );
 }
 
+/* ── Run down (耗盡) ── Battery bar draining ── */
 export function RunDownAnim() {
   return (
-    <div style={{ ...C, flexDirection: 'column', gap: 10 }}>
-      <div style={{ fontSize: 12, color: '#666' }}>電池電量</div>
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-        <div style={{ width: 74, height: 32, border: '3px solid #424242', borderRadius: 5, overflow: 'hidden', position: 'relative', background: '#fafafa' }}>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, animation: 'drain 3.2s linear infinite' }} />
-        </div>
-        <div style={{ width: 7, height: 16, background: '#424242', borderRadius: '0 3px 3px 0', marginLeft: -1 }} />
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      {/* Battery outline */}
+      <div style={{ position: 'absolute', left: 55, top: 30, width: 80, height: 36, border: '3px solid #37474f', borderRadius: 5 }}>
+        {/* Battery cap */}
+        <div style={{ position: 'absolute', right: -9, top: 8, width: 8, height: 18, background: '#37474f', borderRadius: '0 3px 3px 0' }} />
+        {/* Battery level draining */}
+        <motion.div
+          style={{ position: 'absolute', left: 3, top: 3, bottom: 3, borderRadius: 2 }}
+          animate={{ width: [68, 5], background: ['#4caf50', '#ef5350'] }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+        />
       </div>
-      <div style={{ fontSize: 11, color: '#e53935', fontWeight: 'bold', animation: 'blink 3.2s ease-in-out infinite' }}>⚡ 精疲力竭...</div>
-      <div style={{ fontSize: 10, color: '#888' }}>體力耗盡/破舊衰敗</div>
-    </div>
-  );
-}
-
-export function RunUpAnim() {
-  const bills = ['$100', '$500', '$1,200', '$2,800', '$5,000', '$8,000', '$100'];
-  return (
-    <div style={{ ...C, gap: 18 }}>
-      <div style={{ fontSize: 38 }}>💳</div>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 10, color: '#666', marginBottom: 4 }}>帳單累積中</div>
-        <div style={{ width: 76, height: 72, overflow: 'hidden', border: '2px solid #ef9a9a', borderRadius: 8, background: '#fff8f8' }}>
-          <div style={{ animation: 'scroll-up 2.5s linear infinite', paddingLeft: 6 }}>
-            {bills.map((v, i) => (
-              <div key={i} style={{ height: 21, lineHeight: '21px', fontSize: 13, color: '#c62828', fontWeight: 'bold' }}>{v}</div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div style={{ fontSize: 22, color: '#e53935', fontWeight: 'bold' }}>↑↑</div>
-    </div>
-  );
-}
-
-export function RunOutAnim() {
-  return (
-    <div style={{ position: 'relative', width: 210, height: 130 }}>
-      {/* 容器 */}
-      <div style={{ position: 'absolute', left: 55, top: 8 }}>
-        <div style={{ fontSize: 9, color: '#888', textAlign: 'center', marginBottom: 2 }}>容器</div>
-        <div style={{ width: 55, height: 65, border: '3px solid #546e7a', borderTop: 'none', borderRadius: '0 0 10px 10px', position: 'relative', overflow: 'hidden', background: '#fafafa' }}>
-          {/* 液面下降 */}
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(180deg, #81d4fa 0%, #0288d1 100%)', animation: 'water-drop 3.2s ease-in-out infinite' }} />
-        </div>
-      </div>
-      {/* 物質往外跑的箭頭 */}
-      <div style={{ position: 'absolute', right: 15, top: 35, fontSize: 12, color: '#0288d1', animation: 'depart-right 2s ease-in infinite' }}>💧</div>
-      <div style={{ position: 'absolute', right: 20, top: 50, fontSize: 12, color: '#0288d1', animation: 'depart-right 2s ease-in 0.5s infinite' }}>💧</div>
-      {/* 用光了 */}
-      <div style={{ position: 'absolute', left: 0, right: 0, top: 82, textAlign: 'center', fontSize: 11, color: '#e53935', fontWeight: 'bold', animation: 'blink 3.2s ease-in-out infinite' }}>跑出去了！用光了！</div>
+      {/* Low battery warning */}
+      <motion.div
+        style={{ position: 'absolute', left: 75, top: 75, fontSize: 11, fontWeight: 'bold', color: '#ef5350' }}
+        animate={{ opacity: [0, 0, 1, 0] }}
+        transition={{ duration: 3, repeat: Infinity, times: [0, 0.6, 0.8, 1] }}
+      >
+        LOW
+      </motion.div>
       <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>耗盡</div>
     </div>
   );
 }
 
+/* ── Run up (累積) ── Bills stacking higher ── */
+export function RunUpAnim() {
+  return (
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', bottom: 13, left: 0, right: 0, height: 2, background: '#e0e0e0' }} />
+      {/* Bill stack growing */}
+      {[0, 1, 2, 3, 4].map(i => (
+        <motion.div
+          key={i}
+          style={{ position: 'absolute', bottom: 15, left: 75, width: 45, height: 12, background: '#c8e6c9', border: '1px solid #4caf50', borderRadius: 2 }}
+          animate={{ y: [0, -i * 13], opacity: [0, 1] }}
+          transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeOut' }}
+        >
+          <div style={{ position: 'absolute', top: 3, left: 5, width: 8, height: 1, background: '#4caf50' }} />
+        </motion.div>
+      ))}
+      {/* Up arrow */}
+      <motion.div
+        style={{ position: 'absolute', right: 30, top: 15 }}
+        animate={{ y: [10, 0, 10], opacity: [0.4, 0.8, 0.4] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+      >
+        <div style={{ width: 0, height: 0, borderLeft: '6px solid transparent', borderRight: '6px solid transparent', borderBottom: '8px solid #ef5350', margin: '0 auto' }} />
+        <div style={{ width: 3, height: 15, background: '#ef5350', margin: '0 auto' }} />
+      </motion.div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>累積</div>
+    </div>
+  );
+}
+
+/* ── Run out (用完) ── Hourglass emptying ── */
+export function RunOutAnim() {
+  return (
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      {/* Hourglass frame */}
+      <div style={{ position: 'absolute', left: 80, top: 8, width: 40, height: 6, background: '#8d6e63', borderRadius: 2 }} />
+      <div style={{ position: 'absolute', left: 80, top: 90, width: 40, height: 6, background: '#8d6e63', borderRadius: 2 }} />
+      {/* Top glass */}
+      <div style={{ position: 'absolute', left: 85, top: 14, width: 30, height: 35, background: '#fff', border: '2px solid #8d6e63', borderRadius: '0 0 50% 50%' }} />
+      {/* Bottom glass */}
+      <div style={{ position: 'absolute', left: 85, top: 55, width: 30, height: 35, background: '#fff', border: '2px solid #8d6e63', borderRadius: '50% 50% 0 0' }} />
+      {/* Sand in top (draining) */}
+      <motion.div
+        style={{ position: 'absolute', left: 89, top: 22, width: 22, borderRadius: '0 0 50% 50%', background: '#ffd54f' }}
+        animate={{ height: [25, 2] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+      />
+      {/* Sand in bottom (filling) */}
+      <motion.div
+        style={{ position: 'absolute', left: 89, bottom: 18, width: 22, borderRadius: '50% 50% 0 0', background: '#ffd54f' }}
+        animate={{ height: [2, 25] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+      />
+      {/* Sand stream */}
+      <motion.div
+        style={{ position: 'absolute', left: 99, top: 47, width: 2, height: 10, background: '#ffd54f' }}
+        animate={{ opacity: [1, 1, 0] }}
+        transition={{ duration: 3, repeat: Infinity, times: [0, 0.85, 1] }}
+      />
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>用完</div>
+    </div>
+  );
+}
+
+/* ── Run over (溢出) ── Cup overflowing with liquid ── */
 export function RunOverAnim() {
   return (
-    <div style={{ position: 'relative', width: 210, height: 130 }}>
-      {/* Phase 1: 超時 */}
-      <div style={{ position: 'absolute', inset: 0, animation: 'phase-1of2 6s ease-in-out infinite' }}>
-        <div style={{ position: 'absolute', left: 20, top: 18, fontSize: 32 }}>⏰</div>
-        <div style={{ position: 'absolute', left: 65, top: 22, fontSize: 12, color: '#e53935', fontWeight: 'bold' }}>+30min</div>
-        <div style={{ position: 'absolute', right: 18, top: 16 }}>
-          <div style={{ background: '#e53935', color: '#fff', fontSize: 10, fontWeight: 'bold', padding: '2px 6px', borderRadius: 4, animation: 'fade-cycle 2.5s ease-in-out infinite' }}>OVER</div>
-        </div>
-        <div style={{ position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', fontSize: 10, color: '#888' }}>超時</div>
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', bottom: 13, left: 0, right: 0, height: 2, background: '#e0e0e0' }} />
+      {/* Cup */}
+      <div style={{ position: 'absolute', bottom: 15, left: 75, width: 40, height: 50, background: '#fff', border: '3px solid #78909c', borderTop: 'none', borderRadius: '0 0 6px 6px' }}>
+        <div style={{ position: 'absolute', right: -12, top: 8, width: 10, height: 18, border: '2px solid #78909c', borderLeft: 'none', borderRadius: '0 6px 6px 0' }} />
       </div>
-      {/* Phase 2: 輾過 */}
-      <div style={{ position: 'absolute', inset: 0, animation: 'phase-2of2 6s ease-in-out infinite' }}>
-        <div style={{ position: 'absolute', left: 0, right: 0, top: 45, textAlign: 'center', fontSize: 10, color: '#90a4ae' }}>〰️〰️〰️〰️〰️</div>
-        <div style={{ position: 'absolute', left: 20, top: 22, fontSize: 28, animation: 'cross-path 2.5s ease-in-out infinite' }}>🚗</div>
-        <div style={{ position: 'absolute', left: 0, right: 0, top: 60, textAlign: 'center', fontSize: 10, color: '#888' }}>輾過</div>
-      </div>
-      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>超時 / 輾過</div>
+      {/* Liquid rising and overflowing */}
+      <motion.div
+        style={{ position: 'absolute', bottom: 18, left: 78, width: 34, background: '#42a5f5', borderRadius: '0 0 3px 3px' }}
+        animate={{ height: [10, 45, 45, 10] }}
+        transition={{ duration: 3.5, repeat: Infinity, times: [0, 0.4, 0.7, 1] }}
+      />
+      {/* Overflow drops */}
+      {[0, 1].map(i => (
+        <motion.div
+          key={i}
+          style={{ position: 'absolute', left: 72 + i * 46, width: 5, height: 8, background: '#42a5f5', borderRadius: '0 0 3px 3px' }}
+          animate={{ y: [12, 12, 40], opacity: [0, 0, 0.7, 0] }}
+          transition={{ duration: 3.5, repeat: Infinity, times: [0, 0.35, 0.6, 0.8] }}
+        />
+      ))}
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>溢出</div>
     </div>
   );
 }
 
+/* ── Run through (排練) ── Figure sprinting through tunnel ── */
 export function RunThroughAnim() {
-  const items = ['完成報告', '回覆郵件', '更新文件'];
-  const delays = ['0s', '0.8s', '1.6s'];
   return (
-    <div style={{ position: 'relative', width: 220, height: 130, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 14, right: 16 }}>
-        {items.map((item, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-            <div style={{ fontSize: 14, animation: `blink 2.5s ease-in-out ${delays[i]} infinite` }}>✅</div>
-            <div style={{ fontSize: 11, color: '#444' }}>{item}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ position: 'absolute', top: '40%', left: 8, transform: 'translateY(-50%)', animation: 'pass-thru 2.5s ease-in-out infinite', fontSize: 22 }}>→</div>
-      <div style={{ position: 'absolute', bottom: 6, right: 8, fontSize: 10, color: '#888' }}>快速過一遍</div>
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      {/* Tunnel */}
+      <div style={{ position: 'absolute', top: 22, left: 40, width: 120, height: 10, background: '#455a64' }} />
+      <div style={{ position: 'absolute', top: 72, left: 40, width: 120, height: 10, background: '#455a64' }} />
+      <div style={{ position: 'absolute', top: 32, left: 40, width: 120, height: 40, background: '#263238' }} />
+      {/* Figure running through */}
+      <motion.div
+        style={{ position: 'absolute', top: 38 }}
+        animate={{ x: [5, 175] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#90a4ae', margin: '0 auto' }} />
+        <div style={{ width: 14, height: 3, background: '#90a4ae', borderRadius: 1, margin: '0 auto' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 3 }}>
+          <motion.div style={{ width: 1.5, height: 8, background: '#90a4ae' }} animate={{ rotate: [-15, 15, -15] }} transition={{ duration: 0.2, repeat: Infinity }} />
+          <motion.div style={{ width: 1.5, height: 8, background: '#90a4ae' }} animate={{ rotate: [15, -15, 15] }} transition={{ duration: 0.2, repeat: Infinity }} />
+        </div>
+      </motion.div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>排練</div>
     </div>
   );
 }
 
+/* ── Run away (逃跑) ── Figure running to right, shrinking ── */
 export function RunAwayAnim() {
   return (
-    <div style={{ position: 'relative', width: 220, height: 130, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: '28%', right: 16, transform: 'translateY(-50%)', textAlign: 'center' }}>
-        <div style={{ fontSize: 36 }}>⚠️</div>
-        <div style={{ fontSize: 9, color: '#e53935', marginTop: 2 }}>問題</div>
-      </div>
-      <div style={{ position: 'absolute', top: '28%', left: 8, transform: 'translateY(-50%)', animation: 'move-away 3s ease-in-out infinite', fontSize: 34 }}>🏃</div>
-      <div style={{ position: 'absolute', bottom: 6, right: 8, fontSize: 10, color: '#888' }}>逃避問題</div>
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', bottom: 13, left: 0, right: 0, height: 2, background: '#e0e0e0' }} />
+      {/* Figure running and shrinking */}
+      <motion.div
+        style={{ position: 'absolute', bottom: 17 }}
+        animate={{ x: [20, 180], scale: [1, 0.4], opacity: [1, 0.3] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeIn' }}
+      >
+        <div style={{ width: 14, height: 14, borderRadius: '50%', background: '#546e7a', margin: '0 auto' }} />
+        <div style={{ width: 20, height: 5, background: '#546e7a', borderRadius: 1, margin: '0 auto' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6 }}>
+          <motion.div style={{ width: 2, height: 12, background: '#546e7a' }} animate={{ rotate: [-15, 15, -15] }} transition={{ duration: 0.25, repeat: Infinity }} />
+          <motion.div style={{ width: 2, height: 12, background: '#546e7a' }} animate={{ rotate: [15, -15, 15] }} transition={{ duration: 0.25, repeat: Infinity }} />
+        </div>
+      </motion.div>
+      {/* Dust puffs */}
+      {[0, 1, 2].map(i => (
+        <motion.div
+          key={i}
+          style={{ position: 'absolute', bottom: 18 + i * 4, width: 6, height: 6, background: '#bdbdbd', borderRadius: '50%' }}
+          animate={{ x: [30, 15], opacity: [0.5, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3 }}
+        />
+      ))}
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>逃跑</div>
     </div>
   );
 }
 
+/* ── Run across (偶然發現) ── Figure running, finding object on path ── */
 export function RunAcrossAnim() {
   return (
-    <div style={{ position: 'relative', width: 220, height: 130, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: '32%', left: 4, transform: 'translateY(-50%)', animation: 'cross-path 3s linear infinite', fontSize: 30 }}>🧑</div>
-      <div style={{ position: 'absolute', top: '28%', left: '50%', transform: 'translate(-50%, -50%)', animation: 'bug-pop 2.8s ease-in-out infinite', textAlign: 'center' }}>
-        <div style={{ fontSize: 28 }}>💡</div>
-        <div style={{ fontSize: 10, color: '#f57f17', fontWeight: 'bold', whiteSpace: 'nowrap' }}>找到了！</div>
-      </div>
-      <div style={{ position: 'absolute', bottom: 6, right: 8, fontSize: 10, color: '#888' }}>偶然發現</div>
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', bottom: 13, left: 0, right: 0, height: 2, background: '#e0e0e0' }} />
+      {/* Object on ground */}
+      <div style={{ position: 'absolute', bottom: 15, left: 120, width: 16, height: 12, background: '#ff9800', borderRadius: 2, border: '1.5px solid #e65100' }} />
+      {/* Figure running */}
+      <motion.div
+        style={{ position: 'absolute', bottom: 17 }}
+        animate={{ x: [10, 10, 100, 100] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', times: [0, 0.15, 0.5, 1] }}
+      >
+        <div style={{ width: 14, height: 14, borderRadius: '50%', background: '#546e7a', margin: '0 auto' }} />
+        <div style={{ width: 20, height: 5, background: '#546e7a', borderRadius: 1, margin: '0 auto' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6 }}>
+          <div style={{ width: 2, height: 12, background: '#546e7a' }} />
+          <div style={{ width: 2, height: 12, background: '#546e7a' }} />
+        </div>
+      </motion.div>
+      {/* Surprise */}
+      <motion.div
+        style={{ position: 'absolute', top: 15, left: 118, fontWeight: 'bold', fontSize: 14, color: '#ff9800' }}
+        animate={{ opacity: [0, 0, 1, 1, 0], scale: [0.5, 0.5, 1.3, 1, 0.5] }}
+        transition={{ duration: 3.5, repeat: Infinity, times: [0, 0.45, 0.55, 0.8, 1] }}
+      >
+        !
+      </motion.div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>偶然發現</div>
     </div>
   );
 }
 
+/* ── Run off (跑掉) ── Figure running off edge of platform ── */
 export function RunOffAnim() {
   return (
-    <div style={{ position: 'relative', width: 220, height: 130, overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: '28%', left: 14, transform: 'translateY(-50%)', textAlign: 'center' }}>
-        <div style={{ fontSize: 38 }}>🖨️</div>
-        <div style={{ fontSize: 9, color: '#888', marginTop: 2 }}>印表機</div>
-      </div>
-      <div style={{ position: 'absolute', top: '34%', left: 62, transform: 'translateY(-50%)', animation: 'depart-right 2.5s ease-in-out infinite', fontSize: 30 }}>📄</div>
-      <div style={{ position: 'absolute', bottom: 6, right: 8, fontSize: 10, color: '#888' }}>列印輸出 / 跑走</div>
+    <div style={{ position: 'relative', width: 210, height: 130, background: '#fff', overflow: 'hidden' }}>
+      {/* Platform */}
+      <div style={{ position: 'absolute', left: 0, top: 60, width: 120, height: 8, background: '#78909c', borderRadius: '0 4px 4px 0' }} />
+      {/* Figure running off edge */}
+      <motion.div
+        style={{ position: 'absolute', top: 28 }}
+        animate={{ x: [10, 120, 170], y: [0, 0, 50], opacity: [1, 1, 0.3] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeIn', times: [0, 0.5, 1] }}
+      >
+        <div style={{ width: 14, height: 14, borderRadius: '50%', background: '#546e7a', margin: '0 auto' }} />
+        <div style={{ width: 20, height: 5, background: '#546e7a', borderRadius: 1, margin: '0 auto' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6 }}>
+          <motion.div style={{ width: 2, height: 12, background: '#546e7a' }} animate={{ rotate: [-12, 12, -12] }} transition={{ duration: 0.3, repeat: Infinity }} />
+          <motion.div style={{ width: 2, height: 12, background: '#546e7a' }} animate={{ rotate: [12, -12, 12] }} transition={{ duration: 0.3, repeat: Infinity }} />
+        </div>
+      </motion.div>
+      <div style={{ position: 'absolute', bottom: 6, left: 0, right: 0, textAlign: 'center', fontSize: 10, color: '#888' }}>跑掉</div>
     </div>
   );
 }

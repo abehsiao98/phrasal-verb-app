@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import VerbScene from './VerbScene';
 import ParticleScene from './ParticleScene';
 import { VERB_CORES, PARTICLE_DIRECTIONS } from '../data/phrasalVerbs';
+import { PHRASAL_SCENES } from './PhrasalScenes';
 
 export default function IntegrationAnim({ verb, particle, meaning }) {
   const rawVerbCore = VERB_CORES[verb]?.core || '核心動作';
@@ -87,32 +88,26 @@ export default function IntegrationAnim({ verb, particle, meaning }) {
   );
 }
 
+const LEGACY_SCENES = {
+  Pick_up: PickUpDetailed,
+  Get_up: GetUpDetailed,
+  Take_off: TakeOffDetailed,
+  Break_down: BreakDownDetailed,
+  Run_away: RunAwayDetailed,
+  Look_into: LookIntoDetailed,
+};
+
 function PhrasalVerbScene({ verb, particle }) {
-  if (verb === 'Pick' && particle === 'up') {
-    return <PickUpDetailed />;
-  }
-  if (verb === 'Get' && particle === 'up') {
-    return <GetUpDetailed />;
-  }
-  if (verb === 'Take' && particle === 'off') {
-    return <TakeOffDetailed />;
-  }
-  if (verb === 'Break' && particle === 'down') {
-    return <BreakDownDetailed />;
-  }
-  if (verb === 'Run' && particle === 'away') {
-    return <RunAwayDetailed />;
-  }
-  if (verb === 'Look' && particle === 'into') {
-    return <LookIntoDetailed />;
-  }
-  
+  const key = `${verb}_${particle}`;
+  const Scene = PHRASAL_SCENES[key] || LEGACY_SCENES[key];
+  if (Scene) return <Scene />;
+
   return (
-    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff' }}>
       <motion.div
-        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        style={{ width: 40, height: 40, background: '#0070f3', borderRadius: '8px' }}
+        animate={{ scale: [1, 1.05, 1], opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 2.5, repeat: Infinity }}
+        style={{ width: 40, height: 40, background: 'linear-gradient(135deg, #0070f3, #7b1fa2)', borderRadius: 10, boxShadow: '0 4px 15px rgba(0,112,243,0.15)' }}
       />
     </div>
   );
