@@ -2,23 +2,14 @@ import React, { useState } from 'react';
 
 const CIRCLES = ['①', '②', '③', '④', '⑤'];
 
-// ── 語法類型設定 ──────────────────────────────────────────────
-const GRAMMAR_CONFIG = {
-  separable: {
-    label: '可分離',
-    color: '#1b5e20',
-    bg: '#e8f5e9',
-    border: '#a5d6a7',
-    icon: '✂️',
-    desc: '受詞可放中間或後面，但代名詞必須放中間',
-  },
-  inseparable: {
-    label: '不可分離',
-    color: '#bf360c',
-    bg: '#fbe9e7',
-    border: '#ffab91',
-    icon: '🔒',
-    desc: '受詞只能放在片語後面，永遠不能插入中間',
+// ── 語法標籤設定（4 種，可組合） ────────────────────────────────
+const GRAMMAR_TAG_CONFIG = {
+  transitive: {
+    label: '及物',
+    color: '#1565c0',
+    bg: '#e3f2fd',
+    border: '#90caf9',
+    icon: '🎯',
   },
   intransitive: {
     label: '不及物',
@@ -26,15 +17,46 @@ const GRAMMAR_CONFIG = {
     bg: '#ede7f6',
     border: '#ce93d8',
     icon: '🚫',
-    desc: '不需要受詞，直接使用即可',
+  },
+  separable: {
+    label: '可分離',
+    color: '#1b5e20',
+    bg: '#e8f5e9',
+    border: '#a5d6a7',
+    icon: '✂️',
+  },
+  inseparable: {
+    label: '不可分離',
+    color: '#bf360c',
+    bg: '#fbe9e7',
+    border: '#ffab91',
+    icon: '🔒',
   },
 };
+
+function grammarTags(grammar) {
+  if (!grammar) return [];
+  if (Array.isArray(grammar)) return grammar;
+  if (grammar === 'separable') return ['transitive', 'separable'];
+  if (grammar === 'inseparable') return ['transitive', 'inseparable'];
+  return [grammar];
+}
+
+function primaryGrammarKey(grammar) {
+  const tags = grammarTags(grammar);
+  if (tags.includes('separable')) return 'separable';
+  if (tags.includes('inseparable')) return 'inseparable';
+  if (tags.includes('intransitive')) return 'intransitive';
+  return tags[0] || null;
+}
 
 // ── 語法說明區塊 ──────────────────────────────────────────────
 function GrammarSection({ grammar, verb, particle }) {
   const [open, setOpen] = useState(false);
-  const cfg = GRAMMAR_CONFIG[grammar];
+  const key = typeof grammar === 'string' ? grammar : primaryGrammarKey(grammar);
+  const cfg = GRAMMAR_TAG_CONFIG[key];
   if (!cfg) return null;
+  const grammar_str = key;
 
   const v = verb.toLowerCase();
   const p = particle.toLowerCase();
@@ -59,7 +81,6 @@ function GrammarSection({ grammar, verb, particle }) {
         <span style={{ fontWeight: 700, color: cfg.color, fontSize: '13px' }}>
           {cfg.label}動詞片語
         </span>
-        <span style={{ fontSize: '11px', color: '#888', flex: 1 }}>{cfg.desc}</span>
         <span style={{ color: cfg.color, fontSize: '12px', flexShrink: 0 }}>
           {open ? '▲' : '▼'} 查看用法
         </span>
@@ -68,7 +89,7 @@ function GrammarSection({ grammar, verb, particle }) {
       {/* 展開的規則說明 */}
       {open && (
         <div style={{ padding: '12px 14px', background: '#fff', borderTop: `1px solid ${cfg.border}` }}>
-          {grammar === 'separable' && (
+          {grammar_str === 'separable' && (
             <>
               {/* 名詞受詞：兩種都行 */}
               <div style={{ marginBottom: '10px' }}>
@@ -117,7 +138,7 @@ function GrammarSection({ grammar, verb, particle }) {
             </>
           )}
 
-          {grammar === 'inseparable' && (
+          {grammar_str === 'inseparable' && (
             <>
               <div style={{
                 fontSize: '11px', fontWeight: 700, color: '#888',
@@ -145,7 +166,7 @@ function GrammarSection({ grammar, verb, particle }) {
             </>
           )}
 
-          {grammar === 'intransitive' && (
+          {grammar_str === 'intransitive' && (
             <>
               <div style={{
                 fontSize: '11px', fontWeight: 700, color: '#888',
@@ -247,27 +268,72 @@ export default function PhraseCard({ data, verbCore, particleDir, verb, particle
         </div>
       )}
 
-      {/* 語法說明 */}
-      {data.grammar
+      {/* 語法說明（如果舊格式有外層 grammar 就用舊的） */}
+      {data.grammar && !data.meanings?.[0]?.grammar
         ? <GrammarSection grammar={data.grammar} verb={verb} particle={particle} />
-        : <GrammarPending />
+        : null
       }
 
       {/* 延伸意思 */}
       <div>
-        {data.meanings.map((m, i) => (
-          <div key={i} style={{ marginBottom: i < data.meanings.length - 1 ? '14px' : '0', paddingLeft: '8px', borderLeft: '3px solid #e0e0e0' }}>
-            <div style={{ fontWeight: 'bold', color: '#333', marginBottom: '3px', fontSize: '15px' }}>
-              {CIRCLES[i]} {m.meaning}
+        {data.meanings.map((m, i) => {
+          const tags = grammarTags(m.grammar);
+          const pKey = primaryGrammarKey(m.grammar);
+          const pCfg = pKey ? GRAMMAR_TAG_CONFIG[pKey] : null;
+          return (
+            <div key={i} style={{
+              marginBottom: i < data.meanings.length - 1 ? '16px' : '0',
+              paddingLeft: '10px',
+              borderLeft: `3px solid ${pCfg ? pCfg.border : '#e0e0e0'}`,
+            }}>
+              {/* 第一行：meaning + plainEnglish + sceneObject */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                {m.sceneObject && (
+                  <span style={{ fontSize: '18px' }}>{m.sceneObject.emoji}</span>
+                )}
+                <span style={{ fontWeight: 'bold', color: '#333', fontSize: '15px' }}>
+                  {CIRCLES[i]} {m.meaning}
+                </span>
+                {m.plainEnglish && (
+                  <span style={{
+                    fontSize: '12px', fontWeight: 700, color: '#0070f3',
+                    background: '#e3f2fd', padding: '1px 8px', borderRadius: '10px',
+                  }}>
+                    = {m.plainEnglish}
+                  </span>
+                )}
+              </div>
+
+              {/* 第二行：grammar badges（多標籤） */}
+              {tags.length > 0 && (
+                <div style={{ display: 'flex', gap: '4px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                  {tags.map(tag => {
+                    const tc = GRAMMAR_TAG_CONFIG[tag];
+                    if (!tc) return null;
+                    return (
+                      <div key={tag} style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '3px',
+                        padding: '2px 8px', borderRadius: '4px',
+                        background: tc.bg, border: `1px solid ${tc.border}`,
+                        fontSize: '11px', fontWeight: 600, color: tc.color,
+                      }}>
+                        <span>{tc.icon}</span>
+                        <span>{tc.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {m.note && (
+                <div style={{ fontSize: '13px', color: '#555', marginBottom: '4px', lineHeight: '1.5' }}>{m.note}</div>
+              )}
+              <code style={{ display: 'block', backgroundColor: '#eaeaea', padding: '6px 10px', borderRadius: '4px', color: '#333', fontFamily: 'monospace', fontSize: '13px' }}>
+                {m.example}
+              </code>
             </div>
-            {m.note && (
-              <div style={{ fontSize: '13px', color: '#555', marginBottom: '4px', lineHeight: '1.5' }}>{m.note}</div>
-            )}
-            <code style={{ display: 'block', backgroundColor: '#eaeaea', padding: '6px 10px', borderRadius: '4px', color: '#333', fontFamily: 'monospace', fontSize: '13px' }}>
-              {m.example}
-            </code>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

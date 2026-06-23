@@ -3,6 +3,7 @@ import { VERBS, VERB_PARTICLES, VERB_CORES, PARTICLE_DIRECTIONS, phrasalVerbData
 import VerbScene from '../animations/VerbScene';
 import ParticleScene from '../animations/ParticleScene';
 import IntegrationAnim from '../animations/IntegrationAnim';
+import CoreTrajectoryScene from '../animations/CoreTrajectoryScene';
 import GridSelector from './GridSelector';
 import ScenePanel from './ScenePanel';
 import PhraseCard from './PhraseCard';
@@ -166,19 +167,117 @@ export default function PhrasalVerbPanel() {
         </>
       )}
 
+      {/* ═══ 動詞 + 介係詞 = 動詞片語 方程式動畫 ═══ */}
       <div style={{
         borderRadius: '12px',
         marginBottom: '16px',
-        overflow: 'hidden',
         border: '1px solid #e0e0e0',
-        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+        background: '#fafafa',
+        padding: '12px 10px 8px',
       }}>
-        <IntegrationAnim
-          key={`${selectedVerb}_${selectedParticle}`}
-          verb={selectedVerb}
-          particle={selectedParticle}
-          meaning={meaning}
-        />
+        <div style={{
+          display: 'flex', alignItems: 'stretch', gap: 0,
+          height: 170,
+        }}>
+          {/* ── 動詞動畫 ── */}
+          <div style={{ width: '27%', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+            <div style={{
+              flex: 1, position: 'relative', borderRadius: 10, overflow: 'hidden',
+              border: '2px solid #e3f2fd', background: '#fff',
+              boxShadow: '0 1px 4px rgba(21,101,192,0.08)',
+            }}>
+              <VerbScene key={selectedVerb} verb={selectedVerb} />
+            </div>
+            <div style={{
+              textAlign: 'center', marginTop: 6,
+              fontSize: 11, fontWeight: 700, color: '#1565c0', lineHeight: 1.3,
+            }}>
+              {selectedVerb}
+            </div>
+            <div style={{
+              textAlign: 'center',
+              fontSize: 10, color: '#90a4ae', lineHeight: 1.2,
+            }}>
+              {verbCore?.core}
+            </div>
+          </div>
+
+          {/* ── + 號 ── */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: 32, flexShrink: 0,
+          }}>
+            <span style={{ fontSize: 20, fontWeight: 800, color: '#bdbdbd' }}>+</span>
+          </div>
+
+          {/* ── 介係詞動畫 ── */}
+          <div style={{ width: '27%', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+            <div style={{
+              flex: 1, position: 'relative', borderRadius: 10, overflow: 'hidden',
+              border: '2px solid #f3e5f5', background: '#fff',
+              boxShadow: '0 1px 4px rgba(123,31,162,0.08)',
+            }}>
+              <ParticleScene key={selectedParticle} particle={selectedParticle} />
+            </div>
+            <div style={{
+              textAlign: 'center', marginTop: 6,
+              fontSize: 11, fontWeight: 700, color: '#7b1fa2', lineHeight: 1.3,
+            }}>
+              {selectedParticle}
+            </div>
+            <div style={{
+              textAlign: 'center',
+              fontSize: 10, color: '#90a4ae', lineHeight: 1.2,
+            }}>
+              {particleDir?.spatial}
+            </div>
+          </div>
+
+          {/* ── = 號 ── */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: 32, flexShrink: 0,
+          }}>
+            <span style={{ fontSize: 20, fontWeight: 800, color: '#bdbdbd' }}>=</span>
+          </div>
+
+          {/* ── 動詞片語動畫 ── */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+            <div style={{
+              flex: 1, position: 'relative', borderRadius: 10, overflow: 'hidden',
+              border: '2px solid #fff3e0', background: '#fff',
+              boxShadow: '0 1px 4px rgba(230,81,0,0.08)',
+            }}>
+              {currentData?.coreMotion && currentData?.meanings?.some(m => m.sceneObject) ? (
+                <CoreTrajectoryScene
+                  key={`${selectedVerb}_${selectedParticle}`}
+                  coreMotion={currentData.coreMotion}
+                  meanings={currentData.meanings}
+                />
+              ) : (
+                <IntegrationAnim
+                  key={`${selectedVerb}_${selectedParticle}`}
+                  verb={selectedVerb}
+                  particle={selectedParticle}
+                  meaning={meaning}
+                />
+              )}
+            </div>
+            <div style={{
+              textAlign: 'center', marginTop: 6,
+              fontSize: 11, fontWeight: 700, color: '#e65100', lineHeight: 1.3,
+            }}>
+              {currentData?.title || `${selectedVerb} ${selectedParticle}`}
+            </div>
+            <div style={{
+              textAlign: 'center',
+              fontSize: 10, color: '#90a4ae', lineHeight: 1.2,
+            }}>
+              {currentData?.spatial}
+            </div>
+          </div>
+        </div>
       </div>
 
       <hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '0 0 16px 0' }} />
