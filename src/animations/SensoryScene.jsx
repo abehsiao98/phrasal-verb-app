@@ -1484,6 +1484,213 @@ function AtLeastScene() {
   );
 }
 
+// ── around the corner：轉角就到了 ──
+function AroundTheCornerScene() {
+  return (
+    <div style={S}>
+      <svg width="220" height="85" viewBox="0 0 220 85">
+        {/* 道路 — L 型轉角 */}
+        <line x1="20" y1="45" x2="120" y2="45" stroke="#e0e0e0" strokeWidth="4" strokeLinecap="round" />
+        <line x1="120" y1="45" x2="120" y2="10" stroke="#e0e0e0" strokeWidth="4" strokeLinecap="round" />
+        {/* 轉角弧線 */}
+        <path d="M 108 45 Q 120 45 120 33" fill="none" stroke="#5c6bc0" strokeWidth="2" strokeDasharray="4 3" />
+        {/* 行走的球 */}
+        <motion.circle
+          cx={0} cy={0} r={9} fill="#5c6bc0"
+          animate={{ cx: [28, 115, 120, 120], cy: [45, 45, 40, 15] }}
+          transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.8 }}
+        />
+        {/* 轉角後的目標（星星） */}
+        <motion.text
+          x="140" y="18" fontSize="18"
+          animate={{ opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 3.6, repeat: Infinity, times: [0, 0.5, 0.7, 0.78, 0.9, 1] }}
+        >⭐</motion.text>
+        {/* 快到了！ */}
+        <motion.text
+          x="165" y="40" fontSize="9" fill="#5c6bc0"
+          animate={{ opacity: [0, 0, 1, 1, 0] }}
+          transition={{ duration: 3.6, repeat: Infinity, times: [0, 0.65, 0.75, 0.9, 1] }}
+        >快到了！</motion.text>
+        <text x="70" y="70" textAnchor="middle" fontSize="9" fill="#888">轉個彎就看到了</text>
+      </svg>
+    </div>
+  );
+}
+
+// ── out of town：離開城市圓圈 ──
+function OutOfTownScene() {
+  return (
+    <div style={S}>
+      <svg width="220" height="85" viewBox="0 0 220 85">
+        {/* 城市圓圈 */}
+        <circle cx={70} cy={42} r={32} fill="#f5f5f5" stroke="#bbb" strokeWidth="2" strokeDasharray="5 3" />
+        <text x="70" y="46" textAnchor="middle" fontSize="10" fill="#888">🏠 城市</text>
+        {/* 離開的軌跡 */}
+        <motion.line
+          x1="102" y1="42" x2="102" y2="42"
+          stroke="#5c6bc0" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="5 3"
+          animate={{ x2: [102, 195] }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut', repeatDelay: 0.4 }}
+        />
+        {/* 移動的人 */}
+        <motion.g
+          animate={{ x: [0, 93] }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut', repeatDelay: 0.4 }}
+        >
+          <circle cx={108} cy={36} r={6} fill="#5c6bc0" />
+          <line x1={108} y1={42} x2={108} y2={56} stroke="#5c6bc0" strokeWidth="2.5" strokeLinecap="round" />
+        </motion.g>
+        <text x="110" y="78" textAnchor="middle" fontSize="9" fill="#5c6bc0">離開地盤，去了遠方</text>
+      </svg>
+    </div>
+  );
+}
+
+// ── no matter what：防護罩擋住閃電 ──
+function NoMatterWhatScene() {
+  return (
+    <div style={S}>
+      <svg width="220" height="85" viewBox="0 0 220 85">
+        {/* 防護罩 */}
+        <motion.path
+          d="M 75 65 Q 75 15 110 12 Q 145 15 145 65"
+          fill="rgba(121,85,72,0.1)" stroke="#795548" strokeWidth="2.5"
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        {/* 裡面的人（不動） */}
+        <circle cx={110} cy={45} r={8} fill="#795548" />
+        <line x1={110} y1={53} x2={110} y2={65} stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+        {/* 閃電攻擊 — 左右各一道 */}
+        <motion.text
+          x="55" y="30" fontSize="18"
+          animate={{ opacity: [0, 1, 0], x: [45, 65] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeOut' }}
+        >⚡</motion.text>
+        <motion.text
+          x="165" y="35" fontSize="16"
+          animate={{ opacity: [0, 1, 0], x: [175, 155] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeOut', delay: 0.5 }}
+        >💥</motion.text>
+        {/* 反彈線 */}
+        {[-1, 1].map((dir, i) => (
+          <motion.line
+            key={i}
+            x1={110 + dir * 35} y1={35}
+            x2={110 + dir * 55} y2={20}
+            stroke="#795548" strokeWidth="2" strokeLinecap="round"
+            animate={{ opacity: [0, 0.8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.5 }}
+          />
+        ))}
+        <text x="110" y="80" textAnchor="middle" fontSize="9" fill="#795548" fontWeight="bold">無論如何，雷打不動</text>
+      </svg>
+    </div>
+  );
+}
+
+// ── just in case：多帶一把傘 ──
+function JustInCaseScene() {
+  return (
+    <div style={S}>
+      <svg width="220" height="85" viewBox="0 0 220 85">
+        {/* 天空（有點灰） */}
+        <rect x="10" y="5" width="200" height="30" rx="6" fill="#eceff1" />
+        <motion.g
+          animate={{ x: [0, 15, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ellipse cx={80} cy={18} rx={25} ry={10} fill="#cfd8dc" />
+          <ellipse cx={140} cy={15} rx={20} ry={8} fill="#cfd8dc" />
+        </motion.g>
+        {/* 人 */}
+        <circle cx={90} cy={48} r={7} fill="#795548" />
+        <line x1={90} y1={55} x2={90} y2={70} stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+        {/* 包包 */}
+        <rect x="100" y="58" width="16" height="12" rx="3" fill="#a1887f" stroke="#795548" strokeWidth="1" />
+        {/* 傘放進包包的動畫 */}
+        <motion.g
+          animate={{ y: [0, 15], opacity: [1, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1.5, ease: 'easeIn' }}
+        >
+          <line x1="108" y1="38" x2="108" y2="52" stroke="#5d4037" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 100 38 Q 108 30 116 38" fill="#42a5f5" stroke="#1e88e5" strokeWidth="1.5" />
+        </motion.g>
+        <text x="160" y="65" textAnchor="middle" fontSize="9" fill="#795548">先準備好，有備無患</text>
+      </svg>
+    </div>
+  );
+}
+
+// ── otherwise：岔路口，不走 A 就掉進 B ──
+function OtherwiseScene() {
+  return (
+    <div style={S}>
+      <svg width="220" height="85" viewBox="0 0 220 85">
+        {/* 主路 */}
+        <line x1="20" y1="40" x2="95" y2="40" stroke="#e0e0e0" strokeWidth="3" strokeLinecap="round" />
+        {/* 岔路 A（好路 — 向右上） */}
+        <line x1="95" y1="40" x2="185" y2="18" stroke="#4caf50" strokeWidth="3" strokeLinecap="round" />
+        <text x="190" y="22" fontSize="9" fill="#4caf50">✓ 目標</text>
+        {/* 岔路 B（陷阱 — 向右下） */}
+        <line x1="95" y1="40" x2="185" y2="68" stroke="#c62828" strokeWidth="3" strokeLinecap="round" />
+        <text x="190" y="72" fontSize="9" fill="#c62828">✗ 陷阱</text>
+        {/* 岔路口標記 */}
+        <circle cx={95} cy={40} r={6} fill="#795548" />
+        {/* 球走向好路，然後回頭走壞路 */}
+        <motion.circle
+          cx={0} cy={0} r={8} fill="#795548"
+          animate={{
+            cx: [30, 95, 185, 185, 95, 185],
+            cy: [40, 40, 18,  18,  40, 68],
+          }}
+          transition={{
+            duration: 4, repeat: Infinity,
+            times: [0, 0.2, 0.45, 0.55, 0.7, 0.95],
+            ease: 'easeInOut', repeatDelay: 0.8,
+          }}
+        />
+        <text x="95" y="80" textAnchor="middle" fontSize="9" fill="#795548">不走 A → 掉進 B</text>
+      </svg>
+    </div>
+  );
+}
+
+// ── depending on：天秤傾斜 ──
+function DependingOnScene() {
+  return (
+    <div style={S}>
+      <svg width="220" height="85" viewBox="0 0 220 85">
+        {/* 天秤支點 */}
+        <line x1="110" y1="12" x2="110" y2="42" stroke="#888" strokeWidth="2" />
+        <polygon points="105,42 115,42 110,50" fill="#888" />
+        {/* 天秤橫桿（搖擺） */}
+        <motion.g
+          animate={{ rotate: [-14, 14, -14] }}
+          style={{ transformOrigin: '110px 28px' }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <line x1="40" y1="28" x2="180" y2="28" stroke="#795548" strokeWidth="3" strokeLinecap="round" />
+          {/* 左側砝碼 */}
+          <rect x="28" y="30" width="28" height="18" rx="4" fill="rgba(121,85,72,0.2)" stroke="#795548" strokeWidth="1.5" />
+          <text x="42" y="43" textAnchor="middle" fontSize="9" fill="#795548">A</text>
+          {/* 右側砝碼 */}
+          <rect x="164" y="30" width="28" height="18" rx="4" fill="rgba(121,85,72,0.2)" stroke="#795548" strokeWidth="1.5" />
+          <text x="178" y="43" textAnchor="middle" fontSize="9" fill="#795548">B</text>
+        </motion.g>
+        {/* 砝碼變化 */}
+        <motion.circle
+          cx={42} cy={22} r={5} fill="#795548"
+          animate={{ cy: [10, 22], opacity: [0, 1, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeIn' }}
+        />
+        <text x="110" y="74" textAnchor="middle" fontSize="9" fill="#795548">取決於哪邊比較重</text>
+      </svg>
+    </div>
+  );
+}
+
 const SCENE_MAP = {
   already:          AlreadyScene,
   yet:              YetScene,
@@ -1533,6 +1740,12 @@ const SCENE_MAP = {
   byYourself:       ByYourselfScene,
   moreOrLess:       MoreOrLessScene,
   atLeast:          AtLeastScene,
+  aroundTheCorner:  AroundTheCornerScene,
+  outOfTown:        OutOfTownScene,
+  noMatterWhat:     NoMatterWhatScene,
+  justInCase:       JustInCaseScene,
+  otherwise:        OtherwiseScene,
+  dependingOn:      DependingOnScene,
 };
 
 export default function SensoryScene({ sceneKey }) {

@@ -2,7 +2,7 @@ import React from 'react';
 
 const CIRCLES = ['①', '②', '③', '④', '⑤'];
 
-function UsageLine({ grammar, title }) {
+function UsageLine({ grammar, followedBy, title }) {
   if (!grammar) return null;
   const tags = Array.isArray(grammar) ? grammar : [grammar];
   const phrase = title.toLowerCase();
@@ -11,32 +11,41 @@ function UsageLine({ grammar, title }) {
   const style = {
     fontSize: '12px', color: '#888', marginBottom: '4px', lineHeight: '1.5',
   };
+  const slotStyle = {
+    fontSize: '12px', color: '#6a1b9a', marginBottom: '4px', lineHeight: '1.5',
+  };
   const it = <span style={{ fontWeight: 700, color: '#e65100' }}>it</span>;
 
+  let grammarLine = null;
   if (tags.includes('separable')) {
     const verbPart = words.slice(0, -1).join(' ');
     const lastWord = words[words.length - 1];
-    return (
+    grammarLine = (
       <div style={style}>
         ✂️ 代名詞一定夾中間：{verbPart} {it} {lastWord} ／名詞前後都行
       </div>
     );
-  }
-  if (tags.includes('inseparable')) {
-    return (
+  } else if (tags.includes('inseparable')) {
+    grammarLine = (
       <div style={style}>
         🔒 不能拆：{phrase} {it}
       </div>
     );
-  }
-  if (tags.includes('intransitive')) {
-    return (
+  } else if (tags.includes('intransitive')) {
+    grammarLine = (
       <div style={style}>
         （不用接受詞，直接說 {phrase}）
       </div>
     );
   }
-  return null;
+
+  const slotLine = followedBy ? (
+    <div style={slotStyle}>
+      🔌 後面接：<span style={{ fontWeight: 700 }}>{followedBy}</span>
+    </div>
+  ) : null;
+
+  return <>{grammarLine}{slotLine}</>;
 }
 
 export default function PhraseCard({ data }) {
@@ -72,7 +81,7 @@ export default function PhraseCard({ data }) {
               <div style={{ fontSize: '13px', color: '#555', marginBottom: '4px', lineHeight: '1.5' }}>{m.note}</div>
             )}
 
-            <UsageLine grammar={m.grammar} title={data.title} />
+            <UsageLine grammar={m.grammar} followedBy={m.followedBy} title={data.title} />
 
             <code style={{ display: 'block', backgroundColor: '#eaeaea', padding: '6px 10px', borderRadius: '4px', color: '#333', fontFamily: 'monospace', fontSize: '13px' }}>
               {m.example}

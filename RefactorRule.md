@@ -39,6 +39,7 @@
 | `meaning` | 台灣口語中文翻譯 | `"查一下、追一下"` |
 | `plainEnglish` | 簡單英文描述（2-5 字） | `"to check or investigate"` |
 | `grammar` | 單一字串，三種之一 | `'separable'` / `'inseparable'` / `'intransitive'` |
+| `followedBy` | 後面接什麼文法形式（銜接面） | `'noun'` / `'noun / V-ing'` / 省略=不及物 |
 | `sceneObject` | 被作用的對象 emoji + label | `{ emoji: "🔍", label: "文件" }` |
 | `note` | 腦中畫面（為什麼這個組合 = 這個意思） | `"視線「穿進去」內部 → 追查根本原因"` |
 | `example` | 日常生活例句 | `"I'll look into it and get back to you."` |
@@ -57,6 +58,24 @@
     *   `✂️ 代名詞一定夾中間：take it off ／名詞前後都行`
     *   `🔒 不能拆：look into it`
     *   `（不用接受詞，直接說 take off）`
+
+**followedBy 欄位規則（銜接面 — 解決「文法黑洞」）：**
+*   告訴學習者：這個片語後面要接什麼形式的東西。
+*   常見值：
+    *   `'noun'` — 接名詞（最常見）。例：look after **my cat**
+    *   `'V-ing'` — 接動名詞。例：end up **doing** it
+    *   `'noun / V-ing'` — 兩種都行。例：look forward to **seeing** you / look forward to **the trip**
+    *   `'to V'` — 接不定詞。例：turn out **to be** wrong
+    *   `'noun / wh-clause'` — 接名詞或疑問子句。例：figure out **the answer** / figure out **how to do it**
+    *   `'adj'` — 接形容詞。例：calm **down** → feel calm
+*   **排序規則：更常見的形式寫前面。** 例如 `look into` 多數時候接名詞 → `'noun / V-ing'`；`look forward to` 更常接動名詞 → `'V-ing / noun'`。順序本身就是頻率暗示。
+*   如果 grammar 是 `'intransitive'`（不及物），不填 followedBy（省略即可）。
+*   **為什麼重要：** 這就是「鏡頭一」和「鏡頭二」的銜接面。如果學習者不知道 `look forward to` 後面接 V-ing，就會寫出 "I'm looking forward to fix the bug"（車禍）。記住起手式的同時，大腦要一起記住它的「接槽形狀」。
+*   **範例對照：**
+    *   `look into` → `followedBy: 'noun / V-ing'`（I'll look into **buying** a new laptop.）
+    *   `look forward to` → `followedBy: 'V-ing / noun'`（⚠️ to 是介係詞不是不定詞，所以後面接 V-ing）
+    *   `look up`（查） → `followedBy: 'noun'`（Look **the word** up.）
+    *   `look out` → 不填（不及物，直接喊 Look out!）
 
 **其他規則：**
 *   [ ] **過濾非口語定義**：刪除字典般冷門、正式的解釋，只保留日常口語高頻使用的語意。

@@ -2,7 +2,7 @@
 // 五大感受參數資料 — 以認知語言學視角呈現外國人腦袋中的時間/空間畫面
 // ═══════════════════════════════════════════════════════════════
 
-export const SENSORY_CATEGORIES = ['時間感', '頻率感', '即時感', '方式感', '程度感'];
+export const SENSORY_CATEGORIES = ['時間感', '頻率感', '即時感', '方式感', '程度感', '空間感', '條件感'];
 
 export const SENSORY_ITEMS = [
   // ── 時間感 ──
@@ -39,7 +39,6 @@ export const SENSORY_ITEMS = [
   'right away',
   'right now',
   'all of a sudden',
-  'out of nowhere',
   'in no time',
   'on the spot',
   // ── 方式感 ──
@@ -48,16 +47,25 @@ export const SENSORY_ITEMS = [
   'little by little',
   'all at once',
   'one by one',
-  'back and forth',
   'from scratch',
   'in a row',
-  'all the way',
   'in a hurry',
   'by yourself',
   // ── 程度感 ──
   'more or less',
   'at least',
   'at all',
+  // ── 空間感 ──
+  'back and forth',
+  'all the way',
+  'out of nowhere',
+  'around the corner',
+  'out of town',
+  // ── 條件感 ──
+  'no matter what',
+  'just in case',
+  'otherwise',
+  'depending on',
 ];
 
 // 每個感受參數的類別
@@ -93,7 +101,6 @@ export const SENSORY_CATEGORY = {
   'right away':         '即時感',
   'right now':          '即時感',
   'all of a sudden':    '即時感',
-  'out of nowhere':     '即時感',
   'in no time':         '即時感',
   'on the spot':        '即時感',
   'on purpose':         '方式感',
@@ -101,15 +108,22 @@ export const SENSORY_CATEGORY = {
   'little by little':   '方式感',
   'all at once':        '方式感',
   'one by one':         '方式感',
-  'back and forth':     '方式感',
   'from scratch':       '方式感',
   'in a row':           '方式感',
-  'all the way':        '方式感',
   'in a hurry':         '方式感',
   'by yourself':        '方式感',
   'more or less':       '程度感',
   'at least':           '程度感',
   'at all':             '程度感',
+  'back and forth':     '空間感',
+  'all the way':        '空間感',
+  'out of nowhere':     '空間感',
+  'around the corner':  '空間感',
+  'out of town':        '空間感',
+  'no matter what':     '條件感',
+  'just in case':       '條件感',
+  'otherwise':          '條件感',
+  'depending on':       '條件感',
 };
 
 // 動畫場景對應（對應 SensoryScene.jsx 裡的場景名稱）
@@ -162,6 +176,12 @@ export const SENSORY_SCENE = {
   'more or less':       'moreOrLess',
   'at least':           'atLeast',
   'at all':             'atAll',
+  'around the corner':  'aroundTheCorner',
+  'out of town':        'outOfTown',
+  'no matter what':     'noMatterWhat',
+  'just in case':       'justInCase',
+  'otherwise':          'otherwise',
+  'depending on':       'dependingOn',
 };
 
 // 每個感受參數的認知核心（給學習者看的畫面說明）
@@ -252,9 +272,9 @@ export const SENSORY_CORE = {
     color: '#6a1b9a',
   },
   'out of nowhere': {
-    spatial: '從虛空中突然冒出',
-    metaphor: '腦袋畫面：空無一物，然後突然有個東西出現，沒有任何預警。',
-    color: '#1a237e',
+    spatial: '空間上憑空出現',
+    metaphor: '腦袋畫面：一片空曠的空間，什麼都沒有，然後某個東西從虛空中直接冒出來，沒有來的方向。',
+    color: '#5c6bc0',
   },
   'on purpose': {
     spatial: '有意識地瞄準目標',
@@ -333,9 +353,9 @@ export const SENSORY_CORE = {
     color: '#37474f',
   },
   'back and forth': {
-    spatial: '來回往返，不停重複',
-    metaphor: '腦袋畫面：一個球在兩端之間不停彈來彈去，沒有固定停下來的地方。',
-    color: '#1565c0',
+    spatial: '空間上兩端之間的擺盪軌跡',
+    metaphor: '腦袋畫面：一個球在 A 點和 B 點之間不停彈來彈去，是空間上的來回軌跡。',
+    color: '#5c6bc0',
   },
   'from scratch': {
     spatial: '從最底部的零開始',
@@ -348,9 +368,9 @@ export const SENSORY_CORE = {
     color: '#00838f',
   },
   'all the way': {
-    spatial: '從頭到尾完整走完整段距離',
-    metaphor: '腦袋畫面：一條路從起點延伸到終點，完整地走完，沒有中途放棄。',
-    color: '#4527a0',
+    spatial: '空間上從起點到終點的完整路徑',
+    metaphor: '腦袋畫面：一條路從 A 延伸到 B，完整鋪滿，沒有中途斷掉，是空間距離的完整覆蓋。',
+    color: '#5c6bc0',
   },
   'in a hurry': {
     spatial: '速度超過正常，匆忙中前進',
@@ -406,6 +426,36 @@ export const SENSORY_CORE = {
     spatial: '底線以上，確保最低標準',
     metaphor: '腦袋畫面：量表上有條底線，說話者指著那條線說：最少要到這裡，這是底線。',
     color: '#2e7d32',
+  },
+  'around the corner': {
+    spatial: '空間上轉個彎就到了',
+    metaphor: '腦袋畫面：你走在路上，前面有個轉角，轉過去就看到了。比喻某件事快到了、迫在眉睫。',
+    color: '#5c6bc0',
+  },
+  'out of town': {
+    spatial: '離開你的地盤，去了遠方',
+    metaphor: '腦袋畫面：地圖上你的城市是個圓圈，人物跨出圓圈外，去了遠的地方。',
+    color: '#5c6bc0',
+  },
+  'no matter what': {
+    spatial: '防護罩全開，外面怎麼轟炸都不動',
+    metaphor: '腦袋畫面：一道雷打下來，但防護罩依然張開，裡面的人不動如山，無論如何都雷打不動。',
+    color: '#795548',
+  },
+  'just in case': {
+    spatial: '多帶一把傘的防備動作',
+    metaphor: '腦袋畫面：出門前天空有點灰，不確定會不會下雨，但先把傘塞進包包裡。',
+    color: '#795548',
+  },
+  'otherwise': {
+    spatial: '岔路口：不走 A 就掉進 B',
+    metaphor: '腦袋畫面：站在岔路口，一條路通往目標，另一條路通往陷阱。不走對的那條，就會掉進去。',
+    color: '#795548',
+  },
+  'depending on': {
+    spatial: '天秤隨砝碼傾斜',
+    metaphor: '腦袋畫面：一座天秤，左右各有砝碼，結果取決於哪邊比較重，隨時可能傾斜。',
+    color: '#795548',
   },
 };
 
@@ -1199,5 +1249,113 @@ export const sensoryData = {
     ],
     tip: '📊 At least 是量表上的底線，說話者指著那條線說：最低要到這裡',
     compareWith: 'at the very least（更強調）、if nothing else（更口語）',
+  },
+
+  'around the corner': {
+    title: 'around the corner — 就在轉角（快到了）',
+    meanings: [
+      {
+        meaning: '實際空間上在轉彎處附近',
+        note: '字面意思是「轉個彎就到」，距離很近',
+        example: 'The coffee shop is just around the corner. （咖啡店就在轉角。）',
+      },
+      {
+        meaning: '某件事即將發生，迫在眉睫',
+        note: '比喻用法，表示快到了、馬上就會出現',
+        example: 'Summer is just around the corner. （夏天就快到了。）',
+      },
+    ],
+    tip: '🏠 Around the corner 是走在路上，轉個彎就看到了的距離感',
+    compareWith: 'coming soon（更抽象）、nearby（更靜態）',
+  },
+
+  'out of town': {
+    title: 'out of town — 不在城裡、出遠門',
+    meanings: [
+      {
+        meaning: '離開平常住的地方，去了別的城市',
+        note: '強調物理上的大跨度位移，離開你的地盤',
+        example: 'He\'s out of town this week. （他這週不在城裡。）',
+      },
+      {
+        meaning: '暫時無法聯繫、不在原本的生活圈',
+        note: '常用於解釋為什麼某人找不到、不在',
+        example: 'Sorry, the manager is out of town. （抱歉，經理出差了。）',
+      },
+    ],
+    tip: '🧳 Out of town 是在地圖上跨出你的城市圓圈，去了遠方',
+    compareWith: 'away（更籠統）、overseas（跨國更遠）',
+  },
+
+  'no matter what': {
+    title: 'no matter what — 無論如何',
+    meanings: [
+      {
+        meaning: '不管發生什麼事，態度或行動都不改變',
+        note: '強調堅定不移的決心，任何條件都無法動搖',
+        example: 'I\'ll support you no matter what. （無論如何我都挺你。）',
+      },
+      {
+        meaning: '用於讓步，承認困難但不退縮',
+        note: '「就算最壞的情況也…」的語感',
+        example: 'No matter what happens, stay calm. （無論發生什麼事，保持冷靜。）',
+      },
+    ],
+    tip: '🛡️ No matter what 是防護罩全開，外面狂風暴雨也打不進來',
+    compareWith: 'regardless（更書面）、whatever happens（更口語）',
+  },
+
+  'just in case': {
+    title: 'just in case — 以防萬一',
+    meanings: [
+      {
+        meaning: '為了可能（但不確定）的狀況提前準備',
+        note: '不是因為一定會發生，而是「萬一呢？」的防備心態',
+        example: 'Bring an umbrella just in case. （帶把傘以防萬一。）',
+      },
+      {
+        meaning: '多做一步，多一份保險',
+        note: '語氣輕鬆，像是「不會怎樣，但有備無患」',
+        example: 'I saved the file twice, just in case. （我存了兩次，以防萬一。）',
+      },
+    ],
+    tip: '☂️ Just in case 是出門前塞把傘進包包，不確定需不需要，但先準備好',
+    compareWith: 'in case（更正式）、to be safe（更口語）',
+  },
+
+  'otherwise': {
+    title: 'otherwise — 否則、不然的話',
+    meanings: [
+      {
+        meaning: '如果前面的條件不成立，就會走向另一個（通常不好的）結果',
+        note: '暗示「你應該做 A，不然就會變成 B」',
+        example: 'Hurry up, otherwise we\'ll be late. （快點，不然我們會遲到。）',
+      },
+      {
+        meaning: '除此之外（轉換話題的用法）',
+        note: '比較中性，表示「在這件事以外，其他都…」',
+        example: 'The food was cold. Otherwise, the restaurant was great. （菜是冷的，但除此之外餐廳很棒。）',
+      },
+    ],
+    tip: '⚠️ Otherwise 是站在岔路口，不走 A 就會掉進 B 的陷阱',
+    compareWith: 'or else（更口語、更威脅）、if not（更中性）',
+  },
+
+  'depending on': {
+    title: 'depending on — 取決於…',
+    meanings: [
+      {
+        meaning: '結果會隨條件改變而不同，不是固定的',
+        note: '強調「要看情況」，沒有唯一答案',
+        example: 'The price varies depending on the season. （價格隨季節而不同。）',
+      },
+      {
+        meaning: '以某個因素為前提來判斷',
+        note: '說話者把決定權交給一個外部條件',
+        example: 'We might go hiking, depending on the weather. （我們可能去爬山，取決於天氣。）',
+      },
+    ],
+    tip: '⚖️ Depending on 是天秤，哪邊的砝碼重，結果就往哪邊倒',
+    compareWith: 'based on（更強調依據）、according to（更書面）',
   },
 };

@@ -19,9 +19,11 @@ const CATEGORY_COLORS = {
   '即時感': '#e65100',
   '方式感': '#2e7d32',
   '程度感': '#00838f',
+  '空間感': '#5c6bc0',
+  '條件感': '#795548',
 };
 
-const CIRCLES = ['①', '②', '③', '④', '⑤'];
+const CIRCLES = ['①', '②', '③', '④', '⑤', '⑥', '⑦'];
 
 export default function SensoryPanel() {
   const [selectedCategory, setSelectedCategory] = useState('全部');
@@ -48,7 +50,7 @@ export default function SensoryPanel() {
         外國人大腦的感受參數畫面
       </h2>
       <p style={{ textAlign: 'center', fontSize: '13px', color: '#888', marginBottom: '18px' }}>
-        看懂五大感受參數背後的認知邏輯
+        看懂七大感受參數背後的認知邏輯
       </p>
 
       <CategoryTabs
