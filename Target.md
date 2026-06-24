@@ -200,13 +200,3 @@ graph LR
 *   **成品：** "I'm trying to **meet the deadline**, **at least** for this round." (我正試圖至少趕上這一輪的截止日。)
 
 ---
-
-## 🚀 未來擴充方向 (React App Integration)
-
-在未來的程式碼設計中，我們可以依此框架設計出 **「口說樂高拼裝機 (Speaking Lego Builder)」** 元件：
-1. **第一格**：下拉選擇 `[萬用框架]`（決定動詞接頭為原形、V-ing、或過去式）。
-2. **第二格**：選擇 `[動詞片語]` 或 `[搭配詞組]`（依第一格接頭自動變形，如 `look into` / `looking into`）。
-    * 動詞片語 ➔ 播放「意思變形」的物理軌跡動畫
-    * 搭配詞組 ➔ 顯示正確搭配 + 常見錯誤對比（~~make a meeting~~ → hold a meeting）
-3. **第三格**：選擇 `[五大感受參數]`（如 `right away`, `by myself`，若是 `by yourself` 且主詞是 `I`，則代碼自動判斷轉換為 `myself`）。
-4. **引擎功能**：點擊「發聲/動畫」，動畫引擎便會依照組合，依序播起 **[主詞/框架動畫] ➔ [核心動作動畫] ➔ [環境感受動畫]**，實現完美的視覺化英語學習體驗！

@@ -283,13 +283,7 @@ export default function PhrasalVerbPanel() {
       <hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '0 0 16px 0' }} />
 
       {currentData && (
-        <PhraseCard
-          data={currentData}
-          verbCore={verbCore}
-          particleDir={particleDir}
-          verb={selectedVerb}
-          particle={selectedParticle}
-        />
+        <PhraseCard data={currentData} />
       )}
     </div>
   );

@@ -163,7 +163,7 @@ export const phrasalVerbData = {
       spatial: "視線穿進內部去看。",
       coreMotion: 'scan-penetrate',
       meanings: [
-        { meaning: "查一下、追一下", plainEnglish: "to check or investigate", grammar: ['transitive', 'inseparable'], particleRole: 'preposition', sceneObject: { emoji: "🔍", label: "文件" }, type: 'figurative', note: "視線「穿進去」內部 → 不看表面，直接追查根本原因", example: "I'll look into it and get back to you." },
+        { meaning: "查一下、追一下", plainEnglish: "to check or investigate", grammar: ['transitive', 'inseparable'], sceneObject: { emoji: "🔍", label: "文件" }, note: "視線「穿進去」內部 → 不看表面，直接追查根本原因", example: "I'll look into it and get back to you." },
       ]
     },
     down: {
@@ -172,7 +172,7 @@ export const phrasalVerbData = {
       coreMotion: 'gaze-descend',
       isWeldedBlock: true,
       meanings: [
-        { meaning: "瞧不起、看扁", plainEnglish: "to think someone is below you", grammar: ['transitive', 'inseparable'], particleRole: 'preposition', sceneObject: { emoji: "🧑", label: "被看扁的人" }, type: 'figurative', note: "從高處「往下看」對方 → 覺得別人比自己低", example: "You shouldn't look down on anyone just because of their job." },
+        { meaning: "瞧不起、看扁", plainEnglish: "to think someone is below you", grammar: ['transitive', 'inseparable'], sceneObject: { emoji: "🧑", label: "被看扁的人" }, note: "從高處「往下看」對方 → 覺得別人比自己低", example: "You shouldn't look down on anyone just because of their job." },
       ]
     },
     up: {
@@ -180,9 +180,9 @@ export const phrasalVerbData = {
       spatial: "視線從低處往上搜尋。",
       coreMotion: 'scan-ascend',
       meanings: [
-        { meaning: "查一下", plainEnglish: "to find information about it", grammar: ['transitive', 'separable'], particleRole: 'particle', sceneObject: { emoji: "📖", label: "翻書查字" }, type: 'figurative', note: "在資料裡「往上翻找」直到目標浮現", example: "If you don't know the word, look it up in the dictionary." },
-        { meaning: "有起色", plainEnglish: "to start getting better", grammar: ['intransitive'], particleRole: 'particle', sceneObject: { emoji: "📈", label: "趨勢反彈" }, type: 'figurative', note: "觸底後「往上彈」→ 情況開始改善", example: "Things are finally looking up after a rough few months." },
-        { meaning: "去看看", plainEnglish: "to go visit someone", grammar: ['transitive', 'separable'], particleRole: 'particle', sceneObject: { emoji: "🏠", label: "拜訪朋友" }, type: 'figurative', note: "在通訊錄裡「往上查到」某人，然後去拜訪", example: "Do look me up the next time you're in Taipei." },
+        { meaning: "查一下", plainEnglish: "to find information about it", grammar: ['transitive', 'separable'], sceneObject: { emoji: "📖", label: "翻書查字" }, note: "在資料裡「往上翻找」直到目標浮現", example: "If you don't know the word, look it up in the dictionary." },
+        { meaning: "有起色", plainEnglish: "to start getting better", grammar: ['intransitive'], sceneObject: { emoji: "📈", label: "趨勢反彈" }, note: "觸底後「往上彈」→ 情況開始改善", example: "Things are finally looking up after a rough few months." },
+        { meaning: "去看看", plainEnglish: "to go visit someone", grammar: ['transitive', 'separable'], sceneObject: { emoji: "🏠", label: "拜訪朋友" }, note: "在通訊錄裡「往上查到」某人，然後去拜訪", example: "Do look me up the next time you're in Taipei." },
       ]
     },
     out: {
@@ -190,7 +190,7 @@ export const phrasalVerbData = {
       spatial: "視線投射到外面。",
       coreMotion: 'gaze-exit',
       meanings: [
-        { meaning: "小心！", plainEnglish: "be careful", grammar: ['intransitive'], particleRole: 'particle', sceneObject: { emoji: "⚠️", label: "外面的危險" }, type: 'figurative', note: "注意力「射向外面」→ 警覺外部的危險", example: "Look out! There is a car coming!" },
+        { meaning: "小心！", plainEnglish: "be careful", grammar: ['intransitive'], sceneObject: { emoji: "⚠️", label: "外面的危險" }, note: "注意力「射向外面」→ 警覺外部的危險", example: "Look out! There is a car coming!" },
       ]
     },
     over: {
@@ -198,7 +198,7 @@ export const phrasalVerbData = {
       spatial: "視線越過表面掃一遍。",
       coreMotion: 'gaze-sweep',
       meanings: [
-        { meaning: "瞄一下、掃一眼", plainEnglish: "to quickly check something", grammar: ['transitive', 'separable'], particleRole: 'particle', sceneObject: { emoji: "📄", label: "掃過文件" }, type: 'figurative', note: "視線「掠過去」不深入 → 粗略瀏覽", example: "Can you look over my essay before I hand it in?" },
+        { meaning: "瞄一下、掃一眼", plainEnglish: "to quickly check something", grammar: ['transitive', 'separable'], sceneObject: { emoji: "📄", label: "掃過文件" }, note: "視線「掠過去」不深入 → 粗略瀏覽", example: "Can you look over my essay before I hand it in?" },
       ]
     },
     back: {
@@ -206,7 +206,7 @@ export const phrasalVerbData = {
       spatial: "視線轉向後方。",
       coreMotion: 'gaze-return',
       meanings: [
-        { meaning: "回頭看", plainEnglish: "to think about the past", grammar: ['intransitive'], particleRole: 'particle', sceneObject: { emoji: "🕰️", label: "過去的路" }, type: 'figurative', note: "視線「轉回去」看走過的路 → 回頭審視過去", example: "Looking back, I wish I had studied harder in school." },
+        { meaning: "回頭看", plainEnglish: "to think about the past", grammar: ['intransitive'], sceneObject: { emoji: "🕰️", label: "過去的路" }, note: "視線「轉回去」看走過的路 → 回頭審視過去", example: "Looking back, I wish I had studied harder in school." },
       ]
     },
     after: {
@@ -214,7 +214,7 @@ export const phrasalVerbData = {
       spatial: "視線跟在某人後面。",
       coreMotion: 'gaze-follow',
       meanings: [
-        { meaning: "顧、照顧", plainEnglish: "to watch and protect someone", grammar: ['transitive', 'inseparable'], particleRole: 'preposition', sceneObject: { emoji: "👶", label: "顧小孩" }, type: 'figurative', note: "視線「黏在後面」不離開 → 持續盯著確保安全", example: "Can you look after my cat while I'm away this weekend?" },
+        { meaning: "顧、照顧", plainEnglish: "to watch and protect someone", grammar: ['transitive', 'inseparable'], sceneObject: { emoji: "👶", label: "顧小孩" }, note: "視線「黏在後面」不離開 → 持續盯著確保安全", example: "Can you look after my cat while I'm away this weekend?" },
       ]
     },
     for: {
@@ -222,7 +222,7 @@ export const phrasalVerbData = {
       spatial: "視線朝著目標方向搜尋。",
       coreMotion: 'gaze-target',
       meanings: [
-        { meaning: "找", plainEnglish: "to try to find something", grammar: ['transitive', 'inseparable'], particleRole: 'preposition', sceneObject: { emoji: "🔎", label: "掃射找目標" }, type: 'literal', note: "視線「朝向」目標不斷掃射 → 帶著目的搜索", example: "I'm looking for my keys. Have you seen them?" },
+        { meaning: "找", plainEnglish: "to try to find something", grammar: ['transitive', 'inseparable'], sceneObject: { emoji: "🔎", label: "掃射找目標" }, note: "視線「朝向」目標不斷掃射 → 帶著目的搜索", example: "I'm looking for my keys. Have you seen them?" },
       ]
     },
     forward: {
@@ -231,7 +231,7 @@ export const phrasalVerbData = {
       coreMotion: 'gaze-advance',
       isWeldedBlock: true,
       meanings: [
-        { meaning: "超期待、好期待", plainEnglish: "to be excited about something coming", grammar: ['transitive', 'inseparable'], particleRole: 'particle', sceneObject: { emoji: "🎉", label: "未來的好事" }, type: 'figurative', note: "目光「投向前方」即將到來的事 → 滿心期待", example: "I'm really looking forward to the summer vacation!" },
+        { meaning: "超期待、好期待", plainEnglish: "to be excited about something coming", grammar: ['transitive', 'inseparable'], sceneObject: { emoji: "🎉", label: "未來的好事" }, note: "目光「投向前方」即將到來的事 → 滿心期待", example: "I'm really looking forward to the summer vacation!" },
       ]
     }
   },
@@ -242,7 +242,7 @@ export const phrasalVerbData = {
       spatial: "轉動方向，進入全新狀態。",
       coreMotion: 'spin-penetrate',
       meanings: [
-        { meaning: "變成", plainEnglish: "to change into something different", grammar: ['transitive', 'inseparable'], particleRole: 'preposition', sceneObject: { emoji: "🦋", label: "蛹→蝴蝶" }, type: 'figurative', note: "旋轉著「穿進」一個全新狀態 → A 質變成 B", example: "The rain turned into snow as the temperature dropped." },
+        { meaning: "變成", plainEnglish: "to change into something different", grammar: ['transitive', 'inseparable'], sceneObject: { emoji: "🦋", label: "蛹→蝴蝶" }, note: "旋轉著「穿進」一個全新狀態 → A 質變成 B", example: "The rain turned into snow as the temperature dropped." },
       ]
     },
     down: {
@@ -250,8 +250,8 @@ export const phrasalVerbData = {
       spatial: "旋轉往下。",
       coreMotion: 'spin-descend',
       meanings: [
-        { meaning: "拒絕", plainEnglish: "to say no to an offer", grammar: ['transitive', 'separable'], particleRole: 'particle', sceneObject: { emoji: "🙅", label: "拒絕提議" }, type: 'figurative', note: "把對方的提議「往下轉」冷掉 → 回絕", example: "She turned down the job offer because she didn't want to move." },
-        { meaning: "調低", plainEnglish: "to make it lower or quieter", grammar: ['transitive', 'separable'], particleRole: 'particle', sceneObject: { emoji: "🔉", label: "轉小聲" }, type: 'figurative', note: "旋鈕「往下轉」→ 音量、溫度降低", example: "Could you turn down the music? I'm trying to concentrate." },
+        { meaning: "拒絕", plainEnglish: "to say no to an offer", grammar: ['transitive', 'separable'], sceneObject: { emoji: "🙅", label: "拒絕提議" }, note: "把對方的提議「往下轉」冷掉 → 回絕", example: "She turned down the job offer because she didn't want to move." },
+        { meaning: "調低", plainEnglish: "to make it lower or quieter", grammar: ['transitive', 'separable'], sceneObject: { emoji: "🔉", label: "轉小聲" }, note: "旋鈕「往下轉」→ 音量、溫度降低", example: "Could you turn down the music? I'm trying to concentrate." },
       ]
     },
     up: {

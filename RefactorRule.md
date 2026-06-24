@@ -32,13 +32,33 @@
 
 ### 1. 資料結構重構 (Data Schema Refactoring)
 
-*   [ ] **多重語意平鋪化**：將片語屬性移入個別定義（Definition）層級。`grammar` 使用陣列格式，包含兩個維度的標籤：
-    *   **及物性**：`'transitive'`（及物）或 `'intransitive'`（不及物）
-    *   **分離性**（僅及物時）：`'separable'`（可分離）或 `'inseparable'`（不可分離）
-    *   **範例對照：** 以 `take off` 為例：
-        *   意思「脫衣服」→ `grammar: ['transitive', 'separable']`（Take it off）
-        *   意思「起飛」→ `grammar: ['intransitive']`（The plane takes off）
-    *   **note 只寫腦中畫面**：文法規則由標籤呈現，例句示範用法，note 不需要重複寫「代名詞放中間」「常用進行式」等文法說明。
+每個 meaning 需要的欄位：
+
+| 欄位 | 說明 | 範例 |
+|------|------|------|
+| `meaning` | 台灣口語中文翻譯 | `"查一下、追一下"` |
+| `plainEnglish` | 簡單英文描述（2-5 字） | `"to check or investigate"` |
+| `grammar` | 單一字串，三種之一 | `'separable'` / `'inseparable'` / `'intransitive'` |
+| `sceneObject` | 被作用的對象 emoji + label | `{ emoji: "🔍", label: "文件" }` |
+| `note` | 腦中畫面（為什麼這個組合 = 這個意思） | `"視線「穿進去」內部 → 追查根本原因"` |
+| `example` | 日常生活例句 | `"I'll look into it and get back to you."` |
+
+**已移除的欄位（不需要填）：** `type`、`particleRole`
+
+**grammar 欄位規則：**
+*   只填一個字串值，不用陣列：
+    *   `'separable'` — 可分離（代名詞一定夾中間，名詞前後都行）
+    *   `'inseparable'` — 不可分離（受詞只能放最後）
+    *   `'intransitive'` — 不及物（不用接受詞）
+*   同一片語不同意思可能不同。以 `take off` 為例：
+    *   意思「脫衣服」→ `grammar: 'separable'`（take it off）
+    *   意思「起飛」→ `grammar: 'intransitive'`（The plane takes off）
+*   PhraseCard 會根據 grammar 自動產生一行用法提示：
+    *   `✂️ 代名詞一定夾中間：take it off ／名詞前後都行`
+    *   `🔒 不能拆：look into it`
+    *   `（不用接受詞，直接說 take off）`
+
+**其他規則：**
 *   [ ] **過濾非口語定義**：刪除字典般冷門、正式的解釋，只保留日常口語高頻使用的語意。
     *   **範例對照：** 以 `bring up` 為例。直接刪除法律上的「正式起訴」或生理上的「嘔吐」，只保留口語常用的「扶養長大」與聊天時的「突然提到某個話題」。
 *   [ ] **簡單英文描述（Plain English）**：不是一個字的翻譯，而是用簡單英文「描述」這個意思（2-5 字），讓學習者慢慢習慣用英文表達英文。不可以直接重複片語本身。
@@ -66,10 +86,7 @@
         *   `look into` → 🔍「文件」（被調查的東西）✅ — 不是 👁️「眼睛」（那是動作）
         *   `look down on` → 🧑「被看扁的人」✅ — 不是 😤「生氣」（那是情緒）
 *   [ ] **三字片語加 isWeldedBlock**：三字片語（如 look down on、look forward to、put up with）必須加上 `isWeldedBlock: true`，代表不可拆分。
-*   [ ] **副詞片語屬性擴充**：為副詞片語加入 `isFixedOrder`（不可顛倒）與 `modificationType`（修飾整句或單一動作）的標籤。
-    *   **範例對照：**
-        *   `sooner or later`（遲早） -> 屬於「字序固定、修飾整句話」（絕對不能講成 `later or sooner`）。
-        *   `to be honest`（老實說） -> 屬於「字序固定、修飾整句話」（通常放句首且後面會加逗號）。
+*   [ ] **note 只寫腦中畫面**：文法規則由 UsageLine 自動產生，例句示範用法，note 不需要重複寫「代名詞放中間」「常用進行式」等文法說明。
 
 ---
 
@@ -94,21 +111,19 @@
 ### 3. 當前進度與已知問題 (Current Progress & Known Issues)
 
 **已完成的檔案變更：**
-- `src/components/PhraseCard.jsx` — 已改成 per-meaning 顯示 grammar badge + plainEnglish 標籤 + sceneObject emoji
-- `src/components/PhrasalVerbPanel.jsx` — 動畫區改為三格方程式排版：`[動詞動畫] + [介係詞動畫] = [動詞片語動畫]`；已移除紅色 debug 標記
+- `src/components/PhraseCard.jsx` — 簡化為：標題 + 每個意思（meaning / plainEnglish / note / UsageLine 用法提示 / example）。已移除推理公式、語法標籤、語法展開區。
+- `src/components/PhrasalVerbPanel.jsx` — 動畫區為三格方程式排版：`[動詞動畫] + [介係詞動畫] = [動詞片語動畫]`
 - `src/animations/CoreTrajectoryScene.jsx` — 已建立場景：`ScanPenetrateScene`（Look into）、`GazeDescendScene`（Look down on）、`ScanAscendScene`（Look up，含三個語意各自的場景）
 - `src/animations/WeldedBlock.jsx` — 已建立焊接方塊元件
 - `src/animations/index.jsx` — 已更新優先使用 CoreTrajectoryScene
-- `src/data/phrasalVerbs.js` — **Look into / Look down on / Look up 完成完整重構（資料 + 動畫）**；Turn / Bring / Run 有部分資料但缺新欄位；其他動詞還是原始格式
-- `src/data/adverbialPhrases.js` — 還是原始格式，尚未加入 isFixedOrder / modificationType
-- `TodoList.md` — Look into ✅ / Look down on ✅ / Look up 待確認打勾
+- `src/data/phrasalVerbs.js` — **Look 系列完成完整重構**；其他動詞還是原始格式，重構時只需填：meaning / plainEnglish / grammar / sceneObject / note / example
 
 **已知問題：**
 - 每個 coreMotion 都需要獨立場景，且多語意的片語每個語意要有自己的場景背景
 - 副詞面板（AdverbialPanel）尚未更新 UI 來顯示 isFixedOrder / modificationType / 焊接方塊
 
 **正確的工作流程：**
-1. 每做一個動詞，同時做資料重構（7條規則全部）+ 動畫場景
+1. 每做一個動詞，同時做資料重構 + 動畫場景
 2. 不要用腳本批量處理，逐一手動做，認真思考每個片語的口語中文、極簡英文、核心腦中畫面
 3. 做完一個就在 TodoList.md 打勾，瀏覽器確認效果
 4. 不要跳過、不要偷懶、有問題就問使用者
