@@ -1,8 +1,9 @@
 import React from 'react';
 
 const CONTENT_TYPES = [
-  { type: 'phrasal-verb', label: '動詞片語', icon: '🏃' },
-  { type: 'adverbial', label: '副詞片語', icon: '⏰' },
+  { type: 'sentence-frame', label: '萬用框架', icon: '🧩' },
+  { type: 'core-action', label: '核心動作', icon: '🎬' },
+  { type: 'sensory', label: '感受參數', icon: '🎛️' },
 ];
 
 export default function Sidebar({ contentType, onContentTypeChange, collapsed, onToggleCollapse }) {

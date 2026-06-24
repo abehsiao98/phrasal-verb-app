@@ -1,10 +1,10 @@
 // ═══════════════════════════════════════════════════════════════
-// 常用副詞片語資料 — 以認知語言學視角呈現外國人腦袋中的時間/空間畫面
+// 五大感受參數資料 — 以認知語言學視角呈現外國人腦袋中的時間/空間畫面
 // ═══════════════════════════════════════════════════════════════
 
-export const ADVERBIAL_CATEGORIES = ['時間感', '頻率感', '即時感', '轉折感', '方式感', '程度感'];
+export const SENSORY_CATEGORIES = ['時間感', '頻率感', '即時感', '方式感', '程度感'];
 
-export const ADVERBIALS = [
+export const SENSORY_ITEMS = [
   // ── 時間感 ──
   'already',
   'yet',
@@ -42,14 +42,6 @@ export const ADVERBIALS = [
   'out of nowhere',
   'in no time',
   'on the spot',
-  // ── 轉折感 ──
-  'after all',
-  'no wonder',
-  'no matter what',
-  'at all',
-  'above all',
-  'as a matter of fact',
-  'believe it or not',
   // ── 方式感 ──
   'on purpose',
   'by accident',
@@ -65,10 +57,11 @@ export const ADVERBIALS = [
   // ── 程度感 ──
   'more or less',
   'at least',
+  'at all',
 ];
 
-// 每個副詞片語的類別
-export const ADVERB_CATEGORY = {
+// 每個感受參數的類別
+export const SENSORY_CATEGORY = {
   'already':            '時間感',
   'yet':                '時間感',
   'still':              '時間感',
@@ -81,6 +74,10 @@ export const ADVERB_CATEGORY = {
   'from now on':        '時間感',
   'in time':            '時間感',
   'for good':           '時間感',
+  'for now':            '時間感',
+  'all along':          '時間感',
+  'sooner or later':    '時間感',
+  'in the long run':    '時間感',
   'always':             '頻率感',
   'never':              '頻率感',
   'often':              '頻率感',
@@ -91,15 +88,14 @@ export const ADVERB_CATEGORY = {
   'every now and then': '頻率感',
   'for once':           '頻率感',
   'more often than not':'頻率感',
+  'on and off':         '頻率感',
+  'over and over':      '頻率感',
   'right away':         '即時感',
   'right now':          '即時感',
   'all of a sudden':    '即時感',
   'out of nowhere':     '即時感',
   'in no time':         '即時感',
-  'after all':          '轉折感',
-  'no wonder':          '轉折感',
-  'no matter what':     '轉折感',
-  'at all':             '轉折感',
+  'on the spot':        '即時感',
   'on purpose':         '方式感',
   'by accident':        '方式感',
   'little by little':   '方式感',
@@ -111,22 +107,13 @@ export const ADVERB_CATEGORY = {
   'all the way':        '方式感',
   'in a hurry':         '方式感',
   'by yourself':        '方式感',
-  'for now':            '時間感',
-  'all along':          '時間感',
-  'sooner or later':    '時間感',
-  'in the long run':    '時間感',
-  'on and off':         '頻率感',
-  'over and over':      '頻率感',
-  'on the spot':        '即時感',
-  'above all':          '轉折感',
-  'as a matter of fact':'轉折感',
-  'believe it or not':  '轉折感',
   'more or less':       '程度感',
   'at least':           '程度感',
+  'at all':             '程度感',
 };
 
-// 動畫場景的核心概念（對應 AdverbScene.jsx 裡的場景名稱）
-export const ADVERB_SCENE = {
+// 動畫場景對應（對應 SensoryScene.jsx 裡的場景名稱）
+export const SENSORY_SCENE = {
   'already':            'already',
   'yet':                'yet',
   'still':              'still',
@@ -139,25 +126,28 @@ export const ADVERB_SCENE = {
   'from now on':        'fromNowOn',
   'in time':            'inTime',
   'for good':           'forGood',
+  'for now':            'forNow',
+  'all along':          'allAlong',
+  'sooner or later':    'soonerOrLater',
+  'in the long run':    'inTheLongRun',
   'always':             'always',
   'never':              'never',
   'often':              'often',
+  'sometimes':          'sometimes',
+  'once in a while':    'onceInAWhile',
+  'from time to time':  'fromTimeToTime',
+  'all the time':       'allTheTime',
   'every now and then': 'everyNowAndThen',
   'for once':           'forOnce',
   'more often than not':'moreOftenThanNot',
-  'sometimes':        'sometimes',
-  'once in a while':  'onceInAWhile',
-  'from time to time':'fromTimeToTime',
-  'all the time':     'allTheTime',
-  'right away':       'rightAway',
-  'right now':        'rightNow',
-  'all of a sudden':  'allOfASudden',
-  'out of nowhere':   'outOfNowhere',
-  'in no time':        'inNoTime',
-  'after all':          'afterAll',
-  'no wonder':          'noWonder',
-  'no matter what':     'noMatterWhat',
-  'at all':             'atAll',
+  'on and off':         'onAndOff',
+  'over and over':      'overAndOver',
+  'right away':         'rightAway',
+  'right now':          'rightNow',
+  'all of a sudden':    'allOfASudden',
+  'out of nowhere':     'outOfNowhere',
+  'in no time':         'inNoTime',
+  'on the spot':        'onTheSpot',
   'on purpose':         'onPurpose',
   'by accident':        'byAccident',
   'little by little':   'littleByLittle',
@@ -169,22 +159,13 @@ export const ADVERB_SCENE = {
   'all the way':        'allTheWay',
   'in a hurry':         'inAHurry',
   'by yourself':        'byYourself',
-  'for now':            'forNow',
-  'all along':          'allAlong',
-  'sooner or later':    'soonerOrLater',
-  'in the long run':    'inTheLongRun',
-  'on and off':         'onAndOff',
-  'over and over':      'overAndOver',
-  'on the spot':        'onTheSpot',
-  'above all':          'aboveAll',
-  'as a matter of fact':'asAMatterOfFact',
-  'believe it or not':  'believeItOrNot',
   'more or less':       'moreOrLess',
   'at least':           'atLeast',
+  'at all':             'atAll',
 };
 
-// 每個副詞片語的認知核心（給學習者看的畫面說明）
-export const ADVERB_CORE = {
+// 每個感受參數的認知核心（給學習者看的畫面說明）
+export const SENSORY_CORE = {
   'already': {
     spatial: '時間線已過臨界點',
     metaphor: '外國人腦袋畫面：時間軸上有條線，動作早就越過那條線了。',
@@ -275,16 +256,6 @@ export const ADVERB_CORE = {
     metaphor: '腦袋畫面：空無一物，然後突然有個東西出現，沒有任何預警。',
     color: '#1a237e',
   },
-  'after all': {
-    spatial: '走了一段路後回到根本',
-    metaphor: '腦袋畫面：繞了一圈，最終的事實出現了，有種「果然如此」的感覺。',
-    color: '#4e342e',
-  },
-  'no wonder': {
-    spatial: '原因與結果之間的頓悟',
-    metaphor: '腦袋畫面：看到 A 之後，B 突然說得通了，一個「啊！」的燈泡亮起。',
-    color: '#f9a825',
-  },
   'on purpose': {
     spatial: '有意識地瞄準目標',
     metaphor: '腦袋畫面：有一條線從意圖指向行動，是有方向的箭頭。',
@@ -356,11 +327,6 @@ export const ADVERB_CORE = {
     metaphor: '腦袋畫面：從現在到完成的時間距離被壓縮到極小，幾乎感覺不到有時間流過。',
     color: '#f57f17',
   },
-  'no matter what': {
-    spatial: '任何條件都無法改變結果',
-    metaphor: '腦袋畫面：各種障礙擺在前面，但有條路穿過所有障礙，結果不變。',
-    color: '#b71c1c',
-  },
   'at all': {
     spatial: '強調零程度（用於否定）',
     metaphor: '腦袋畫面：一個空量表，完全空的，沒有任何一格有東西，用來強調「一點都沒有」。',
@@ -431,21 +397,6 @@ export const ADVERB_CORE = {
     metaphor: '腦袋畫面：事情發生，立刻在那個地點、那個瞬間就回應，沒有離開去思考。',
     color: '#e65100',
   },
-  'above all': {
-    spatial: '在所有考量中位居最高點',
-    metaphor: '腦袋畫面：一個清單中有很多項目，其中一項被拉到最頂端，高過所有其他的。',
-    color: '#880e4f',
-  },
-  'as a matter of fact': {
-    spatial: '打破表面，回到真實',
-    metaphor: '腦袋畫面：表面上好像是這樣，但說話者拿出一個「事實」放在桌上，說：其實是這樣。',
-    color: '#37474f',
-  },
-  'believe it or not': {
-    spatial: '結果超出預期範圍，令人難以置信',
-    metaphor: '腦袋畫面：事情發生在預期線的外面，說話者在說「你會覺得難以置信，但這是真的」。',
-    color: '#4527a0',
-  },
   'more or less': {
     spatial: '在標準值上下的模糊範圍',
     metaphor: '腦袋畫面：量表上有個目標值，實際結果在它旁邊一點點，不精確但差不多。',
@@ -459,8 +410,8 @@ export const ADVERB_CORE = {
 };
 
 
-// 每個副詞片語的詳細資料
-export const adverbialData = {
+// 每個感受參數的詳細資料
+export const sensoryData = {
   'already': {
     title: 'already — 已經',
     meanings: [
@@ -760,37 +711,6 @@ export const adverbialData = {
     compareWith: 'all of a sudden（更常見）、suddenly（更簡單）',
   },
 
-  'after all': {
-    title: 'after all — 畢竟、果然',
-    meanings: [
-      {
-        meaning: '考慮了所有因素之後，事實是...',
-        note: '有種「繞了一圈，回到最根本的真相」的感覺',
-        example: 'She\'s a professional, after all. （她畢竟是專業人士嘛。）',
-      },
-      {
-        meaning: '表示事情的最終結果（出乎意料）',
-        note: '原本以為不會，但結果還是發生了',
-        example: 'He came after all. （他終究還是來了。）',
-      },
-    ],
-    tip: '🔄 After all 是繞了一圈之後，回到最根本的事實，有「果然如此」的感',
-    compareWith: 'eventually（時間上的最終）、anyway（語氣更隨意）',
-  },
-
-  'no wonder': {
-    title: 'no wonder — 難怪',
-    meanings: [
-      {
-        meaning: '看到原因後，突然理解結果',
-        note: '腦袋裡有個燈泡亮起：「難怪！原來是這樣！」',
-        example: 'No wonder he\'s tired — he worked all night. （難怪他累，他工作了一整晚。）',
-      },
-    ],
-    tip: '💡 No wonder 是原因與結果之間突然串連，頓悟的瞬間',
-    compareWith: 'that\'s why（更中性）、makes sense（更口語）',
-  },
-
   'on purpose': {
     title: 'on purpose — 故意地',
     meanings: [
@@ -1001,24 +921,6 @@ export const adverbialData = {
     ],
     tip: '⚡ In no time 是把從現在到完成的時間距離壓縮到接近零',
     compareWith: 'right away（強調立刻動作）、quickly（更普通）',
-  },
-
-  'no matter what': {
-    title: 'no matter what — 不管怎樣、無論如何',
-    meanings: [
-      {
-        meaning: '不論發生任何情況，結果都一樣',
-        note: '強調結果的不可動搖性，什麼障礙都改變不了',
-        example: 'I\'ll support you no matter what. （不管怎樣，我都支持你。）',
-      },
-      {
-        meaning: '表達強烈決心',
-        note: '有一種「你試著阻止我也沒用」的語氣',
-        example: 'I\'m going, no matter what. （我就是要去，不管怎樣。）',
-      },
-    ],
-    tip: '🧱 No matter what 是面前有一堵牆，但有條路從牆中間直接穿過去',
-    compareWith: 'regardless（更書面）、whatever happens（更口語）',
   },
 
   'at all': {
@@ -1261,55 +1163,6 @@ export const adverbialData = {
     ],
     tip: '📍 On the spot 是用手指著「就這個地方、就這個瞬間」，沒有移動或等待',
     compareWith: 'right away（強調立刻行動）、immediately（更書面）',
-  },
-
-  'above all': {
-    title: 'above all — 最重要的是',
-    meanings: [
-      {
-        meaning: '在所有事情中，這件事是優先順位最高的',
-        note: '說話者把某件事拉到清單頂端，強調它超越其他所有考量',
-        example: 'Above all, stay safe. （最重要的是，要保持安全。）',
-      },
-      {
-        meaning: '總結時強調核心重點',
-        note: '常出現在結論句，把最想傳達的訊息凸顯出來',
-        example: 'She\'s talented, hardworking, and above all, honest. （她有才華、努力，最重要的是，誠實。）',
-      },
-    ],
-    tip: '🏆 Above all 是把最重要的那件事拉到清單最頂端，高過所有其他',
-    compareWith: 'most importantly（更直接）、first and foremost（更正式）',
-  },
-
-  'as a matter of fact': {
-    title: 'as a matter of fact — 事實上',
-    meanings: [
-      {
-        meaning: '糾正對方的認知，或補充真實情況',
-        note: '說話者把「事實」放到桌上，有時帶有輕微的反駁感',
-        example: 'As a matter of fact, I\'ve been here before. （事實上，我以前來過這裡。）',
-      },
-      {
-        meaning: '確認或強調某件事是真的',
-        note: '用來強化說話者的立場，表示「這不是意見，是事實」',
-        example: 'As a matter of fact, she\'s one of the best. （事實上，她是其中最好的之一。）',
-      },
-    ],
-    tip: '📋 As a matter of fact 是把真相擺上桌，打破表面認知，說：其實是這樣',
-    compareWith: 'actually（更口語）、in fact（更常用）',
-  },
-
-  'believe it or not': {
-    title: 'believe it or not — 信不信由你',
-    meanings: [
-      {
-        meaning: '說話者知道接下來說的話很令人意外',
-        note: '先打預防針，表示「我知道這聽起來很奇怪，但這是真的」',
-        example: 'Believe it or not, he\'s never tried pizza. （信不信由你，他從來沒吃過披薩。）',
-      },
-    ],
-    tip: '😲 Believe it or not 是結果出現在預期線的外面，說話者自己也覺得神奇',
-    compareWith: 'surprisingly（更中性）、you won\'t believe it（更口語）',
   },
 
   'more or less': {

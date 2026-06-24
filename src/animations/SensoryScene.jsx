@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 // ════════════════════════════════════════════════════════
-// 副詞片語動畫場景 — 用認知語言學畫面具象化時間/頻率概念
+// 感受參數動畫場景 — 用認知語言學畫面具象化時間/頻率概念
 // ════════════════════════════════════════════════════════
 
 const S = {
@@ -568,74 +568,6 @@ function OutOfNowhereScene() {
   );
 }
 
-// ── after all：繞圈回到原點 ──
-function AfterAllScene() {
-  return (
-    <div style={S}>
-      <svg width="220" height="90" viewBox="0 0 220 90">
-        {/* 彎曲路徑 */}
-        <path
-          d="M 20 45 Q 70 10 110 45 Q 150 80 190 45"
-          fill="none" stroke="#e0e0e0" strokeWidth="2.5" strokeDasharray="5 3"
-        />
-        {/* 球沿路徑移動 */}
-        <motion.circle
-          cx={0} cy={0} r={9} fill="#4e342e"
-          animate={{
-            cx: [20, 55, 110, 165, 190],
-            cy: [45, 22, 45, 72, 45],
-          }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.8 }}
-        />
-        {/* 終點燈泡 */}
-        <motion.g
-          animate={{ opacity: [0, 0, 1, 1, 0] }}
-          transition={{ duration: 3.8, repeat: Infinity, times: [0, 0.72, 0.82, 0.95, 1] }}
-        >
-          <circle cx="190" cy="45" r="14" fill="#fff9c4" stroke="#f9a825" strokeWidth="2" />
-          <text x="190" y="50" textAnchor="middle" fontSize="14">💡</text>
-        </motion.g>
-        <text x="110" y="88" textAnchor="middle" fontSize="9" fill="#888">果然如此…</text>
-      </svg>
-    </div>
-  );
-}
-
-// ── no wonder：A → B 頓悟 ──
-function NoWonderScene() {
-  return (
-    <div style={S}>
-      <svg width="220" height="80" viewBox="0 0 220 80">
-        {/* A 原因框 */}
-        <rect x="8" y="24" width="60" height="32" rx="6" fill="#fff8e1" stroke="#f9a825" strokeWidth="2" />
-        <text x="38" y="38" textAnchor="middle" fontSize="10" fill="#e65100">原因</text>
-        <text x="38" y="52" textAnchor="middle" fontSize="9" fill="#888">A</text>
-        {/* 箭頭 */}
-        <motion.g
-          animate={{ opacity: [0, 1], x: [0, 8] }}
-          transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 0.5, ease: 'easeOut' }}
-        >
-          <line x1="70" y1="40" x2="100" y2="40" stroke="#f9a825" strokeWidth="2.5" strokeLinecap="round" />
-          <polygon points="100,35 112,40 100,45" fill="#f9a825" />
-        </motion.g>
-        {/* B 結果框 */}
-        <rect x="112" y="24" width="60" height="32" rx="6" fill="#fff8e1" stroke="#f9a825" strokeWidth="2" />
-        <text x="142" y="38" textAnchor="middle" fontSize="10" fill="#e65100">結果</text>
-        <text x="142" y="52" textAnchor="middle" fontSize="9" fill="#888">B</text>
-        {/* 頓悟燈泡 */}
-        <motion.g
-          animate={{ scale: [0, 1.3, 1], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 2.3, repeat: Infinity, times: [0, 0.4, 0.7, 1], repeatDelay: 0.3 }}
-        >
-          <circle cx="195" cy="40" r="14" fill="#fff9c4" stroke="#f9a825" strokeWidth="2" />
-          <text x="195" y="45" textAnchor="middle" fontSize="14">💡</text>
-        </motion.g>
-        <text x="110" y="76" textAnchor="middle" fontSize="9" fill="#888">難怪！原來如此！</text>
-      </svg>
-    </div>
-  );
-}
-
 // ── on purpose：瞄準線箭頭 ──
 function OnPurposeScene() {
   return (
@@ -1078,35 +1010,6 @@ function InNoTimeScene() {
   );
 }
 
-// ── no matter what：各種障礙，路都穿過去 ──
-function NoMatterWhatScene() {
-  return (
-    <div style={S}>
-      <svg width="220" height="80" viewBox="0 0 220 80">
-        {/* 障礙物 */}
-        {[60, 100, 145].map((x, i) => (
-          <rect key={i} x={x - 5} y={22} width={10} height={36} rx={3} fill="#ef9a9a" />
-        ))}
-        {/* 穿越路徑 */}
-        <motion.path
-          d="M 20 40 L 55 40 L 65 40 L 95 40 L 105 40 L 140 40 L 150 40 L 200 40"
-          fill="none" stroke="#b71c1c" strokeWidth="3" strokeLinecap="round"
-          strokeDasharray="200" strokeDashoffset="200"
-          animate={{ strokeDashoffset: [200, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 0.8, ease: 'linear' }}
-        />
-        {/* 子彈頭 */}
-        <motion.circle
-          cx={0} cy={40} r={8} fill="#b71c1c"
-          animate={{ cx: [20, 200] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 0.8, ease: 'linear' }}
-        />
-        <text x="110" y="70" textAnchor="middle" fontSize="9" fill="#b71c1c" fontWeight="bold">什麼都擋不住！</text>
-      </svg>
-    </div>
-  );
-}
-
 // ── at all：空量表，強調零 ──
 function AtAllScene() {
   return (
@@ -1519,113 +1422,6 @@ function OnTheSpotScene() {
   );
 }
 
-// ── above all：清單頂端，最高優先 ──
-function AboveAllScene() {
-  return (
-    <div style={S}>
-      <svg width="220" height="80" viewBox="0 0 220 80">
-        {/* 清單項目 */}
-        {[52, 62, 72].map((y, i) => (
-          <g key={i}>
-            <rect x="58" y={y - 7} width="104" height="10" rx="3" fill="#f5f5f5" stroke="#e0e0e0" strokeWidth="1" />
-            <circle cx="68" cy={y - 2} r="3" fill="#bbb" />
-          </g>
-        ))}
-        {/* 最頂端項目（高亮） */}
-        <motion.rect
-          x="52" y="22" width="116" height="18" rx="5"
-          fill="#fce4ec" stroke="#880e4f" strokeWidth="2"
-          animate={{ scale: [1, 1.04, 1] }}
-          style={{ transformOrigin: '110px 31px' }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <text x="110" y="35" textAnchor="middle" fontSize="10" fill="#880e4f" fontWeight="bold">最重要 ★</text>
-        {/* 向上箭頭 */}
-        <motion.polygon
-          points="110,8 118,20 102,20" fill="#880e4f"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        />
-        <text x="110" y="76" textAnchor="middle" fontSize="9" fill="#880e4f">高過所有其他項目</text>
-      </svg>
-    </div>
-  );
-}
-
-// ── as a matter of fact：翻牌揭示真相 ──
-function AsAMatterOfFactScene() {
-  return (
-    <div style={S}>
-      <svg width="220" height="80" viewBox="0 0 220 80">
-        {/* 表面認知（灰色） */}
-        <motion.rect
-          x="30" y="20" width="70" height="40" rx="6"
-          fill="#f5f5f5" stroke="#bbb" strokeWidth="1.5"
-          animate={{ opacity: [1, 1, 0.2] }}
-          transition={{ duration: 2.5, repeat: Infinity, times: [0, 0.4, 0.7] }}
-        />
-        <motion.text
-          x="65" y="45" textAnchor="middle" fontSize="10" fill="#bbb"
-          animate={{ opacity: [1, 1, 0.2] }}
-          transition={{ duration: 2.5, repeat: Infinity, times: [0, 0.4, 0.7] }}
-        >以為…</motion.text>
-        {/* 箭頭 */}
-        <motion.g
-          animate={{ opacity: [0, 0, 1] }}
-          transition={{ duration: 2.5, repeat: Infinity, times: [0, 0.5, 0.65] }}
-        >
-          <line x1="105" y1="40" x2="118" y2="40" stroke="#37474f" strokeWidth="2.5" strokeLinecap="round" />
-          <polygon points="118,35 130,40 118,45" fill="#37474f" />
-        </motion.g>
-        {/* 真相牌 */}
-        <motion.rect
-          x="132" y="20" width="70" height="40" rx="6"
-          fill="#e3f2fd" stroke="#37474f" strokeWidth="2"
-          animate={{ scale: [0, 0, 1] }}
-          style={{ transformOrigin: '167px 40px' }}
-          transition={{ duration: 2.5, repeat: Infinity, times: [0, 0.55, 0.75], ease: 'backOut' }}
-        />
-        <motion.text
-          x="167" y="38" textAnchor="middle" fontSize="10" fill="#37474f" fontWeight="bold"
-          animate={{ opacity: [0, 0, 1] }}
-          transition={{ duration: 2.5, repeat: Infinity, times: [0, 0.6, 0.78] }}
-        >事實</motion.text>
-        <motion.text
-          x="167" y="52" textAnchor="middle" fontSize="9" fill="#37474f"
-          animate={{ opacity: [0, 0, 1] }}
-          transition={{ duration: 2.5, repeat: Infinity, times: [0, 0.6, 0.78] }}
-        >是這樣</motion.text>
-      </svg>
-    </div>
-  );
-}
-
-// ── believe it or not：結果飛出預期線外 ──
-function BelieveItOrNotScene() {
-  return (
-    <div style={S}>
-      <svg width="220" height="80" viewBox="0 0 220 80">
-        {/* 預期範圍框 */}
-        <rect x="20" y="24" width="140" height="32" rx="6" fill="#f9f9f9" stroke="#e0e0e0" strokeWidth="1.5" strokeDasharray="5 3" />
-        <text x="90" y="44" textAnchor="middle" fontSize="9" fill="#bbb">預期範圍</text>
-        {/* 結果點飛出去 */}
-        <motion.circle
-          cx={0} cy={40} r={10} fill="#4527a0"
-          animate={{ cx: [90, 185], cy: [40, 20] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
-        />
-        {/* 驚嘆 */}
-        <motion.text
-          x="185" y="14" textAnchor="middle" fontSize="14"
-          animate={{ opacity: [0, 0, 1, 1, 0] }}
-          transition={{ duration: 2.8, repeat: Infinity, times: [0, 0.6, 0.75, 0.9, 1] }}
-        >😲</motion.text>
-        <text x="110" y="70" textAnchor="middle" fontSize="9" fill="#4527a0">完全超出預期！</text>
-      </svg>
-    </div>
-  );
-}
-
 // ── more or less：目標值附近的模糊帶 ──
 function MoreOrLessScene() {
   return (
@@ -1723,13 +1519,7 @@ const SCENE_MAP = {
   outOfNowhere:     OutOfNowhereScene,
   inNoTime:         InNoTimeScene,
   onTheSpot:        OnTheSpotScene,
-  afterAll:         AfterAllScene,
-  noWonder:         NoWonderScene,
-  noMatterWhat:     NoMatterWhatScene,
   atAll:            AtAllScene,
-  aboveAll:         AboveAllScene,
-  asAMatterOfFact:  AsAMatterOfFactScene,
-  believeItOrNot:   BelieveItOrNotScene,
   onPurpose:        OnPurposeScene,
   byAccident:       ByAccidentScene,
   littleByLittle:   LittleByLittleScene,
@@ -1745,7 +1535,7 @@ const SCENE_MAP = {
   atLeast:          AtLeastScene,
 };
 
-export default function AdverbScene({ sceneKey }) {
+export default function SensoryScene({ sceneKey }) {
   const Scene = SCENE_MAP[sceneKey];
   if (!Scene) return <div style={{ ...S, color: '#999', fontSize: 13 }}>動畫建置中…</div>;
   return <Scene />;
