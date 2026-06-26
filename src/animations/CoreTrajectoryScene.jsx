@@ -2321,6 +2321,1020 @@ function FallbackScene({ obj, meaning, coreMotion }) {
   );
 }
 
+// ═══════════════════════════════════════
+// Bring 系列：手帶著物件，方向由介係詞決定
+// 核心視覺元素：手＋箱子（carry）
+// ═══════════════════════════════════════
+
+function CarryDescendScene({ obj, meaning }) {
+  const isPrice = obj.label === '物價';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ─── 手帶箱子（Bring = 手帶著）往下移 ─── */}
+      <motion.div
+        animate={{ y: [0, 0, 36, 36, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '5%', top: '12%', zIndex: 10 }}
+      >
+        <svg width="48" height="50" viewBox="0 0 48 50">
+          {/* 提手 */}
+          <path d="M 14 10 Q 14 4 24 4 Q 34 4 34 10" fill="none" stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+          {/* 箱子本體 */}
+          <rect x="4" y="10" width="40" height="30" rx="3" fill="#8d6e63" stroke="#6d4c41" strokeWidth="1.5" />
+          {/* 箱子橫線 */}
+          <line x1="4" y1="25" x2="44" y2="25" stroke="#6d4c41" strokeWidth="1" opacity="0.4" />
+          <line x1="24" y1="10" x2="24" y2="40" stroke="#6d4c41" strokeWidth="1" opacity="0.4" />
+          {/* 手掌 */}
+          <rect x="9" y="40" width="30" height="10" rx="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.5" />
+          {/* 大拇指 */}
+          <ellipse cx="7" cy="43" rx="4" ry="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2" />
+        </svg>
+      </motion.div>
+
+      {/* ─── 向下軌跡線 ─── */}
+      <motion.div
+        animate={{ scaleY: [0, 0, 1, 1, 0], opacity: [0, 0, 0.45, 0.45, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.1, 0.3, 0.72, 0.9] }}
+        style={{
+          position: 'absolute', left: 'calc(5% + 62px)', top: '26%',
+          width: 2, height: '35%',
+          background: 'linear-gradient(180deg, rgba(121,85,72,0.5), transparent)',
+          transformOrigin: 'top center', zIndex: 6,
+        }}
+      />
+
+      {/* ════ Scene A：物價下降（條形圖縮短） ════ */}
+      {isPrice && <>
+        {/* 座標軸 */}
+        <div style={{ position: 'absolute', right: '6%', bottom: '22%', width: 96, height: 108, zIndex: 3 }}>
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 2, background: '#e0e0e0', borderRadius: 1 }} />
+          <div style={{ position: 'absolute', left: 0, bottom: 0, right: 0, height: 2, background: '#e0e0e0', borderRadius: 1 }} />
+        </div>
+        {/* 三根長條 */}
+        {[{ x: 8, initH: 88, endH: 38, color: '#ef5350' },
+          { x: 38, initH: 68, endH: 28, color: '#ff7043' },
+          { x: 68, initH: 48, endH: 22, color: '#66bb6a' }].map((bar, i) => (
+          <motion.div key={i}
+            animate={{ height: [bar.initH, bar.initH, bar.endH, bar.endH, bar.initH] }}
+            transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeOut', delay: i * 0.06 }}
+            style={{
+              position: 'absolute',
+              right: `calc(6% + ${92 - bar.x - 24}px)`,
+              bottom: 'calc(22% + 2px)',
+              width: 24, background: bar.color,
+              borderRadius: '3px 3px 0 0', zIndex: 4,
+            }}
+          />
+        ))}
+        {/* 下降箭頭標 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0.8, 0.8, 0], y: [0, 0, 8, 8, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.15, 0.44, 0.74, 0.92] }}
+          style={{
+            position: 'absolute', right: 'calc(6% + 40px)', top: '14%',
+            width: 0, height: 0,
+            borderLeft: '5px solid transparent', borderRight: '5px solid transparent',
+            borderTop: '9px solid #ef5350', zIndex: 8,
+          }}
+        />
+        {/* sceneObject emoji */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.15, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.52, 0.6, 0.76, 0.9] }}
+          style={{ position: 'absolute', right: 'calc(6% + 22px)', top: '10%', fontSize: 26, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ════ Scene B：心情低落（笑臉→哭臉 下滑） ════ */}
+      {!isPrice && <>
+        <motion.div
+          animate={{ y: [0, 0, 28, 28, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{ position: 'absolute', right: '10%', top: '10%', zIndex: 8 }}
+        >
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="28" fill="#ffe082" stroke="#ffd54f" strokeWidth="1.5" />
+            {/* 眼睛 */}
+            <circle cx="22" cy="25" r="3.5" fill="#5d4037" />
+            <circle cx="42" cy="25" r="3.5" fill="#5d4037" />
+            {/* 嘴：由笑弧 → 哭弧 */}
+            <motion.path
+              animate={{ d: [
+                'M 20 42 Q 32 50 44 42',
+                'M 20 42 Q 32 50 44 42',
+                'M 20 44 Q 32 35 44 44',
+                'M 20 44 Q 32 35 44 44',
+                'M 20 42 Q 32 50 44 42',
+              ]}}
+              transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.76, 0.94] }}
+              fill="none" stroke="#5d4037" strokeWidth="2.5" strokeLinecap="round"
+            />
+            {/* 眼淚 */}
+            <motion.ellipse cx="22" cy="36" rx="2.5" ry="4" fill="#64b5f6"
+              animate={{ opacity: [0, 0, 1, 1, 0] }}
+              transition={{ duration: 5, repeat: Infinity, times: [0, 0.42, 0.55, 0.76, 0.9] }}
+            />
+          </svg>
+        </motion.div>
+        {/* sceneObject emoji */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.52, 0.6, 0.76, 0.9] }}
+          style={{ position: 'absolute', right: 'calc(10% + 10px)', top: '68%', fontSize: 24, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.6, 0.66, 0.82, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#795548',
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function CarryAscendScene({ obj, meaning }) {
+  const isTopic = obj.label === '話題';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ─── 手帶箱子（Bring）往上移 ─── */}
+      <motion.div
+        animate={{ y: [36, 36, 0, 0, 36] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '5%', top: '24%', zIndex: 10 }}
+      >
+        <svg width="48" height="50" viewBox="0 0 48 50">
+          <path d="M 14 10 Q 14 4 24 4 Q 34 4 34 10" fill="none" stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+          <rect x="4" y="10" width="40" height="30" rx="3" fill="#8d6e63" stroke="#6d4c41" strokeWidth="1.5" />
+          <line x1="4" y1="25" x2="44" y2="25" stroke="#6d4c41" strokeWidth="1" opacity="0.4" />
+          <line x1="24" y1="10" x2="24" y2="40" stroke="#6d4c41" strokeWidth="1" opacity="0.4" />
+          <rect x="9" y="40" width="30" height="10" rx="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.5" />
+          <ellipse cx="7" cy="43" rx="4" ry="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2" />
+        </svg>
+      </motion.div>
+
+      {/* ─── 向上軌跡線 ─── */}
+      <motion.div
+        animate={{ scaleY: [0, 0, 1, 1, 0], opacity: [0, 0, 0.45, 0.45, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.1, 0.3, 0.72, 0.9] }}
+        style={{
+          position: 'absolute', left: 'calc(5% + 62px)', bottom: '40%',
+          width: 2, height: '30%',
+          background: 'linear-gradient(0deg, rgba(121,85,72,0.5), transparent)',
+          transformOrigin: 'bottom center', zIndex: 6,
+        }}
+      />
+
+      {/* ════ Scene A：話題（對話框從桌下浮上桌面） ════ */}
+      {isTopic && <>
+        {/* 桌面 */}
+        <div style={{
+          position: 'absolute', right: '6%', top: '48%',
+          width: 104, height: 8,
+          background: 'linear-gradient(180deg, #d7ccc8, #bcaaa4)',
+          borderRadius: 3, zIndex: 4,
+        }} />
+        <div style={{
+          position: 'absolute', right: '6%', top: 'calc(48% + 8px)',
+          width: 104, height: 38,
+          background: '#efebe9', borderRadius: '0 0 4px 4px',
+          borderLeft: '2px solid #bcaaa4', borderRight: '2px solid #bcaaa4', borderBottom: '2px solid #bcaaa4',
+          zIndex: 3,
+        }} />
+        {/* 對話框從桌下升上來 */}
+        <motion.div
+          animate={{ y: [60, 60, 0, 0, 60], opacity: [0, 0.3, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{ position: 'absolute', right: 'calc(6% + 8px)', top: '20%', zIndex: 8 }}
+        >
+          <svg width="88" height="54" viewBox="0 0 88 54">
+            <rect x="2" y="2" width="84" height="40" rx="10" fill="#e3f2fd" stroke="#90caf9" strokeWidth="2" />
+            <line x1="14" y1="16" x2="74" y2="16" stroke="#90caf9" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="14" y1="27" x2="58" y2="27" stroke="#b3e5fc" strokeWidth="2" strokeLinecap="round" />
+            {/* 泡泡尾巴 */}
+            <path d="M 20 42 L 14 52 L 30 42 Z" fill="#e3f2fd" stroke="#90caf9" strokeWidth="1.5" strokeLinejoin="round" />
+          </svg>
+        </motion.div>
+        {/* sceneObject emoji */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.15, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.52, 0.6, 0.76, 0.9] }}
+          style={{ position: 'absolute', right: 'calc(6% + 36px)', top: '10%', fontSize: 26, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ════ Scene B：孩子（人影從矮到高） ════ */}
+      {!isTopic && <>
+        {/* 地面線 */}
+        <div style={{
+          position: 'absolute', right: '6%', bottom: '20%',
+          width: 100, height: 2, background: '#e0e0e0', borderRadius: 1, zIndex: 3,
+        }} />
+        {/* 成長刻度尺 */}
+        {[0, 1, 2, 3].map(i => (
+          <div key={i} style={{
+            position: 'absolute', right: 'calc(6% + 80px)', bottom: `calc(20% + ${i * 22}px)`,
+            display: 'flex', alignItems: 'center', gap: 3, zIndex: 4,
+          }}>
+            <div style={{ width: 8, height: 1.5, background: '#bdbdbd' }} />
+          </div>
+        ))}
+        {/* 孩子身影（由矮到高） */}
+        <motion.div
+          animate={{ scaleY: [0.45, 0.45, 1, 1, 0.45], y: [42, 42, 0, 0, 42] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', right: 'calc(6% + 28px)', bottom: 'calc(20% + 2px)',
+            transformOrigin: 'bottom center', zIndex: 6,
+          }}
+        >
+          <svg width="40" height="70" viewBox="0 0 40 70">
+            {/* 頭 */}
+            <circle cx="20" cy="10" r="10" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.5" />
+            {/* 身體 */}
+            <rect x="12" y="20" width="16" height="26" rx="4" fill="#42a5f5" stroke="#1e88e5" strokeWidth="1.2" />
+            {/* 腿 */}
+            <rect x="13" y="44" width="6" height="22" rx="3" fill="#1565c0" />
+            <rect x="21" y="44" width="6" height="22" rx="3" fill="#1565c0" />
+            {/* 手臂 */}
+            <rect x="2" y="22" width="10" height="5" rx="2.5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1" />
+            <rect x="28" y="22" width="10" height="5" rx="2.5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1" />
+          </svg>
+        </motion.div>
+        {/* sceneObject emoji */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.15, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.52, 0.6, 0.76, 0.9] }}
+          style={{ position: 'absolute', right: 'calc(6% + 30px)', top: '10%', fontSize: 26, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.6, 0.66, 0.82, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#795548',
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function CarryExitScene({ obj, meaning }) {
+  const isProduct = obj.label === '新品';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ─── 手（Bring = 把東西帶出來）─── */}
+      <motion.div
+        animate={{ y: [0, 0, -30, -30, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '3%', top: '34%', zIndex: 10 }}>
+        <svg width="48" height="50" viewBox="0 0 48 50">
+          <path d="M 14 10 Q 14 4 24 4 Q 34 4 34 10" fill="none" stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+          <rect x="4" y="10" width="40" height="30" rx="3" fill="#8d6e63" stroke="#6d4c41" strokeWidth="1.5" />
+          <line x1="4" y1="25" x2="44" y2="25" stroke="#6d4c41" strokeWidth="1" opacity="0.4" />
+          <line x1="24" y1="10" x2="24" y2="40" stroke="#6d4c41" strokeWidth="1" opacity="0.4" />
+          <rect x="9" y="40" width="30" height="10" rx="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.5" />
+          <ellipse cx="7" cy="43" rx="4" ry="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2" />
+        </svg>
+      </motion.div>
+
+      {/* ─── 垂直軌跡（往上揭開）─── */}
+      <motion.div
+        animate={{ scaleY: [0, 0, 1, 1, 0], opacity: [0, 0, 0.45, 0.45, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.28, 0.72, 0.9] }}
+        style={{
+          position: 'absolute', left: 'calc(3% + 26px)', top: '18%',
+          width: 2, height: '16%',
+          background: 'linear-gradient(180deg, transparent, #a1887f)',
+          transformOrigin: 'bottom center', zIndex: 6,
+        }}
+      />
+
+      {/* ════ Scene A：新品上市（紅布幕向兩側滑開，商品在聚光燈下登場） ════ */}
+      {isProduct && <>
+        {/* 舞台底板 */}
+        <div style={{
+          position: 'absolute', right: '5%', top: '6%',
+          width: 106, height: 140,
+          background: 'linear-gradient(180deg, #212121 0%, #303030 100%)',
+          borderRadius: 6, overflow: 'hidden', zIndex: 2,
+        }}>
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0, height: 28,
+            background: 'linear-gradient(180deg, transparent, rgba(255,255,255,0.06))',
+          }} />
+        </div>
+        {/* 聚光燈光錐 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0.6, 0.6, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.38, 0.46, 0.78, 0.92] }}
+          style={{
+            position: 'absolute', right: 'calc(5% + 18px)', top: '6%',
+            width: 70, height: 140,
+            background: 'radial-gradient(ellipse at 50% 5%, rgba(255,241,118,0.55), transparent 70%)',
+            zIndex: 4,
+          }}
+        />
+        {/* 左布幕（translateX 向左滑出） */}
+        <motion.div
+          animate={{ x: [0, 0, -54, -54, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', right: 'calc(5% + 53px)', top: '6%',
+            width: 54, height: 140,
+            background: 'linear-gradient(180deg, #b71c1c 0%, #c62828 40%, #b71c1c 100%)',
+            borderRadius: '6px 0 0 6px', zIndex: 7,
+            boxShadow: 'inset -4px 0 8px rgba(0,0,0,0.3)',
+          }}
+        >
+          {[14, 28, 42].map(x => (
+            <div key={x} style={{
+              position: 'absolute', top: 0, bottom: 0, left: x,
+              width: 3, background: 'rgba(0,0,0,0.15)', borderRadius: 1,
+            }} />
+          ))}
+        </motion.div>
+        {/* 右布幕（translateX 向右滑出） */}
+        <motion.div
+          animate={{ x: [0, 0, 54, 54, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', right: '5%', top: '6%',
+            width: 54, height: 140,
+            background: 'linear-gradient(180deg, #b71c1c 0%, #c62828 40%, #b71c1c 100%)',
+            borderRadius: '0 6px 6px 0', zIndex: 7,
+            boxShadow: 'inset 4px 0 8px rgba(0,0,0,0.3)',
+          }}
+        >
+          {[12, 26, 40].map(x => (
+            <div key={x} style={{
+              position: 'absolute', top: 0, bottom: 0, left: x,
+              width: 3, background: 'rgba(0,0,0,0.15)', borderRadius: 1,
+            }} />
+          ))}
+        </motion.div>
+        {/* 商品 emoji */}
+        <motion.div
+          animate={{ scale: [0.3, 0.3, 1.25, 1, 0.3], opacity: [0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.35, 0.48, 0.78, 0.92] }}
+          style={{
+            position: 'absolute', right: 'calc(5% + 34px)', top: '36%',
+            fontSize: 36, zIndex: 5,
+            filter: 'drop-shadow(0 4px 12px rgba(255,241,118,0.6))',
+          }}
+        >{obj.emoji}</motion.div>
+        {/* NEW 標籤 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.52, 0.56, 0.62, 0.78, 0.92] }}
+          style={{
+            position: 'absolute', right: 'calc(5% + 68px)', top: '20%',
+            background: '#f44336', color: '#fff',
+            fontSize: 9, fontWeight: 900, padding: '2px 6px',
+            borderRadius: 3, zIndex: 9, letterSpacing: 1,
+          }}
+        >NEW</motion.div>
+      </>}
+
+      {/* ════ Scene B：激發潛能（蒙布向上掀起，sceneObject 在光暈中登場） ════ */}
+      {!isProduct && <>
+        {/* 基座 */}
+        <div style={{
+          position: 'absolute', right: 'calc(6% + 8px)', top: '68%',
+          width: 80, height: 12,
+          background: 'linear-gradient(180deg, #d7ccc8, #bcaaa4)',
+          borderRadius: 4, zIndex: 3,
+        }} />
+        {/* 蒙布上半（拱形，向上掀） */}
+        <motion.div
+          animate={{ y: [0, 0, -82, -82, 0], opacity: [0.9, 0.9, 0, 0, 0.9] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', right: 'calc(6% + 10px)', top: '20%',
+            width: 76, height: 50,
+            background: 'linear-gradient(180deg, #90a4ae, #78909c)',
+            borderRadius: '40% 40% 0 0 / 20% 20% 0 0',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.15)', zIndex: 7,
+          }}
+        />
+        {/* 蒙布下半（裙擺） */}
+        <motion.div
+          animate={{ y: [0, 0, -82, -82, 0], opacity: [0.9, 0.9, 0, 0, 0.9] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', right: 'calc(6% + 6px)', top: 'calc(20% + 48px)',
+            width: 84, height: 24,
+            background: 'linear-gradient(180deg, #78909c, #607d8b)',
+            borderRadius: '0 0 6px 6px', zIndex: 7,
+          }}
+        />
+        {/* 揭開後光暈 */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1, 2.4], opacity: [0, 0, 0, 0.55, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.38, 0.44, 0.54, 0.72] }}
+          style={{
+            position: 'absolute', right: 'calc(6% + 14px)', top: '18%',
+            width: 68, height: 68,
+            background: 'radial-gradient(circle, rgba(255,213,0,0.55), rgba(255,193,7,0.1) 60%, transparent 75%)',
+            borderRadius: '50%', zIndex: 6,
+          }}
+        />
+        {/* sceneObject emoji */}
+        <motion.div
+          animate={{ scale: [0.4, 0.4, 0.4, 1.3, 1, 0.4], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.5, 0.76, 0.92] }}
+          style={{
+            position: 'absolute', right: 'calc(6% + 22px)', top: '16%',
+            fontSize: 42, zIndex: 8,
+            filter: 'drop-shadow(0 0 10px rgba(255,213,0,0.7))',
+          }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.6, 0.66, 0.82, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#795548',
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function CarryReturnScene({ obj, meaning }) {
+  const isBaggage = obj.label === '伴手禮';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ─── 手（Bring = 帶著，從遠處「回來」）─── */}
+      <motion.div
+        animate={{ x: [130, 130, 0, 0, 130] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '4%', top: '38%', zIndex: 10 }}>
+        <svg width="48" height="50" viewBox="0 0 48 50">
+          <path d="M 14 10 Q 14 4 24 4 Q 34 4 34 10" fill="none" stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+          <rect x="4" y="10" width="40" height="30" rx="3" fill="#8d6e63" stroke="#6d4c41" strokeWidth="1.5" />
+          <line x1="4" y1="25" x2="44" y2="25" stroke="#6d4c41" strokeWidth="1" opacity="0.4" />
+          <line x1="24" y1="10" x2="24" y2="40" stroke="#6d4c41" strokeWidth="1" opacity="0.4" />
+          <rect x="9" y="40" width="30" height="10" rx="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.5" />
+          <ellipse cx="7" cy="43" rx="4" ry="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2" />
+        </svg>
+      </motion.div>
+
+      {/* ─── 回返弧線（back = 往回走的弧形軌跡） ─── */}
+      <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, zIndex: 5 }}>
+        <motion.path
+          d="M 72 80 Q 180 20 260 80"
+          fill="none" stroke="#a1887f" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 4"
+          animate={{ opacity: [0, 0, 0.5, 0.5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.28, 0.72, 0.9] }}
+        />
+        {/* 回返箭頭（←） */}
+        <motion.path
+          d="M 80 76 L 72 80 L 80 84"
+          fill="none" stroke="#a1887f" strokeWidth="2" strokeLinecap="round"
+          animate={{ opacity: [0, 0, 0.6, 0.6, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.28, 0.72, 0.9] }}
+        />
+      </svg>
+
+      {/* ════ Scene A：伴手禮（行李從遠處沿弧線回到家） ════ */}
+      {isBaggage && <>
+        {/* 家（目的地，右側） */}
+        <div style={{ position: 'absolute', right: '6%', top: '18%', zIndex: 4 }}>
+          <svg width="64" height="68" viewBox="0 0 64 68">
+            {/* 屋頂 */}
+            <polygon points="32,4 4,28 60,28" fill="#ef9a9a" stroke="#e57373" strokeWidth="1.5" />
+            {/* 煙囪 */}
+            <rect x="42" y="10" width="8" height="14" fill="#bcaaa4" stroke="#a1887f" strokeWidth="1" />
+            {/* 牆 */}
+            <rect x="8" y="28" width="48" height="36" fill="#fff9f9" stroke="#e57373" strokeWidth="1.5" rx="1" />
+            {/* 門 */}
+            <rect x="24" y="42" width="16" height="22" rx="3" fill="#8d6e63" stroke="#6d4c41" strokeWidth="1.2" />
+            {/* 窗 */}
+            <rect x="10" y="34" width="12" height="10" rx="2" fill="#b3e5fc" stroke="#90caf9" strokeWidth="1" />
+            <rect x="42" y="34" width="12" height="10" rx="2" fill="#b3e5fc" stroke="#90caf9" strokeWidth="1" />
+          </svg>
+        </div>
+        {/* 行李沿弧線從右到左回來 */}
+        <motion.div
+          animate={{
+            x: [110, 110, 0, 0, 110],
+            y: [0, 0, -28, -28, 0],
+          }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.48, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', right: 'calc(6% + 36px)', top: '54%',
+            fontSize: 28, zIndex: 8,
+          }}
+        >{obj.emoji}</motion.div>
+        {/* 到家後光暈 */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1, 2.2], opacity: [0, 0, 0, 0.45, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.5, 0.58, 0.74] }}
+          style={{
+            position: 'absolute', right: 'calc(6% + 20px)', top: '46%',
+            width: 44, height: 44,
+            background: 'radial-gradient(circle, rgba(121,85,72,0.4), transparent 70%)',
+            borderRadius: '50%', zIndex: 7,
+          }}
+        />
+      </>}
+
+      {/* ════ Scene B：回憶（Polaroid 拍立得從空白顯影） ════ */}
+      {!isBaggage && <>
+        {/* Polaroid 從右側飄入 */}
+        <motion.div
+          animate={{ x: [40, 40, 0, 0, 40], opacity: [0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.36, 0.76, 0.94], ease: 'easeOut' }}
+          style={{
+            position: 'absolute', right: '7%', top: '8%',
+            zIndex: 6, transform: 'rotate(-5deg)',
+          }}
+        >
+          {/* 拍立得外框 */}
+          <div style={{
+            width: 92, height: 110,
+            background: '#fff',
+            borderRadius: 3,
+            boxShadow: '2px 4px 14px rgba(0,0,0,0.22)',
+            padding: '7px 7px 28px',
+            boxSizing: 'border-box',
+          }}>
+            {/* 照片內容：初始一片空白，逐漸顯影 */}
+            <motion.div
+              animate={{
+                background: [
+                  'linear-gradient(135deg,#fff,#fff)',
+                  'linear-gradient(135deg,#fff,#fff)',
+                  'linear-gradient(135deg,#f5ede0,#e8d5b0)',
+                  'linear-gradient(135deg,#e8d4a0,#d4b07a)',
+                  'linear-gradient(135deg,#e8d4a0,#d4b07a)',
+                  'linear-gradient(135deg,#fff,#fff)',
+                ],
+              }}
+              transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.38, 0.52, 0.76, 0.94] }}
+              style={{
+                width: '100%', height: '100%',
+                borderRadius: 2, overflow: 'hidden',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              {/* 照片裡的景象（顯影後才出現） */}
+              <motion.div
+                animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.5, 0.5, 0.5, 1, 1, 0.5] }}
+                transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.54, 0.76, 0.94] }}
+                style={{ fontSize: 28, filter: 'sepia(60%)' }}
+              >🌅</motion.div>
+            </motion.div>
+          </div>
+          {/* Polaroid 下方文字區 */}
+          <div style={{
+            position: 'absolute', bottom: 6, left: 7, right: 7,
+            display: 'flex', justifyContent: 'center',
+          }}>
+            <motion.div
+              animate={{ opacity: [0, 0, 0, 0.7, 0.7, 0] }}
+              transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.5, 0.58, 0.76, 0.94] }}
+              style={{ fontSize: 9, color: '#999', fontStyle: 'italic', letterSpacing: 0.3 }}
+            >memories ♪</motion.div>
+          </div>
+        </motion.div>
+
+        {/* sceneObject emoji（相機，顯影完成後出現） */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.2, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.54, 0.62, 0.76, 0.92] }}
+          style={{
+            position: 'absolute', right: 'calc(7% + 54px)', top: '70%',
+            fontSize: 22, zIndex: 9,
+          }}
+        >{obj.emoji}</motion.div>
+
+        {/* 溫暖光暈 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0.3, 0.3, 0], scale: [0.6, 0.6, 0.6, 1, 1, 0.6] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.56, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', right: '4%', top: '4%',
+            width: 108, height: 130,
+            background: 'radial-gradient(ellipse, rgba(212,176,122,0.4), transparent 70%)',
+            borderRadius: 8, zIndex: 4,
+          }}
+        />
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.6, 0.66, 0.82, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#795548',
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function CarryEnterScene({ obj, meaning }) {
+  const isExpert = obj.label === '外部專家';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ─── 手（Bring = 帶著，向右帶「進去」）─── */}
+      <motion.div
+        animate={{ x: [0, 0, 80, 80, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '3%', top: '36%', zIndex: 10 }}>
+        <svg width="48" height="50" viewBox="0 0 48 50">
+          <defs>
+            <radialGradient id="boxGradCE" cx="30%" cy="28%">
+              <stop offset="0%" stopColor="#a1887f" />
+              <stop offset="100%" stopColor="#6d4c41" />
+            </radialGradient>
+          </defs>
+          <path d="M 14 10 Q 14 4 24 4 Q 34 4 34 10" fill="none" stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+          <rect x="4" y="10" width="40" height="30" rx="3" fill="url(#boxGradCE)" stroke="#6d4c41" strokeWidth="1.5" />
+          <line x1="4" y1="25" x2="44" y2="25" stroke="#6d4c41" strokeWidth="1" opacity="0.35" />
+          <line x1="24" y1="10" x2="24" y2="40" stroke="#6d4c41" strokeWidth="1" opacity="0.35" />
+          <rect x="9" y="40" width="30" height="10" rx="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.5" />
+          <ellipse cx="7" cy="43" rx="4" ry="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2" />
+        </svg>
+      </motion.div>
+
+      {/* ─── 軌跡（向右進入）─── */}
+      <motion.svg width="84" height="50"
+        style={{ position: 'absolute', left: 'calc(3% + 54px)', top: 'calc(36% + 6px)', zIndex: 6 }}
+        animate={{ opacity: [0, 0, 0.5, 0.5, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.28, 0.72, 0.9] }}>
+        <path d="M 4 25 C 28 25 52 22 78 24"
+          fill="none" stroke="#a1887f" strokeWidth="2" strokeDasharray="5 3" strokeLinecap="round" />
+        <polygon points="74,19 82,24 74,29" fill="#a1887f" opacity="0.8" />
+      </motion.svg>
+
+      {/* ════ Scene A：引進人才（人走進門框） ════ */}
+      {isExpert && <>
+        {/* 門框 SVG */}
+        <div style={{ position: 'absolute', right: '5%', top: '5%', zIndex: 4 }}>
+          <svg width="90" height="142" viewBox="0 0 90 142">
+            <defs>
+              <linearGradient id="doorIntCE" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#fff8e1" />
+                <stop offset="100%" stopColor="#ffecb3" />
+              </linearGradient>
+              <radialGradient id="doorLightCE" cx="50%" cy="20%">
+                <stop offset="0%" stopColor="#fff9c4" />
+                <stop offset="100%" stopColor="#fff8e1" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+            {/* 框體 */}
+            <rect x="0" y="0" width="90" height="142" rx="4" fill="#78909c" />
+            {/* 室內暖色 */}
+            <rect x="10" y="14" width="70" height="128" fill="url(#doorIntCE)" />
+            {/* 室內天花板光 */}
+            <rect x="25" y="15" width="40" height="7" rx="3.5" fill="url(#doorLightCE)" opacity="0.8" />
+            {/* 地板 */}
+            <rect x="10" y="126" width="70" height="16" fill="#bcaaa4" />
+            <line x1="10" y1="126" x2="80" y2="126" stroke="#a1887f" strokeWidth="1" />
+            {/* 門把 */}
+            <circle cx="70" cy="74" r="4.5" fill="#546e7a" />
+            <circle cx="70" cy="74" r="2.5" fill="#90a4ae" />
+          </svg>
+        </div>
+
+        {/* 進入後室內發光 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0.45, 0.45, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.52, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', right: 'calc(5% + 10px)', top: 'calc(5% + 14px)',
+            width: 70, height: 112,
+            background: 'radial-gradient(ellipse at 50% 40%, rgba(255,235,59,0.45), transparent 70%)',
+            zIndex: 6,
+          }}
+        />
+
+        {/* 人才 emoji 從門外走入 */}
+        <motion.div
+          animate={{ x: [-72, -72, 0, 0, -72], opacity: [0, 0.35, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeOut' }}
+          style={{
+            position: 'absolute', right: 'calc(5% + 18px)', top: '40%',
+            fontSize: 36, zIndex: 8,
+          }}
+        >👩‍💼</motion.div>
+
+        {/* sceneObject */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.2, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.54, 0.62, 0.76, 0.9] }}
+          style={{ position: 'absolute', right: 'calc(5% + 54px)', top: '8%', fontSize: 18, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ════ Scene B：帶來收入（豬公撲滿接鈔票） ════ */}
+      {!isExpert && <>
+        {/* 豬公撲滿 SVG */}
+        <motion.div
+          animate={{ rotate: [0, 0, 0, -4, 4, -3, 2, 0, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.50, 0.54, 0.59, 0.63, 0.68, 0.74, 0.94] }}
+          style={{ position: 'absolute', right: '5%', top: '12%', zIndex: 4, transformOrigin: 'bottom center' }}
+        >
+          <svg width="96" height="100" viewBox="0 0 96 100">
+            <defs>
+              <radialGradient id="pigCE2" cx="38%" cy="32%">
+                <stop offset="0%" stopColor="#ffcdd2" />
+                <stop offset="100%" stopColor="#e91e63" stopOpacity="0.7" />
+              </radialGradient>
+            </defs>
+            {/* 身體 */}
+            <ellipse cx="52" cy="64" rx="40" ry="30" fill="url(#pigCE2)" stroke="#f48fb1" strokeWidth="1.2" />
+            {/* 耳朵 */}
+            <ellipse cx="22" cy="40" rx="10" ry="12" fill="#f8bbd0" stroke="#f48fb1" strokeWidth="1" />
+            <ellipse cx="22" cy="41" rx="6" ry="7.5" fill="#fce4ec" />
+            {/* 眼睛 */}
+            <circle cx="30" cy="56" r="5" fill="#fff" />
+            <circle cx="31.5" cy="56" r="2.5" fill="#37474f" />
+            <circle cx="32.5" cy="55" r="1" fill="#fff" opacity="0.8" />
+            {/* 鼻子 */}
+            <ellipse cx="17" cy="67" rx="10" ry="8" fill="#f48fb1" />
+            <circle cx="14" cy="67" r="2.5" fill="#c2185b" opacity="0.4" />
+            <circle cx="20" cy="67" r="2.5" fill="#c2185b" opacity="0.4" />
+            {/* 腳 */}
+            <rect x="28" y="90" width="13" height="8" rx="4" fill="#f48fb1" />
+            <rect x="58" y="90" width="13" height="8" rx="4" fill="#f48fb1" />
+            {/* 尾巴 */}
+            <path d="M 90 62 Q 96 54 92 46" fill="none" stroke="#f48fb1" strokeWidth="3" strokeLinecap="round" />
+            {/* 投幣口 */}
+            <rect x="38" y="33" width="26" height="5" rx="2.5" fill="#ad1457" />
+          </svg>
+        </motion.div>
+
+        {/* 鈔票從左滑入投幣口 */}
+        <motion.div
+          animate={{
+            x:       [0,   0,  74,  74,  0],
+            y:       [0,   0,   8,   8,  0],
+            scale:   [1,   1, 0.4, 0.4,  1],
+            opacity: [0, 0.5,   1,   0,  0],
+          }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.52, 0.94], ease: 'easeIn' }}
+          style={{
+            position: 'absolute', right: 'calc(5% + 68px)', top: '6%',
+            fontSize: 28, zIndex: 8,
+          }}
+        >💵</motion.div>
+
+        {/* 收到後發光暈 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0.5, 0.5, 0], scale: [0.5, 0.5, 0.5, 1, 1, 0.5] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.50, 0.60, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', right: 'calc(5% - 8px)', top: '8%',
+            width: 112, height: 108,
+            background: 'radial-gradient(ellipse at 50% 50%, rgba(251,192,45,0.4), transparent 68%)',
+            borderRadius: '50%', zIndex: 3,
+          }}
+        />
+
+        {/* sceneObject */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.15, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.52, 0.60, 0.67, 0.78, 0.92] }}
+          style={{ position: 'absolute', right: 'calc(5% + 58px)', top: '76%', fontSize: 24, zIndex: 9 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.6, 0.66, 0.82, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#795548', zIndex: 15,
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function CarryCircleScene({ obj, meaning }) {
+  const isWave = obj.label === '影響';
+  const trigColor = isWave ? '#e53935' : '#43a047';
+  const glowColor = isWave ? 'rgba(229,57,53,0.30)' : 'rgba(67,160,71,0.28)';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ─── 手 + 箱子：本身向右移動，帶著東西「走過來」─── */}
+      <motion.div
+        animate={{ x: [0, 0, 148, 148, 148, 0], opacity: [1, 1, 1, 1, 0, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.06, 0.44, 0.58, 0.88, 0.94], ease: [0.25, 0.1, 0.25, 1] }}
+        style={{ position: 'absolute', left: '3%', top: '34%', zIndex: 10 }}>
+        <svg width="48" height="50" viewBox="0 0 48 50">
+          <defs>
+            <radialGradient id="boxGradCC" cx="30%" cy="28%">
+              <stop offset="0%" stopColor="#a1887f" />
+              <stop offset="100%" stopColor="#6d4c41" />
+            </radialGradient>
+          </defs>
+          <path d="M 14 10 Q 14 4 24 4 Q 34 4 34 10" fill="none" stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+          <rect x="4" y="10" width="40" height="30" rx="3" fill="url(#boxGradCC)" stroke="#6d4c41" strokeWidth="1.5" />
+          <line x1="4" y1="25" x2="44" y2="25" stroke="#6d4c41" strokeWidth="1" opacity="0.35" />
+          <line x1="24" y1="10" x2="24" y2="40" stroke="#6d4c41" strokeWidth="1" opacity="0.35" />
+          <rect x="9" y="40" width="30" height="10" rx="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.5" />
+          <ellipse cx="7" cy="43" rx="4" ry="5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2" />
+        </svg>
+      </motion.div>
+
+      {/* ════ Scene A：造成（手帶到跟前 → 🌊 在落腳點湧現）════ */}
+      {isWave && <>
+        <motion.div
+          animate={{ scale: [0,0,0, 1.4, 1, 0], opacity: [0,0,0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.50, 0.58, 0.72, 0.90] }}
+          style={{ position: 'absolute', right: '6%', top: '12%', fontSize: 44, zIndex: 9 }}
+        >{obj.emoji}</motion.div>
+        <motion.div
+          animate={{ opacity: [0,0,0, 0.5, 0.5, 0], scale: [0.2,0.2,0.2,1,1,0.2] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.50, 0.60, 0.74, 0.90] }}
+          style={{
+            position: 'absolute', right: 'calc(6% - 8px)', top: '8%',
+            width: 88, height: 88,
+            background: `radial-gradient(circle, ${glowColor}, transparent 68%)`,
+            borderRadius: '50%', zIndex: 3,
+          }}
+        />
+      </>}
+
+      {/* ════ Scene B：促成（手帶到跟前 → 🌱 從落腳點長出）════ */}
+      {!isWave && <>
+        <motion.div
+          animate={{ opacity: [0,0,0, 0.5, 0.5, 0], scaleX: [0,0,0,1,1,0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.48, 0.56, 0.74, 0.90] }}
+          style={{
+            position: 'absolute', right: '9%', top: '64%',
+            width: 80, height: 2,
+            background: 'linear-gradient(90deg, transparent, #a5d6a7, transparent)',
+            transformOrigin: 'center', zIndex: 4,
+          }}
+        />
+        <motion.div
+          animate={{
+            scale:   [0, 0, 0, 0.1, 0.4, 0.8, 1, 0],
+            opacity: [0, 0, 0, 0.4, 0.7, 0.9, 1, 0],
+            y:       [20,20,20, 14,  8,   2,  0, 20],
+          }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.48, 0.54, 0.62, 0.70, 0.78, 0.90] }}
+          style={{ position: 'absolute', right: '8%', top: '14%', fontSize: 44, zIndex: 9, transformOrigin: 'bottom center' }}
+        >{obj.emoji}</motion.div>
+        <motion.div
+          animate={{ opacity: [0,0,0, 0.45, 0.45, 0], scale: [0.1,0.1,0.1,1,1,0.1] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.48, 0.70, 0.78, 0.90] }}
+          style={{
+            position: 'absolute', right: 'calc(8% - 8px)', top: '10%',
+            width: 88, height: 88,
+            background: `radial-gradient(circle, ${glowColor}, transparent 68%)`,
+            borderRadius: '50%', zIndex: 3,
+          }}
+        />
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.6, 0.66, 0.82, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#795548', zIndex: 15,
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function RunCollideScene({ obj, meaning }) {
+  const isFriend = obj.label === '老朋友';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ─── 跑步人形（往右跑過去）─── */}
+      <motion.div
+        animate={{ x: [0, 0, 200, 196, 200, 200, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.06, 0.42, 0.46, 0.50, 0.76, 0.94], ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '4%', top: '18%', zIndex: 10 }}>
+        <motion.div
+          animate={{ y: [0, -4, 0, -4, 0] }}
+          transition={{ duration: 0.46, repeat: Infinity, ease: 'easeInOut' }}>
+          <svg width="40" height="54" viewBox="0 0 40 54">
+            <circle cx="20" cy="7" r="7" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2"/>
+            <line x1="20" y1="14" x2="18" y2="33" stroke="#4e342e" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="19" y1="21" x2="7"  y2="30" stroke="#4e342e" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="19" y1="21" x2="32" y2="27" stroke="#4e342e" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="18" y1="33" x2="30" y2="46" stroke="#4e342e" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="18" y1="33" x2="8"  y2="47" stroke="#4e342e" strokeWidth="3" strokeLinecap="round"/>
+            <rect x="26" y="44" width="11" height="5" rx="2.5" fill="#4e342e"/>
+            <rect x="4"  y="45" width="11" height="5" rx="2.5" fill="#4e342e"/>
+          </svg>
+        </motion.div>
+      </motion.div>
+
+      {/* ─── 軌跡箭頭（向右衝）─── */}
+      <motion.svg width="130" height="20"
+        style={{ position: 'absolute', left: 'calc(4% + 44px)', top: 'calc(18% + 24px)', zIndex: 6 }}
+        animate={{ opacity: [0, 0, 0.65, 0.65, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.06, 0.22, 0.48, 0.66] }}>
+        <path d="M 4 10 L 122 10" stroke="#795548" strokeWidth="2" strokeLinecap="round" strokeDasharray="6 4"/>
+        <polygon points="118,5 128,10 118,15" fill="#795548"/>
+      </motion.svg>
+
+      {/* ─── 撞擊閃光 ─── */}
+      <motion.div
+        animate={{ scale: [0,0,0, 2.4, 0, 0], opacity: [0,0,0, 0.8, 0, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.38, 0.44, 0.50, 0.94] }}
+        style={{
+          position: 'absolute', right: 'calc(6% + 16px)', top: '16%',
+          width: 46, height: 46, borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255,193,7,0.9), rgba(255,152,0,0.3) 55%, transparent 72%)',
+          zIndex: 8,
+        }}
+      />
+
+      {/* ════ Scene A：巧遇 ════ */}
+      {isFriend && <>
+        <div style={{ position: 'absolute', right: '6%', top: '18%', zIndex: 5 }}>
+          <svg width="34" height="54" viewBox="0 0 34 54">
+            <circle cx="17" cy="7" r="6.5" fill="#b3e5fc" stroke="#81d4fa" strokeWidth="1.2"/>
+            <line x1="17" y1="14" x2="17" y2="32" stroke="#0277bd" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="17" y1="21" x2="5"  y2="29" stroke="#0277bd" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="17" y1="21" x2="29" y2="29" stroke="#0277bd" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="17" y1="32" x2="24" y2="44" stroke="#0277bd" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="17" y1="32" x2="10" y2="44" stroke="#0277bd" strokeWidth="3" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <motion.div
+          animate={{ scale: [0,0,0, 1.3, 1, 0], opacity: [0,0,0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.46, 0.54, 0.70, 0.90] }}
+          style={{ position: 'absolute', right: 'calc(6% + 2px)', top: '3%', fontSize: 30, zIndex: 9 }}
+        >😮</motion.div>
+        <motion.div
+          animate={{ scale: [0,0,0, 1.15, 1, 0], opacity: [0,0,0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.54, 0.62, 0.76, 0.9] }}
+          style={{ position: 'absolute', right: 'calc(6% + 6px)', top: '72%', fontSize: 22, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ════ Scene B：遭遇障礙 ════ */}
+      {!isFriend && <>
+        <div style={{ position: 'absolute', right: '5%', top: '8%', zIndex: 5 }}>
+          <svg width="68" height="112" viewBox="0 0 68 112">
+            {[0,1,2,3,4].map(row => [0,1].map(col => (
+              <rect key={`${row}-${col}`}
+                x={col * 35 + 1} y={row * 23 + 1} width={32} height={20} rx="2"
+                fill={row % 2 === 0 ? '#ef9a9a' : '#e57373'} stroke="#c62828" strokeWidth="1.2"/>
+            )))}
+          </svg>
+        </div>
+        <motion.div
+          animate={{ scale: [0,0,0, 1.3, 1, 0], opacity: [0,0,0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.46, 0.54, 0.70, 0.90] }}
+          style={{ position: 'absolute', right: 'calc(5% + 12px)', top: '3%', fontSize: 30, zIndex: 9 }}
+        >💥</motion.div>
+        <motion.div
+          animate={{ scale: [0,0,0, 1.15, 1, 0], opacity: [0,0,0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.54, 0.62, 0.76, 0.9] }}
+          style={{ position: 'absolute', right: 'calc(5% + 20px)', top: '72%', fontSize: 22, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.6, 0.66, 0.82, 0.94] }}
+        style={{ position: 'absolute', bottom: 4, left: 0, right: 0, textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#4e342e', zIndex: 15 }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
 const SCENE_MAP = {
   'scan-penetrate': ScanPenetrateScene,
   'gaze-descend': GazeDescendScene,
@@ -2338,7 +3352,187 @@ const SCENE_MAP = {
   'spin-detach': SpinDetachScene,
   'spin-connect': SpinConnectScene,
   'spin-reverse': SpinReverseScene,
+  'carry-descend': CarryDescendScene,
+  'carry-ascend': CarryAscendScene,
+  'carry-exit': CarryExitScene,
+  'carry-return': CarryReturnScene,
+  'carry-enter': CarryEnterScene,
+  'carry-circle': CarryCircleScene,
+  'run-collide': RunCollideScene,
+  'run-descend': RunDescendScene,
+  'run-exit': RunExitScene,
 };
+
+function RunExitScene({ obj, meaning }) {
+  const isTime = obj.label === '時間';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ════ Scene A：時間跑光（量杯液體從滿到空）════ */}
+      {isTime && <>
+        {/* 量杯外框 */}
+        <div style={{ position: 'absolute', right: '8%', top: '6%', zIndex: 4 }}>
+          <svg width="64" height="130" viewBox="0 0 64 130">
+            <path d="M 8 4 L 56 4 L 56 118 Q 56 126 48 126 L 16 126 Q 8 126 8 118 Z"
+              fill="none" stroke="#90a4ae" strokeWidth="2.5" strokeLinejoin="round"/>
+            {[0.25,0.5,0.75].map((f,i) => (
+              <line key={i} x1="10" y1={118 - f*114} x2="20" y2={118 - f*114}
+                stroke="#90a4ae" strokeWidth="1" opacity="0.6"/>
+            ))}
+          </svg>
+        </div>
+        {/* 液體（從滿到空）*/}
+        <motion.div
+          animate={{ scaleY: [1, 1, 0, 0, 1], backgroundColor: ['#4fc3f7','#4fc3f7','#b3e5fc','#b3e5fc','#4fc3f7'] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.58, 0.76, 0.94], ease: 'easeOut' }}
+          style={{
+            position: 'absolute', right: 'calc(8% + 9px)', bottom: 'calc(94% - 122px)',
+            width: 46, height: 112, borderRadius: '0 0 10px 10px',
+            transformOrigin: 'bottom center', zIndex: 5,
+          }}
+        />
+        {/* 液體流出（從右側缺口）*/}
+        {[0,1,2].map(i => (
+          <motion.div key={i}
+            animate={{ x: [0,0, 30+i*14, 30+i*14, 0], y: [0,0, 10+i*8, 10+i*8, 0], opacity: [0, 0, 0.8, 0, 0] }}
+            transition={{ duration: 5, repeat: Infinity, times: [0, 0.10+i*0.06, 0.32+i*0.06, 0.42, 0.94], ease: 'easeOut' }}
+            style={{ position: 'absolute', right: 'calc(8% + 2px)', top: `${30 + i*14}%`, width: 8, height: 8, borderRadius: '50%', background: '#4fc3f7', zIndex: 8 }}
+          />
+        ))}
+        <motion.div
+          animate={{ scale: [0,0,0, 1.15, 1, 0], opacity: [0,0,0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.52, 0.62, 0.68, 0.78, 0.92] }}
+          style={{ position: 'absolute', right: 'calc(8% + 12px)', top: '2%', fontSize: 22, zIndex: 9 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ════ Scene B：存貨見底（箱子裡的東西跑出來）════ */}
+      {!isTime && <>
+        {/* 箱體（靜態）*/}
+        <div style={{ position: 'absolute', right: '6%', top: '20%', zIndex: 4 }}>
+          <svg width="96" height="88" viewBox="0 0 96 88">
+            <rect x="2" y="2" width="92" height="84" rx="4" fill="#fff8e1" stroke="#f9a825" strokeWidth="2"/>
+            <line x1="2" y1="30" x2="94" y2="30" stroke="#f9a825" strokeWidth="1.5"/>
+            <line x1="48" y1="2" x2="48" y2="30" stroke="#f9a825" strokeWidth="1" opacity="0.6"/>
+          </svg>
+        </div>
+        {/* 東西從箱口飛出（往右上方散開）*/}
+        {[
+          { dx: 28, dy: -30, delay: 0.08, size: 16, emoji: '📄' },
+          { dx: 46, dy: -20, delay: 0.14, size: 14, emoji: '🔧' },
+          { dx: 36, dy: -42, delay: 0.20, size: 15, emoji: '💊' },
+        ].map((item, i) => (
+          <motion.div key={i}
+            animate={{ x: [0,0, item.dx, item.dx, 0], y: [0,0, item.dy, item.dy, 0], opacity: [0, 0.8, 0.8, 0, 0] }}
+            transition={{ duration: 5, repeat: Infinity, times: [0, item.delay, 0.44, 0.52, 0.94], ease: 'easeOut' }}
+            style={{ position: 'absolute', right: 'calc(6% + 36px)', top: '24%', fontSize: item.size, zIndex: 8 }}
+          >{item.emoji}</motion.div>
+        ))}
+        {/* EMPTY 標示 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0.8, 0.8, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.46, 0.56, 0.76, 0.92] }}
+          style={{ position: 'absolute', right: 'calc(6% + 18px)', top: '44%', fontSize: 10, fontWeight: 900, color: '#ef9a9a', letterSpacing: 2, zIndex: 9 }}
+        >EMPTY</motion.div>
+        <motion.div
+          animate={{ scale: [0,0,0, 1.15, 1, 0], opacity: [0,0,0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.46, 0.58, 0.64, 0.76, 0.92] }}
+          style={{ position: 'absolute', right: 'calc(6% + 32px)', top: '4%', fontSize: 22, zIndex: 9 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.5, 0.55, 0.6, 0.66, 0.82, 0.94] }}
+        style={{ position: 'absolute', bottom: 4, left: 0, right: 0, textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#4e342e', zIndex: 15 }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function RunDescendScene({ obj, meaning }) {
+  const isBattery = obj.label === '電力';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ════ Scene A：電力耗盡（能量粒子往下流失）════ */}
+      {isBattery && <>
+        {/* 電池外框 */}
+        <div style={{ position: 'absolute', right: '8%', top: '6%', zIndex: 4 }}>
+          <svg width="52" height="114" viewBox="0 0 52 114">
+            <rect x="16" y="0" width="20" height="8" rx="3" fill="#9e9e9e"/>
+            <rect x="2" y="8" width="48" height="102" rx="5" fill="none" stroke="#757575" strokeWidth="2.5"/>
+          </svg>
+        </div>
+        {/* 電量條（從滿縮到底）*/}
+        <motion.div
+          animate={{ scaleY: [1,1, 0.08, 0.08, 1], backgroundColor: ['#66bb6a','#66bb6a','#ef5350','#ef5350','#66bb6a'] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.58, 0.76, 0.94], ease: 'easeOut' }}
+          style={{ position: 'absolute', right: 'calc(8% + 6px)', bottom: 'calc(94% - 104px)', width: 40, height: 96, transformOrigin: 'bottom center', borderRadius: '2px 2px 3px 3px', zIndex: 5 }}
+        />
+        {/* 能量粒子一路往下掉出底部 */}
+        {[0,1,2].map(i => (
+          <motion.div key={i}
+            animate={{ y: [0, 0, 60+i*18, 60+i*18, 0], opacity: [0, 0.7, 0, 0, 0] }}
+            transition={{ duration: 5, repeat: Infinity, times: [0, 0.10+i*0.05, 0.36+i*0.05, 0.44, 0.94], ease: 'easeIn' }}
+            style={{ position: 'absolute', right: 'calc(8% + 18px)', top: '78%', width: 8, height: 8, borderRadius: '50%', background: '#66bb6a', zIndex: 8 }}
+          />
+        ))}
+        <motion.div
+          animate={{ scale: [0,0,0,1.2,1,0], opacity: [0,0,0,1,1,0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0,0.44,0.58,0.66,0.76,0.90] }}
+          style={{ position: 'absolute', right: 'calc(8% + 6px)', top: '2%', fontSize: 22, zIndex: 9 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ════ Scene B：破舊荒廢（建築碎屑往下掉）════ */}
+      {!isBattery && <>
+        <div style={{ position: 'absolute', right: '6%', top: '6%', zIndex: 4 }}>
+          <svg width="80" height="122" viewBox="0 0 80 122">
+            <polygon points="40,6 4,34 76,34" fill="#bcaaa4" stroke="#a1887f" strokeWidth="1.5"/>
+            <rect x="8" y="34" width="64" height="84" fill="#efebe9" stroke="#bcaaa4" strokeWidth="1.5" rx="1"/>
+            <rect x="28" y="80" width="24" height="38" rx="3" fill="#a1887f" stroke="#795548" strokeWidth="1.2"/>
+            <rect x="12" y="44" width="18" height="16" rx="2" fill="#b3e5fc" stroke="#90caf9" strokeWidth="1"/>
+            <rect x="50" y="44" width="18" height="16" rx="2" fill="#b3e5fc" stroke="#90caf9" strokeWidth="1"/>
+          </svg>
+        </div>
+        {/* 裂縫 */}
+        <motion.svg width="80" height="122" viewBox="0 0 80 122"
+          style={{ position: 'absolute', right: '6%', top: '6%', zIndex: 6 }}
+          animate={{ opacity: [0,0,0,0.9,0.9,0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0,0.08,0.36,0.52,0.76,0.92] }}>
+          <path d="M 22 50 L 28 62 L 20 74" fill="none" stroke="#795548" strokeWidth="1.5" strokeLinecap="round"/>
+          <path d="M 54 48 L 60 58 L 56 70" fill="none" stroke="#795548" strokeWidth="1.5" strokeLinecap="round"/>
+        </motion.svg>
+        {/* 碎屑往下掉 */}
+        {[
+          { x: 'calc(6% + 20px)', delay: 0.10 },
+          { x: 'calc(6% + 45px)', delay: 0.18 },
+          { x: 'calc(6% + 60px)', delay: 0.24 },
+        ].map((item, i) => (
+          <motion.div key={i}
+            animate={{ y: [0, 0, 50+i*12, 50+i*12, 0], opacity: [0, 0.8, 0, 0, 0] }}
+            transition={{ duration: 5, repeat: Infinity, times: [0, item.delay, 0.40+i*0.04, 0.48, 0.94], ease: 'easeIn' }}
+            style={{ position: 'absolute', right: item.x, top: '30%', width: 6, height: 6, borderRadius: 1, background: '#bcaaa4', zIndex: 8 }}
+          />
+        ))}
+        <motion.div
+          animate={{ scale: [0,0,0,1.15,1,0], opacity: [0,0,0,1,1,0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0,0.44,0.56,0.64,0.76,0.90] }}
+          style={{ position: 'absolute', right: 'calc(6% + 20px)', top: '2%', fontSize: 22, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      <motion.div
+        animate={{ opacity: [0,0,0,0,0,1,1,0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0,0.4,0.5,0.55,0.6,0.66,0.82,0.94] }}
+        style={{ position: 'absolute', bottom: 4, left: 0, right: 0, textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#4e342e', zIndex: 15 }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
 
 export default function CoreTrajectoryScene({ coreMotion, meanings }) {
   const [idx, setIdx] = useState(0);

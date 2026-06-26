@@ -303,49 +303,152 @@ export const phrasalVerbData = {
   Bring: {
     down: {
       title: "Bring down",
-      spatial: "帶往下。",
+      spatial: "手把東西往下帶。",
+      coreMotion: 'carry-descend',
       meanings: [
-        { meaning: "降低", note: "把數字「帶下來」→ 降低成本、價格", example: "The company is trying to bring down production costs." },
-        { meaning: "擊垮、令人沮喪", note: "把人「帶垮往下」→ 讓人或情緒崩掉", example: "Don't let one bad code review bring you down." },
+        {
+          meaning: "降低、壓低",
+          plainEnglish: "to reduce something",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "📉", label: "物價" },
+          note: "手把東西「往下帶」→ 數字、價格往下壓",
+          example: "The supermarket is trying hard to bring down the prices.",
+        },
+        {
+          meaning: "讓人沮喪、打垮",
+          plainEnglish: "to make someone feel sad",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "😔", label: "心情" },
+          note: "把人的情緒「往下拉」→ 讓心情一落千丈",
+          example: "Don't let one bad grade bring you down.",
+        },
       ]
     },
     up: {
       title: "Bring up",
-      spatial: "帶往上。",
+      spatial: "手把東西往上帶。",
+      coreMotion: 'carry-ascend',
       meanings: [
-        { meaning: "提及、提出", note: "把話題「帶上來」桌面 → 主動談起", example: "Please don't bring up that issue during the meeting." },
-        { meaning: "撫養", note: "把孩子一路「帶上去」長高 → 養育長大", example: "She was brought up in a small town in southern Taiwan." },
+        {
+          meaning: "提到、講起",
+          plainEnglish: "to mention something",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "💬", label: "話題" },
+          note: "把話題「舉上桌面」→ 在對話中主動談起",
+          example: "Please don't bring that up again — it's already settled.",
+        },
+        {
+          meaning: "養大、扶養",
+          plainEnglish: "to raise a child",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "👦", label: "孩子" },
+          note: "把孩子「一路帶著往上長」→ 養育到長大成人",
+          example: "She was brought up by her grandparents in the countryside.",
+        },
       ]
     },
     out: {
       title: "Bring out",
-      spatial: "帶往外面。",
+      spatial: "手把東西從裡面帶出來。",
+      coreMotion: 'carry-exit',
       meanings: [
-        { meaning: "推出產品", note: "把東西「帶出來」公開 → 正式發布上市", example: "Apple brings out a new iPhone every year." },
-        { meaning: "激發潛能", note: "把內在的優點「帶出來」→ 讓隱藏的才華顯現", example: "The coach knows how to bring out the best in his players." },
+        {
+          meaning: "推出、上市",
+          plainEnglish: "to release something new",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "📦", label: "新品" },
+          note: "把東西從內部「帶出來」公開 → 正式發布上市",
+          example: "They're bringing out a new flavor next month.",
+        },
+        {
+          meaning: "激發、讓…展現",
+          plainEnglish: "to reveal the best in someone",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "✨", label: "潛能" },
+          note: "把藏在裡面的好東西「帶出來」→ 讓隱藏的才華顯現",
+          example: "The new coach really brings out the best in everyone.",
+        },
       ]
     },
     back: {
       title: "Bring back",
-      spatial: "帶回原點。",
+      spatial: "手把東西帶回原點。",
+      coreMotion: 'carry-return',
       meanings: [
-        { meaning: "帶回、恢復", note: "把消失的東西「帶回來」→ 恢復原本的狀態", example: "The team decided to bring back the old feature after user complaints." },
-        { meaning: "喚起回憶", note: "把過去的記憶「帶回來」眼前", example: "This old code style brings back memories of my very first internship." },
+        {
+          meaning: "帶回來",
+          plainEnglish: "to return something",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🧳", label: "伴手禮" },
+          note: "手把東西「帶回」原來的地方 → 歸還或從外地帶回",
+          example: "Can you bring back some snacks when you come home?",
+        },
+        {
+          meaning: "喚起回憶",
+          plainEnglish: "to make you remember something",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "📸", label: "回憶" },
+          note: "把沉睡在過去的畫面「帶回來」眼前 → 勾起懷念",
+          example: "That song brings back so many good memories.",
+        },
       ]
     },
     in: {
       title: "Bring in",
-      spatial: "帶進裡面。",
+      spatial: "手把東西帶進來裡面。",
+      coreMotion: 'carry-enter',
       meanings: [
-        { meaning: "引入、引進", note: "把外部的人才或技術「帶進來」內部", example: "We need to bring in a security consultant to audit the entire codebase." },
-        { meaning: "賺取收入", note: "把錢「帶進來」→ 創造營收", example: "The new product is bringing in a lot of revenue." },
+        {
+          meaning: "引進、請來",
+          plainEnglish: "to bring someone in from outside",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "👩‍💼", label: "外部專家" },
+          note: "把外面的人才「帶進來」內部 → 引入新資源或新血",
+          example: "They brought in a nutritionist to help design the menu.",
+        },
+        {
+          meaning: "賺進來、帶來收入",
+          plainEnglish: "to earn money",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "💰", label: "收入" },
+          note: "把錢「帶進來」口袋 → 創造收入",
+          example: "Her part-time job brings in an extra few thousand a month.",
+        },
       ]
     },
     about: {
       title: "Bring about",
-      spatial: "帶著繞一圈產生結果。",
+      spatial: "把某件事帶過來，讓結果在我們眼前發生。",
+      coreMotion: 'carry-circle',
       meanings: [
-        { meaning: "導致、促成", note: "行動「繞一圈」帶出新結果 → 使某事發生", example: "The new deployment strategy brought about a huge improvement in uptime." },
+        {
+          meaning: "造成、引發",
+          plainEnglish: "to cause something to happen",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🌊", label: "影響" },
+          note: "把那個「觸發點」帶過來，讓它在眼前發生 → 某個行動直接造成了後果",
+          example: "The new policy brought about a lot of confusion at work.",
+        },
+        {
+          meaning: "促成、帶來",
+          plainEnglish: "to make a change happen",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🌱", label: "改變" },
+          note: "把努力帶到眼前，讓改變在這裡發生 → 持續行動終於讓好事成真",
+          example: "Years of hard work finally brought about the change she had been fighting for.",
+        },
       ]
     }
   },
@@ -353,25 +456,29 @@ export const phrasalVerbData = {
   Run: {
     into: {
       title: "Run into",
-      spatial: "奔跑撞進去。",
+      spatial: "跑著跑著突然撞上某人或某事。",
+      coreMotion: 'run-collide',
       meanings: [
-        { meaning: "巧遇", note: "跑著「撞進」某人 → 意外碰到", example: "I ran into my old college roommate at the airport yesterday." },
-        { meaning: "遭遇問題", note: "跑著「撞進」障礙 → 碰上麻煩；同一套邏輯", example: "I ran into a serious system error while deploying the container." },
+        { meaning: "巧遇", plainEnglish: "to bump into someone", grammar: 'inseparable', followedBy: 'noun', sceneObject: { emoji: "🙋", label: "老朋友" }, note: "跑著跑著突然「撞見」熟人 → 意外碰到", example: "I ran into my old college roommate at the airport yesterday." },
+        { meaning: "遭遇（問題）", plainEnglish: "to encounter a problem", grammar: 'inseparable', followedBy: 'noun', sceneObject: { emoji: "🧱", label: "障礙" }, note: "跑著跑著「撞上」障礙物 → 碰上麻煩", example: "I ran into a serious system error while deploying the container." },
       ]
     },
     down: {
       title: "Run down",
-      spatial: "奔跑往下。",
+      spatial: "跑著往下、能量一路流失。",
+      coreMotion: 'run-descend',
       meanings: [
-        { meaning: "耗盡、電力不足", note: "能量「跑著往下墜」到零 → 電池沒電", example: "The battery is running down, I need to find a charger." },
-        { meaning: "破舊荒廢", note: "狀態一路「往下滑」→ 年久失修", example: "The office building is looking really run-down these days." },
+        { meaning: "耗盡（電力／能量）", plainEnglish: "to drain out of power", grammar: 'intransitive', followedBy: null, sceneObject: { emoji: "🔋", label: "電力" }, note: "能量「跑著往下墜」到零 → 電池快沒電了", example: "The battery is running down, I need to find a charger." },
+        { meaning: "破舊荒廢", plainEnglish: "to become rundown", grammar: 'intransitive', followedBy: null, sceneObject: { emoji: "🏚️", label: "廢墟" }, note: "狀態「一路往下滑」→ 年久失修、沒人維護", example: "The office building is looking really run-down these days." },
       ]
     },
     out: {
       title: "Run out (of)",
-      spatial: "奔跑出容器。",
+      spatial: "跑著跑著就跑光了——容器裡的東西全衝出去了。",
+      coreMotion: 'run-exit',
       meanings: [
-        { meaning: "用光、耗盡", note: "東西「跑出」容器 → 裡面空了什麼都不剩", example: "We are running out of time, we must make a decision now." },
+        { meaning: "用光（時間）", plainEnglish: "to run out of time", grammar: 'inseparable', followedBy: 'noun', sceneObject: { emoji: "⏳", label: "時間" }, note: "時間「跑光了」→ 剩下的越來越少直到歸零", example: "We are running out of time, we must make a decision now." },
+        { meaning: "用光（東西）", plainEnglish: "to use up all of something", grammar: 'inseparable', followedBy: 'noun', sceneObject: { emoji: "📦", label: "存貨" }, note: "庫存「跑光了」→ 箱子空了什麼都不剩", example: "The café ran out of oat milk by ten in the morning." },
       ]
     },
     over: {

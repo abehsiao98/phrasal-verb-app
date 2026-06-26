@@ -36,12 +36,12 @@
 - [x] Turn around
 
 ### Bring
-- [ ] Bring down
-- [ ] Bring up
-- [ ] Bring out
-- [ ] Bring back
-- [ ] Bring in
-- [ ] Bring about
+- [x] Bring down
+- [x] Bring up
+- [x] Bring out
+- [x] Bring back
+- [x] Bring in
+- [x] Bring about
 
 ### Run
 - [ ] Run into
