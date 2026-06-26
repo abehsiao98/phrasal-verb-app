@@ -28,12 +28,12 @@
 
 ### Turn
 - [x] Turn into
-- [ ] Turn down
-- [ ] Turn up
-- [ ] Turn out
-- [ ] Turn off
-- [ ] Turn on
-- [ ] Turn around
+- [x] Turn down
+- [x] Turn up
+- [x] Turn out
+- [x] Turn off
+- [x] Turn on
+- [x] Turn around
 
 ### Bring
 - [ ] Bring down

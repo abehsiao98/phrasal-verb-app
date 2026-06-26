@@ -127,6 +127,87 @@
 
 ---
 
+### 4. 動畫實作規則（從 Look 系列 + Turn 系列歸納）
+
+#### A. 動詞視覺元素一致性
+
+**每個動詞對應一個固定的視覺物件，在該動詞的所有片語場景中保持一致。**
+
+| 動詞 | 視覺物件 | 核心物理動作 |
+|------|----------|-------------|
+| Look | 眼睛 + 視線光束 | 視線射出，方向由介係詞決定 |
+| Turn | 旋鈕（dial） | 旋鈕旋轉，方向/幅度由介係詞決定 |
+
+*   同一動詞的所有 Xxxscene 都以這個視覺物件為左側出發點。
+*   **不要** 為了「感覺更直觀」就換掉動詞元素——一致性才是學習價值所在。
+
+#### B. CoreMotion 命名規則
+
+格式：`動詞縮寫-粒子語意`
+
+| 範例 | 說明 |
+|------|------|
+| `scan-penetrate` | Look（掃描）+ into（穿入）|
+| `gaze-descend` | Look（凝視）+ down on（往下） |
+| `spin-detach` | Turn（旋轉）+ off（脫離接觸）|
+| `spin-connect` | Turn（旋轉）+ on（接上）|
+| `spin-reverse` | Turn（旋轉）+ around（逆轉方向）|
+
+*   粒子語意用英文描述**空間動作**，不直接用介係詞本身（因為同一介係詞可能對應多個不同 coreMotion）。
+*   新增場景後**必須立刻**在 `SCENE_MAP` 中登錄，否則瀏覽器只會看到 FallbackScene 而無法除錯。
+
+#### C. Scene 函式結構模式
+
+每個 `SpinXxxScene`（或 `GazeXxxScene`）遵循同一結構：
+
+```
+1. 動詞元素（左側）  ── 旋鈕 / 眼睛
+2. 軌跡連接（中段）  ── 連接線 / 光束 / 弧線
+3. 結果物件（右側）  ── 由 obj.emoji / obj.label 決定
+4. 意思文字（底部）  ── {meaning}
+```
+
+多意思分支用 `obj.label` 判斷（**不要用 `obj.emoji`**，emoji 可能被改掉）：
+
+```jsx
+const isReject = obj.label === '提議';  // ✅ 正確
+const isReject = obj.emoji === '🙅';   // ❌ 脆弱，emoji 一換就壞
+```
+
+#### D. 對稱設計原則
+
+**意思相反的片語，動畫應設計成彼此的鏡像。** 這讓學習者能感受到語言本身的對稱邏輯。
+
+*   **Turn off vs Turn on**：旋鈕方向相反（ON→OFF 逆時針 / OFF→ON 順時針）、連接線一縮一長、物件一暗一亮。
+*   **Turn down vs Turn up**：旋鈕從 H→L（逆時針）vs L→H（順時針），音量/提議視覺一降一升。
+*   設計新片語時，先想「這個片語有沒有反義詞？」——如果有，從反義詞的動畫鏡像出發往往最快。
+
+#### E. SVG 技術規則
+
+1.  **Gradient ID 必須全域唯一**：每個 Scene 函式自己的 `<radialGradient>` 必須用不同 `id`。
+    *   命名規則：`dialBG`（基礎）、`dialBGUp`、`dialBGDetach`、`dialBGConnect`... 依此類推。
+    *   ID 衝突會導致所有使用相同 ID 的場景共用同一個漸層，顏色全部跑掉。
+
+2.  **SVG 路徑繪製動畫**：用 Framer Motion 的 `pathLength` 屬性做「路徑逐漸畫出」效果。
+    ```jsx
+    <motion.path
+      d="M 70 38 L 162 38 A 27 27 0 0 1 162 92 L 70 92"
+      animate={{ pathLength: [0, 0, 1, 1, 0] }}
+      transition={{ duration: 5, repeat: Infinity, times: [...] }}
+    />
+    ```
+    *   不需要手動計算 `strokeDashoffset`，Framer Motion 內建支援。
+    *   `pathLength` 值範圍 0～1，0 = 未畫，1 = 全部畫完。
+
+3.  **動畫時間軸（五段式）**：所有 `times` 陣列遵循同一節奏：
+    ```
+    [0,    0.08,  0.44,  0.76,  0.94]
+     靜止   開始   到位   維持   還原
+    ```
+    *   動詞元素（旋鈕）與軌跡連接共用同一時間軸基準，確保視覺同步。
+
+---
+
 ### 3. 當前進度與已知問題 (Current Progress & Known Issues)
 
 **已完成的檔案變更：**

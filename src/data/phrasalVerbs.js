@@ -250,47 +250,52 @@ export const phrasalVerbData = {
       spatial: "旋轉往下。",
       coreMotion: 'spin-descend',
       meanings: [
-        { meaning: "拒絕", plainEnglish: "to say no to an offer", grammar: ['transitive', 'separable'], sceneObject: { emoji: "🙅", label: "拒絕提議" }, note: "把對方的提議「往下轉」冷掉 → 回絕", example: "She turned down the job offer because she didn't want to move." },
-        { meaning: "調低", plainEnglish: "to make it lower or quieter", grammar: ['transitive', 'separable'], sceneObject: { emoji: "🔉", label: "轉小聲" }, note: "旋鈕「往下轉」→ 音量、溫度降低", example: "Could you turn down the music? I'm trying to concentrate." },
+        { meaning: "婉拒、推掉", plainEnglish: "to say no to an offer", grammar: 'separable', followedBy: 'noun', sceneObject: { emoji: "📋", label: "提議" }, note: "把對方的提議「往下轉」冷掉 → 回絕", example: "She turned down the job offer because the pay was too low." },
+        { meaning: "調小聲、調低", plainEnglish: "to make it quieter or lower", grammar: 'separable', followedBy: 'noun', sceneObject: { emoji: "🔉", label: "音量" }, note: "旋鈕「往下轉」→ 音量、溫度降低", example: "Can you turn down the TV? The baby is sleeping." },
       ]
     },
     up: {
       title: "Turn up",
       spatial: "旋轉往上 / 浮上來。",
+      coreMotion: 'spin-ascend',
       meanings: [
-        { meaning: "出現、現身", note: "原本沉底的東西「轉上來」→ 意外浮現", example: "Don't worry, your missing keys will turn up sooner or later." },
-        { meaning: "調高", note: "「往上轉」→ 音量、溫度升高", example: "Turn up the volume — I can't hear the meeting." },
+        { meaning: "意外出現、冒出來", plainEnglish: "to show up unexpectedly", grammar: 'intransitive', sceneObject: { emoji: "🔑", label: "失蹤物" }, note: "沉底的東西「往上轉出來」→ 意外浮現", example: "Don't worry, your missing wallet will turn up." },
+        { meaning: "調大聲、調高", plainEnglish: "to make it louder or higher", grammar: 'separable', followedBy: 'noun', sceneObject: { emoji: "🔊", label: "音量" }, note: "旋鈕「往上轉」→ 音量、溫度升高", example: "Can you turn up the TV? I can barely hear it." },
       ]
     },
     out: {
       title: "Turn out",
       spatial: "轉動後結果跑到外面。",
+      coreMotion: 'spin-exit',
       meanings: [
-        { meaning: "結果是...", note: "經過一番運作，結果「轉出來」→ 最終呈現的結局", example: "The weather was bad, but the event turned out to be a huge success." },
-        { meaning: "出席、到場", note: "人們「走出來」到場 → 大量出席", example: "A large crowd turned out for the product launch." },
+        { meaning: "結果竟然、沒想到", plainEnglish: "to end up a certain way", grammar: 'intransitive', followedBy: 'to V', sceneObject: { emoji: "🎁", label: "最終結果" }, note: "事情一番運轉後，真相「轉出來」→ 最終揭曉", example: "She turned out to be my old classmate." },
       ]
     },
     off: {
       title: "Turn off",
       spatial: "轉離，脫離接觸。",
+      coreMotion: 'spin-detach',
       meanings: [
-        { meaning: "關閉", note: "開關「轉離」接通位置 → 停止運作", example: "Don't forget to turn off the dev server before you leave for the weekend." },
-        { meaning: "令人反感", note: "興趣「被轉掉」→ 失去好感；和關閉同一套邏輯", example: "The messy codebase really turned off the new hire." },
+        { meaning: "關掉", plainEnglish: "to stop something from working", grammar: 'separable', followedBy: 'noun', sceneObject: { emoji: "💡", label: "電器" }, note: "開關「轉離」接通位置 → 電流切斷，停止運作", example: "Don't forget to turn off the lights when you leave." },
+        { meaning: "讓人倒胃口、掃興", plainEnglish: "to make someone lose interest", grammar: 'separable', followedBy: 'noun', sceneObject: { emoji: "😒", label: "失去興趣" }, note: "好感的「電源被轉掉」→ 興趣斷電", example: "His bad attitude really turns me off." },
       ]
     },
     on: {
       title: "Turn on",
       spatial: "轉到，接上接觸。",
+      coreMotion: 'spin-connect',
       meanings: [
-        { meaning: "開啟", note: "開關「轉到」接通位置 → 開始運作", example: "Turn on the VPN before you access the production database." },
+        { meaning: "打開、開啟", plainEnglish: "to make something start working", grammar: 'separable', followedBy: 'noun', sceneObject: { emoji: "💡", label: "電器" }, note: "開關「轉到」接通位置 → 電流接上，開始運作", example: "Can you turn on the lights? It's getting dark in here." },
+        { meaning: "讓人來電、有吸引力", plainEnglish: "to make someone feel attracted", grammar: 'separable', followedBy: 'noun', sceneObject: { emoji: "😍", label: "被吸引" }, note: "好感的「電源接上」→ 興趣通電，來電了", example: "Confidence is the thing that turns me on the most." },
       ]
     },
     around: {
       title: "Turn around",
       spatial: "整個轉一圈，方向相反。",
+      coreMotion: 'spin-reverse',
       meanings: [
-        { meaning: "轉身、調頭", note: "「轉 180 度」→ 改變方向", example: "I forgot my badge and had to turn around and go back home." },
-        { meaning: "扭轉局面", note: "把下滑的局面「整個轉過來」→ 從壞變好", example: "The new product manager helped turn the failing project completely around." },
+        { meaning: "轉身、調頭", plainEnglish: "to face or go the opposite way", grammar: 'intransitive', sceneObject: { emoji: "🚶", label: "人" }, note: "「轉 180 度」→ 整個面向反方向", example: "I called her name and she turned around and smiled." },
+        { meaning: "扭轉局面、讓情況好轉", plainEnglish: "to make a bad situation better", grammar: 'separable', followedBy: 'noun', sceneObject: { emoji: "📉", label: "壞局面" }, note: "把下滑的局面「整個轉過來」→ 從壞變好", example: "He was failing all his classes, but turned things around in the second semester." },
       ]
     }
   },

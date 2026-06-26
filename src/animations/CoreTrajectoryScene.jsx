@@ -531,129 +531,182 @@ function ScanAscendScene({ obj, meaning }) {
 }
 
 function SpinDescendScene({ obj, meaning }) {
-  const isReject = obj.emoji === '🙅';
+  const isReject = obj.label === '提議';
+
+  // 旋鈕從 HIGH（右上 60°）逆時針轉到 LOW（左下 -150°）
+  // 時間軸：靜止 → 開始轉 → 轉到底 → 維持 → 還原
+  // times: [0, 0.08, 0.42, 0.76, 0.94]
 
   return (
     <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
 
-      {/* ─── 旋鈕（Turn = 旋轉，中左側） ─── */}
-      <div style={{
-        position: 'absolute', left: '10%', top: '30%', zIndex: 10,
-      }}>
-        <svg width="50" height="50" viewBox="0 0 50 50">
-          <circle cx="25" cy="25" r="22" fill="none" stroke="#e0e0e0" strokeWidth="2" />
-          <circle cx="25" cy="25" r="18" fill="url(#dialGradTD)" stroke="#757575" strokeWidth="2" />
+      {/* ══════════════════════════════════════════
+          Turn = 旋轉旋鈕 (左側，核心動詞元素)
+          ══════════════════════════════════════════ */}
+      <div style={{ position: 'absolute', left: '6%', top: '22%', zIndex: 10 }}>
+        <svg width="58" height="58" viewBox="0 0 58 58">
+          {/* 底環 */}
+          <circle cx="29" cy="29" r="27" fill="none" stroke="#e8e8e8" strokeWidth="2" />
+          {/* 旋鈕本體 */}
+          <circle cx="29" cy="29" r="22" fill="url(#dialBG)" stroke="#9e9e9e" strokeWidth="1.5" />
           <defs>
-            <linearGradient id="dialGradTD" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#eee" />
-              <stop offset="100%" stopColor="#bdbdbd" />
-            </linearGradient>
+            <radialGradient id="dialBG" cx="35%" cy="30%">
+              <stop offset="0%" stopColor="#f8f8f8" />
+              <stop offset="100%" stopColor="#b8b8b8" />
+            </radialGradient>
           </defs>
-          <circle cx="25" cy="25" r="4" fill="#424242" />
+          {/* H 刻度（右上 60° 方向） */}
+          <line x1="43" y1="16" x2="40" y2="19" stroke="#ef5350" strokeWidth="2.5" strokeLinecap="round" />
+          {/* L 刻度（左下 -150° 方向） */}
+          <line x1="12" y1="44" x2="16" y2="41" stroke="#42a5f5" strokeWidth="2.5" strokeLinecap="round" />
+          {/* 中心軸 */}
+          <circle cx="29" cy="29" r="4" fill="#333" />
         </svg>
-        {/* 指針（往下轉） */}
+
+        {/* H / L 標籤 */}
+        <div style={{ position: 'absolute', top: -2, right: -14, fontSize: 9, color: '#ef5350', fontWeight: 800 }}>H</div>
+        <div style={{ position: 'absolute', bottom: 0, left: -14, fontSize: 9, color: '#42a5f5', fontWeight: 800 }}>L</div>
+
+        {/* 指針：從 60°（H 方向）逆時針轉到 -150°（L 方向） */}
         <motion.div
-          animate={{ rotate: [-30, -30, 90, 90, -30] }}
-          transition={{ duration: 5, repeat: Infinity, times: [0, 0.15, 0.45, 0.8, 0.95] }}
+          animate={{ rotate: [60, 60, -150, -150, 60] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.76, 0.94], ease: 'easeInOut' }}
           style={{
-            position: 'absolute', top: 21, left: 13, width: 24, height: 3,
-            background: '#d32f2f', borderRadius: 2,
-            transformOrigin: 'right center',
+            position: 'absolute', top: 26, left: 14,
+            width: 30, height: 4,
+            background: 'linear-gradient(90deg, #555, #d32f2f)',
+            borderRadius: 2, transformOrigin: 'right center',
           }}
         />
+
+        {/* 旋鈕旋轉時的動態圓弧（表示逆時針旋轉動作） */}
+        <motion.svg width="58" height="58" viewBox="0 0 58 58"
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          animate={{ opacity: [0, 0, 0.5, 0.5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.25, 0.42, 0.5] }}>
+          <path d="M 40 12 A 20 20 0 1 0 14 46"
+            fill="none" stroke="#d32f2f" strokeWidth="1.5" strokeDasharray="5 4"
+            strokeLinecap="round" />
+          {/* 逆時針箭頭頭部 */}
+          <polygon points="12,40 18,46 20,39" fill="#d32f2f" opacity="0.7" />
+        </motion.svg>
       </div>
 
-      {/* ─── DOWN 方向箭頭 ─── */}
-      <motion.div
-        animate={{ y: [0, 0, 12, 12, 0], opacity: [0, 0, 0.6, 0.6, 0] }}
-        transition={{ duration: 5, repeat: Infinity, times: [0, 0.2, 0.45, 0.7, 0.85] }}
-        style={{
-          position: 'absolute', left: 'calc(10% + 18px)', top: 'calc(30% + 52px)',
-          width: 0, height: 0,
-          borderLeft: '6px solid transparent', borderRight: '6px solid transparent',
-          borderTop: '8px solid #d32f2f', zIndex: 8,
-        }}
-      />
+      {/* ══════════════════════════════════════════
+          DOWN = 旋轉結果往下的連接軌跡
+          (從旋鈕延伸到右邊場景，是視覺上的因果橋)
+          ══════════════════════════════════════════ */}
+      <motion.svg width="100" height="80"
+        style={{ position: 'absolute', left: 'calc(6% + 56px)', top: 'calc(22% + 10px)', zIndex: 6 }}
+        animate={{ opacity: [0, 0, 0.55, 0.55, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.28, 0.44, 0.72, 0.86] }}>
+        {/* 從旋鈕中心彎向右下方的路徑 */}
+        <path d="M 4 20 C 30 20 50 55 90 68"
+          fill="none" stroke="#d32f2f" strokeWidth="2" strokeDasharray="5 3" strokeLinecap="round" />
+        {/* 箭頭（往右下） */}
+        <polygon points="84,62 94,72 80,74" fill="#d32f2f" opacity="0.8" />
+      </motion.svg>
 
-      {/* ════════ 場景 A：拒絕 — 提議卡片被推落 ════════ */}
+      {/* ══════════════════════════════════════════
+          場景 A：婉拒 (提議)
+          腦中畫面：旋鈕轉到底 → 提議卡片被「轉下去」面朝下 → 冷掉了
+          ══════════════════════════════════════════ */}
       {isReject && <>
+        {/* 提議卡片（右上，初始正面朝上） */}
         <motion.div
           animate={{
-            y: [0, 0, 0, 50, 80],
-            rotate: [0, 0, 0, -15, -25],
-            opacity: [0.9, 0.9, 0.9, 0.5, 0],
+            y:       [0,    0,    0,    0,    52,   80],
+            rotateZ: [0,    0,    0,    0,   -22,  -35],
+            opacity: [1,    1,    1,    1,    0.6,   0],
           }}
-          transition={{ duration: 5, repeat: Infinity, times: [0, 0.15, 0.4, 0.6, 0.75] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.38, 0.44, 0.6, 0.72], ease: 'easeIn' }}
           style={{
-            position: 'absolute', right: '12%', top: '15%',
-            width: 75, height: 50, background: '#fff8e1',
-            border: '2px solid #ffcc80', borderRadius: 6,
-            padding: '6px 8px', zIndex: 5,
-            display: 'flex', flexDirection: 'column', gap: 4,
+            position: 'absolute', right: '8%', top: '8%',
+            width: 84, height: 60, background: '#fff8e1',
+            border: '2px solid #ffcc80', borderRadius: 7,
+            padding: '8px 9px', zIndex: 5,
+            display: 'flex', flexDirection: 'column', gap: 5,
+            boxShadow: '0 3px 10px rgba(0,0,0,0.10)',
           }}
         >
-          <div style={{ fontSize: 9, fontWeight: 700, color: '#e65100' }}>OFFER</div>
+          <div style={{ fontSize: 9, fontWeight: 700, color: '#e65100', letterSpacing: 0.8 }}>OFFER</div>
           <div style={{ height: 2, background: '#ffe0b2', borderRadius: 1, width: '80%' }} />
           <div style={{ height: 2, background: '#ffe0b2', borderRadius: 1, width: '55%' }} />
+          <div style={{ height: 2, background: '#ffecb3', borderRadius: 1, width: '70%' }} />
         </motion.div>
-        {/* 拒絕 X 標記 */}
+
+        {/* ✕ — 旋鈕轉到底的瞬間出現 */}
         <motion.div
-          animate={{ scale: [0, 0, 0, 1.2, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
-          transition={{ duration: 5, repeat: Infinity, times: [0, 0.35, 0.42, 0.48, 0.7, 0.82] }}
+          animate={{ scale: [0, 0, 0, 1.4, 1, 1, 0], opacity: [0, 0, 0, 1, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.36, 0.43, 0.48, 0.52, 0.68, 0.8] }}
           style={{
-            position: 'absolute', right: 'calc(12% + 22px)', top: 'calc(15% + 10px)',
-            fontSize: 28, fontWeight: 900, color: '#d32f2f', zIndex: 12,
+            position: 'absolute', right: 'calc(8% + 20px)', top: 'calc(8% + 12px)',
+            fontSize: 30, fontWeight: 900, color: '#d32f2f', zIndex: 13, lineHeight: 1,
           }}
-        >
-          ✕
-        </motion.div>
+        >✕</motion.div>
+
+        {/* sceneObject 📋 */}
         <motion.div
-          animate={{ scale: [0, 0, 0, 1.1, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
-          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.55, 0.72, 0.85] }}
+          animate={{ scale: [0, 0, 0, 1.15, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.56, 0.72, 0.84] }}
           style={{
-            position: 'absolute', right: '15%', top: '18%',
-            fontSize: 22, zIndex: 14,
+            position: 'absolute', right: '21%', top: '14%',
+            fontSize: 24, zIndex: 14,
           }}
-        >
-          {obj.emoji}
-        </motion.div>
+        >{obj.emoji}</motion.div>
       </>}
 
-      {/* ════════ 場景 B：調低 — 音量條降低 ════════ */}
+      {/* ══════════════════════════════════════════
+          場景 B：調低 (音量)
+          腦中畫面：旋鈕逆時針轉 → 音量條同步從高降到低
+          ══════════════════════════════════════════ */}
       {!isReject && <>
+        {/* 音量條（7格，底部對齊，跟旋鈕同步縮小） */}
         <div style={{
-          position: 'absolute', right: '15%', top: '15%', bottom: '25%',
-          width: 30, display: 'flex', flexDirection: 'column-reverse',
-          gap: 3, zIndex: 4,
+          position: 'absolute', right: '10%', top: '8%', bottom: '20%',
+          width: 36, display: 'flex', flexDirection: 'column-reverse', gap: 3, zIndex: 4,
+          alignItems: 'stretch',
         }}>
           {[0, 1, 2, 3, 4, 5, 6].map(i => (
             <motion.div key={i}
               animate={{
-                opacity: [i < 5 ? 0.8 : 0.3, i < 5 ? 0.8 : 0.3, i < 2 ? 0.8 : 0.15, i < 2 ? 0.8 : 0.15, i < 5 ? 0.8 : 0.3],
+                scaleY: [1, 1, i < 2 ? 1 : 0, i < 2 ? 1 : 0, 1],
                 backgroundColor: [
-                  i < 5 ? '#4caf50' : '#e0e0e0',
-                  i < 5 ? '#4caf50' : '#e0e0e0',
-                  i < 2 ? '#ff9800' : '#e0e0e0',
-                  i < 2 ? '#ff9800' : '#e0e0e0',
-                  i < 5 ? '#4caf50' : '#e0e0e0',
+                  i >= 5 ? '#ef5350' : i >= 3 ? '#ff9800' : '#4caf50',
+                  i >= 5 ? '#ef5350' : i >= 3 ? '#ff9800' : '#4caf50',
+                  i < 2 ? '#4caf50' : '#e0e0e0',
+                  i < 2 ? '#4caf50' : '#e0e0e0',
+                  i >= 5 ? '#ef5350' : i >= 3 ? '#ff9800' : '#4caf50',
                 ],
               }}
-              transition={{ duration: 5, repeat: Infinity, times: [0, 0.15, 0.45, 0.78, 0.95] }}
-              style={{ height: 8, borderRadius: 2 }}
+              transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.76, 0.94], ease: 'easeInOut' }}
+              style={{ height: 10, borderRadius: 2, transformOrigin: 'bottom center' }}
             />
           ))}
         </div>
-        {/* 音量 icon */}
+
+        {/* 連接線：旋鈕→音量條（視覺因果橋，轉動時亮起） */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0.18, 0.18, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.25, 0.6, 0.76] }}
+          style={{
+            position: 'absolute',
+            left: 'calc(6% + 30px)', right: '10%',
+            top: 'calc(22% + 29px)', height: 2,
+            background: 'linear-gradient(90deg, #d32f2f, #ff9800)',
+            borderRadius: 1,
+          }}
+        />
+
+        {/* 🔉 emoji — 旋鈕轉完後出現 */}
         <motion.div
           animate={{ scale: [0, 0, 0, 1.1, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
-          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.55, 0.78, 0.9] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.56, 0.72, 0.88] }}
           style={{
-            position: 'absolute', right: 'calc(15% + 35px)', top: '35%',
-            fontSize: 24, zIndex: 12,
+            position: 'absolute', right: 'calc(10% + 42px)', top: '34%',
+            fontSize: 26, zIndex: 12,
           }}
-        >
-          {obj.emoji}
-        </motion.div>
+        >{obj.emoji}</motion.div>
       </>}
 
       {/* ─── meaning 文字 ─── */}
@@ -664,9 +717,782 @@ function SpinDescendScene({ obj, meaning }) {
           position: 'absolute', bottom: 4, left: 0, right: 0,
           textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#d32f2f',
         }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function SpinAscendScene({ obj, meaning }) {
+  const isAppear = obj.label === '失蹤物';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ══════════════════════════════════════════
+          Turn = 旋轉旋鈕（左側，順時針 = 往上）
+          ══════════════════════════════════════════ */}
+      <div style={{ position: 'absolute', left: '6%', top: '42%', zIndex: 10 }}>
+        <svg width="58" height="58" viewBox="0 0 58 58">
+          <circle cx="29" cy="29" r="27" fill="none" stroke="#e8e8e8" strokeWidth="2" />
+          <circle cx="29" cy="29" r="22" fill="url(#dialBGUp)" stroke="#9e9e9e" strokeWidth="1.5" />
+          <defs>
+            <radialGradient id="dialBGUp" cx="35%" cy="30%">
+              <stop offset="0%" stopColor="#f8f8f8" />
+              <stop offset="100%" stopColor="#b8b8b8" />
+            </radialGradient>
+          </defs>
+          {/* L 刻度（左下 -150°） */}
+          <line x1="12" y1="44" x2="16" y2="41" stroke="#42a5f5" strokeWidth="2.5" strokeLinecap="round" />
+          {/* H 刻度（右上 60°） */}
+          <line x1="43" y1="16" x2="40" y2="19" stroke="#ef5350" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="29" cy="29" r="4" fill="#333" />
+        </svg>
+        <div style={{ position: 'absolute', bottom: 0, left: -14, fontSize: 9, color: '#42a5f5', fontWeight: 800 }}>L</div>
+        <div style={{ position: 'absolute', top: -2, right: -14, fontSize: 9, color: '#ef5350', fontWeight: 800 }}>H</div>
+
+        {/* 指針：從 L（-150°）順時針轉到 H（60°）*/}
+        <motion.div
+          animate={{ rotate: [-150, -150, 60, 60, -150] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', top: 26, left: 14,
+            width: 30, height: 4,
+            background: 'linear-gradient(90deg, #555, #e53935)',
+            borderRadius: 2, transformOrigin: 'right center',
+          }}
+        />
+
+        {/* 順時針旋轉弧線 */}
+        <motion.svg width="58" height="58" viewBox="0 0 58 58"
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          animate={{ opacity: [0, 0, 0.5, 0.5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.25, 0.42, 0.5] }}>
+          <path d="M 14 46 A 20 20 0 1 1 44 14"
+            fill="none" stroke="#e53935" strokeWidth="1.5" strokeDasharray="5 4" strokeLinecap="round" />
+          <polygon points="40,10 46,18 38,18" fill="#e53935" opacity="0.7" />
+        </motion.svg>
+      </div>
+
+      {/* ══════════════════════════════════════════
+          UP 連接軌跡：從旋鈕往右上延伸
+          ══════════════════════════════════════════ */}
+      <motion.svg width="100" height="80"
+        style={{ position: 'absolute', left: 'calc(6% + 56px)', top: 'calc(42% - 55px)', zIndex: 6 }}
+        animate={{ opacity: [0, 0, 0.55, 0.55, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.28, 0.44, 0.72, 0.86] }}>
+        <path d="M 4 68 C 30 68 50 20 90 8"
+          fill="none" stroke="#e53935" strokeWidth="2" strokeDasharray="5 3" strokeLinecap="round" />
+        <polygon points="86,4 96,12 82,14" fill="#e53935" opacity="0.8" />
+      </motion.svg>
+
+      {/* ════════════════════════════════════════════
+          場景 A：意外出現（失蹤物）
+          腦中畫面：沉底的東西「轉上來」穿過水面，意外浮現
+          ════════════════════════════════════════════ */}
+      {isAppear && <>
+        {/* 水面線（右側） */}
+        <div style={{
+          position: 'absolute', right: '8%', top: '52%',
+          width: 90, height: 2, background: '#90caf9', borderRadius: 1, zIndex: 4,
+        }} />
+        {/* 水面下的暗色區域 */}
+        <div style={{
+          position: 'absolute', right: '8%', top: '52%', bottom: '15%',
+          width: 90,
+          background: 'linear-gradient(180deg, rgba(144,202,249,0.2), rgba(21,101,192,0.08))',
+          zIndex: 3,
+        }} />
+        {/* 水面上的氣泡（東西要浮上來的預兆） */}
+        {[0, 1].map(i => (
+          <motion.div key={i}
+            animate={{ y: [0, 0, -28, -28, 0], opacity: [0, 0.5, 0, 0, 0] }}
+            transition={{ duration: 5, repeat: Infinity, times: [0, 0.1, 0.35, 0.4, 0.5], delay: i * 0.3 }}
+            style={{
+              position: 'absolute',
+              right: `calc(8% + ${20 + i * 25}px)`, top: '70%',
+              width: 5 + i * 3, height: 5 + i * 3,
+              border: '1.5px solid #90caf9', borderRadius: '50%', zIndex: 5,
+            }}
+          />
+        ))}
+        {/* sceneObject 從水面下浮出 */}
+        <motion.div
+          animate={{
+            y:       [30,  30,  30,   0,   -18,  -18,   30],
+            opacity: [0,   0,   0.3,  1,    1,    1,     0],
+            scale:   [0.5, 0.5, 0.7,  1.2,  1,    1,    0.5],
+          }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.25, 0.44, 0.52, 0.76, 0.92] }}
+          style={{
+            position: 'absolute', right: 'calc(8% + 26px)', top: '32%',
+            fontSize: 30, zIndex: 10,
+            filter: 'drop-shadow(0 2px 8px rgba(21,101,192,0.3))',
+          }}
+        >{obj.emoji}</motion.div>
+        {/* 浮現瞬間的漣漪 */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.5, 2.2], opacity: [0, 0, 0, 0.5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.38, 0.42, 0.48, 0.6] }}
+          style={{
+            position: 'absolute', right: 'calc(8% + 18px)', top: '49%',
+            width: 45, height: 10,
+            border: '1.5px solid #90caf9', borderRadius: '50%', zIndex: 6,
+          }}
+        />
+      </>}
+
+      {/* ════════════════════════════════════════════
+          場景 B：調大聲（音量）
+          腦中畫面：旋鈕順時針轉 → 音量條從底部往上長
+          ════════════════════════════════════════════ */}
+      {!isAppear && <>
+        {/* 音量條（7格，scaleY 從 0 往上長） */}
+        <div style={{
+          position: 'absolute', right: '10%', top: '10%', bottom: '20%',
+          width: 36, display: 'flex', flexDirection: 'column-reverse', gap: 3, zIndex: 4,
+          alignItems: 'stretch',
+        }}>
+          {[0, 1, 2, 3, 4, 5, 6].map(i => (
+            <motion.div key={i}
+              animate={{
+                scaleY: [0, 0, i < 2 ? 0.3 : 0, i < 6 ? 1 : 0.4, 0],
+                backgroundColor: [
+                  '#e0e0e0',
+                  '#e0e0e0',
+                  i < 2 ? '#4caf50' : '#e0e0e0',
+                  i >= 5 ? '#ef5350' : i >= 3 ? '#ff9800' : '#4caf50',
+                  '#e0e0e0',
+                ],
+              }}
+              transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.25, 0.44, 0.94], ease: 'easeOut' }}
+              style={{ height: 10, borderRadius: 2, transformOrigin: 'bottom center' }}
+            />
+          ))}
+        </div>
+
+        {/* 連接線：旋鈕→音量條 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0.18, 0.18, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.25, 0.6, 0.76] }}
+          style={{
+            position: 'absolute',
+            left: 'calc(6% + 30px)', right: '10%',
+            top: 'calc(42% + 29px)', height: 2,
+            background: 'linear-gradient(90deg, #e53935, #ff9800)',
+            borderRadius: 1,
+          }}
+        />
+
+        {/* 🔊 emoji — 轉到最高點後出現 */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.1, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.56, 0.72, 0.88] }}
+          style={{
+            position: 'absolute', right: 'calc(10% + 42px)', top: '30%',
+            fontSize: 26, zIndex: 12,
+          }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.52, 0.56, 0.62, 0.8, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#e53935',
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function SpinReverseScene({ obj, meaning }) {
+  const isBody = obj.label === '人';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ══════════════════════════════════════════
+          Turn = 旋鈕逆時針轉 180°（around = 轉到正對面）
+          ══════════════════════════════════════════ */}
+      <div style={{ position: 'absolute', left: '4%', top: '24%', zIndex: 10 }}>
+        <svg width="52" height="52" viewBox="0 0 52 52">
+          <circle cx="26" cy="26" r="24" fill="none" stroke="#e8e8e8" strokeWidth="2" />
+          <circle cx="26" cy="26" r="19" fill="url(#dialBGRev)" stroke="#9e9e9e" strokeWidth="1.5" />
+          <defs>
+            <radialGradient id="dialBGRev" cx="35%" cy="30%">
+              <stop offset="0%" stopColor="#f8f8f8" />
+              <stop offset="100%" stopColor="#b8b8b8" />
+            </radialGradient>
+          </defs>
+          <circle cx="26" cy="26" r="3.5" fill="#333" />
+        </svg>
+        {/* 指針：從 0° 逆時針轉到 -180°（指向正對面） */}
+        <motion.div
+          animate={{ rotate: [0, 0, -180, -180, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', top: 23, left: 11,
+            width: 26, height: 4,
+            background: 'linear-gradient(90deg, #555, #7b1fa2)',
+            borderRadius: 2, transformOrigin: 'right center',
+          }}
+        />
+        {/* 旋轉弧線 */}
+        <motion.svg width="52" height="52" viewBox="0 0 52 52"
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          animate={{ opacity: [0, 0, 0.45, 0.45, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.24, 0.44, 0.52] }}>
+          <path d="M 26 6 A 20 20 0 0 0 26 46"
+            fill="none" stroke="#7b1fa2" strokeWidth="1.5" strokeDasharray="5 4" strokeLinecap="round" />
+          <polygon points="22,44 28,46 26,38" fill="#7b1fa2" opacity="0.7" />
+        </motion.svg>
+      </div>
+
+      {/* ══════════════════════════════════════════
+          Around = 大 U-turn 弧線（中央，代表完整方向逆轉）
+          ══════════════════════════════════════════ */}
+      <motion.svg
+        style={{ position: 'absolute', inset: 0, zIndex: 5 }}
+        viewBox="0 0 220 120"
+        preserveAspectRatio="none"
       >
-        {meaning}
-      </motion.div>
+        {/* U-turn 路徑：上段往右 → 右弧 → 下段往左 */}
+        <motion.path
+          d="M 68 36 L 158 36 A 24 24 0 0 1 158 84 L 68 84"
+          fill="none" stroke="#7b1fa2" strokeWidth="2.5"
+          strokeLinecap="round" strokeLinejoin="round"
+          animate={{ pathLength: [0, 0, 1, 1, 0], opacity: [0.3, 0.3, 0.75, 0.75, 0.3] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94] }}
+        />
+        {/* 箭頭（底部弧線終點，指向左）*/}
+        <motion.polygon
+          points="74,78 68,84 74,90"
+          fill="#7b1fa2"
+          animate={{ opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.48, 0.76, 0.94] }}
+        />
+      </motion.svg>
+
+      {/* ════════ Scene A：轉身 ════════ */}
+      {isBody && <>
+        {/* 轉身前：🚶 往右走（上弧段）*/}
+        <motion.div
+          animate={{ opacity: [1, 1, 1, 0, 0, 1] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.48, 0.76, 0.94] }}
+          style={{ position: 'absolute', left: '33%', top: '12%', fontSize: 26, zIndex: 8 }}
+        >{obj.emoji} →</motion.div>
+
+        {/* 轉身後：🚶 往左走（下弧段，水平翻轉）*/}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.5, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', left: '33%', top: '60%',
+            fontSize: 26, zIndex: 8, transform: 'scaleX(-1)',
+          }}
+        >{obj.emoji} →</motion.div>
+      </>}
+
+      {/* ════════ Scene B：扭轉局面 ════════ */}
+      {!isBody && <>
+        {/* 轉前：📉 下滑局面（上弧段）*/}
+        <motion.div
+          animate={{ opacity: [1, 1, 1, 0, 0, 1] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.48, 0.76, 0.94] }}
+          style={{ position: 'absolute', left: '32%', top: '10%', fontSize: 28, zIndex: 8 }}
+        >{obj.emoji}</motion.div>
+
+        {/* 轉後：📈 好轉（下弧段）*/}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.2, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.52, 0.76, 0.94] }}
+          style={{ position: 'absolute', left: '32%', top: '58%', fontSize: 28, zIndex: 8 }}
+        >📈</motion.div>
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.52, 0.56, 0.62, 0.8, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#7b1fa2',
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function SpinConnectScene({ obj, meaning }) {
+  const isPower = obj.label === '電器';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* Turn = 旋鈕從 OFF（左下 -180°）順時針轉到 ON（右上 60°）*/}
+      <div style={{ position: 'absolute', left: '6%', top: '28%', zIndex: 10 }}>
+        <svg width="58" height="58" viewBox="0 0 58 58">
+          <circle cx="29" cy="29" r="27" fill="none" stroke="#e8e8e8" strokeWidth="2" />
+          <circle cx="29" cy="29" r="22" fill="url(#dialBGConnect)" stroke="#9e9e9e" strokeWidth="1.5" />
+          <defs>
+            <radialGradient id="dialBGConnect" cx="35%" cy="30%">
+              <stop offset="0%" stopColor="#f8f8f8" />
+              <stop offset="100%" stopColor="#b8b8b8" />
+            </radialGradient>
+          </defs>
+          <line x1="14" y1="44" x2="18" y2="41" stroke="#9e9e9e" strokeWidth="2.5" strokeLinecap="round" />
+          <line x1="43" y1="16" x2="40" y2="19" stroke="#4caf50" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="29" cy="29" r="4" fill="#333" />
+        </svg>
+        <div style={{ position: 'absolute', bottom: 2, left: -18, fontSize: 8, color: '#9e9e9e', fontWeight: 800 }}>OFF</div>
+        <div style={{ position: 'absolute', top: -2, right: -16, fontSize: 8, color: '#4caf50', fontWeight: 800 }}>ON</div>
+
+        {/* 指針：從 OFF（-180°）順時針轉到 ON（60°）*/}
+        <motion.div
+          animate={{ rotate: [-180, -180, 60, 60, -180] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', top: 26, left: 14,
+            width: 30, height: 4,
+            background: 'linear-gradient(90deg, #555, #43a047)',
+            borderRadius: 2, transformOrigin: 'right center',
+          }}
+        />
+        {/* 順時針弧線 */}
+        <motion.svg width="58" height="58" viewBox="0 0 58 58"
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          animate={{ opacity: [0, 0, 0.4, 0.4, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.22, 0.42, 0.52] }}>
+          <path d="M 14 46 A 20 20 0 1 1 40 12"
+            fill="none" stroke="#43a047" strokeWidth="1.5" strokeDasharray="5 4" strokeLinecap="round" />
+          <polygon points="46,18 40,12 38,19" fill="#43a047" opacity="0.7" />
+        </motion.svg>
+      </div>
+
+      {/* On = 連接線從旋鈕延伸到右側物件（建立連接）*/}
+      <motion.div
+        animate={{ width: ['0%', '0%', '38%', '38%', '0%'], opacity: [0, 0, 0.6, 0.6, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.76, 0.94] }}
+        style={{
+          position: 'absolute', left: 'calc(6% + 60px)', top: 'calc(28% + 27px)', marginTop: -2,
+          height: 3,
+          background: 'linear-gradient(90deg, rgba(76,175,80,0.6), rgba(76,175,80,0.1))',
+          borderRadius: '0 2px 2px 0', zIndex: 6,
+        }}
+      />
+      {/* 接通瞬間的閃光 */}
+      <motion.div
+        animate={{ scale: [0, 0, 0, 2.5, 0], opacity: [0, 0, 0, 0.85, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.38, 0.42, 0.46, 0.54] }}
+        style={{
+          position: 'absolute', left: '48%', top: 'calc(28% + 20px)',
+          width: 16, height: 16,
+          background: 'radial-gradient(circle, rgba(255,235,59,0.9), transparent 70%)',
+          borderRadius: '50%', zIndex: 9,
+        }}
+      />
+
+      {/* ════════ Scene A：打開電器 ════════ */}
+      {isPower && <>
+        {/* 燈泡（初始暗） */}
+        <motion.div
+          animate={{ filter: ['brightness(0.3)', 'brightness(0.3)', 'brightness(0.3)', 'brightness(1.3)', 'brightness(1.3)', 'brightness(0.3)'] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.5, 0.76, 0.94] }}
+          style={{ position: 'absolute', right: '10%', top: '14%', fontSize: 38, zIndex: 5 }}
+        >{obj.emoji}</motion.div>
+        {/* 亮起後的光暈 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0.45, 0.45, 0], scale: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.5, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', right: 'calc(10% - 14px)', top: 'calc(14% - 14px)',
+            width: 78, height: 78,
+            background: 'radial-gradient(circle, rgba(255,235,59,0.4), transparent 70%)',
+            borderRadius: '50%', zIndex: 3,
+          }}
+        />
+        {/* ON 標籤 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.5, 0.56, 0.76, 0.9] }}
+          style={{
+            position: 'absolute', right: 'calc(10% - 2px)', top: 'calc(14% + 42px)',
+            fontSize: 11, fontWeight: 800, color: '#4caf50', letterSpacing: 1, zIndex: 8,
+          }}
+        >ON</motion.div>
+      </>}
+
+      {/* ════════ Scene B：讓人來電 ════════ */}
+      {!isPower && <>
+        {/* ❤️ 初始灰階（無電）→ 接通後變紅跳動 */}
+        <motion.div
+          animate={{
+            scale:   [0.9, 0.9, 0.9, 1.2, 1, 1.07, 1, 0.9],
+            filter: [
+              'grayscale(100%) drop-shadow(0 0 0px transparent)',
+              'grayscale(100%) drop-shadow(0 0 0px transparent)',
+              'grayscale(100%) drop-shadow(0 0 0px transparent)',
+              'grayscale(0%) drop-shadow(0 0 8px rgba(244,67,54,0.6))',
+              'grayscale(0%) drop-shadow(0 0 6px rgba(244,67,54,0.5))',
+              'grayscale(0%) drop-shadow(0 0 8px rgba(244,67,54,0.6))',
+              'grayscale(0%) drop-shadow(0 0 6px rgba(244,67,54,0.5))',
+              'grayscale(100%) drop-shadow(0 0 0px transparent)',
+            ],
+          }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.5, 0.56, 0.62, 0.68, 0.94] }}
+          style={{ position: 'absolute', right: '12%', top: '12%', fontSize: 36, zIndex: 5 }}
+        >❤️</motion.div>
+        {/* 接通後暖光光暈 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0.4, 0.4, 0], scale: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.44, 0.5, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', right: 'calc(12% - 12px)', top: 'calc(12% - 12px)',
+            width: 72, height: 72,
+            background: 'radial-gradient(circle, rgba(244,67,54,0.3), transparent 70%)',
+            borderRadius: '50%', zIndex: 3,
+          }}
+        />
+        {/* 😍 emoji（來電後浮出） */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.15, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.52, 0.6, 0.74, 0.88] }}
+          style={{ position: 'absolute', right: 'calc(12% - 2px)', top: '38%', fontSize: 28, zIndex: 12 }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.52, 0.56, 0.62, 0.8, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#43a047',
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function SpinDetachScene({ obj, meaning }) {
+  const isPower = obj.label === '電器';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ══════════════════════════════════════════
+          Turn = 旋鈕從 ON（右上 60°）逆時針轉到 OFF（左下 -180°）
+          ══════════════════════════════════════════ */}
+      <div style={{ position: 'absolute', left: '6%', top: '28%', zIndex: 10 }}>
+        <svg width="58" height="58" viewBox="0 0 58 58">
+          <circle cx="29" cy="29" r="27" fill="none" stroke="#e8e8e8" strokeWidth="2" />
+          <circle cx="29" cy="29" r="22" fill="url(#dialBGDetach)" stroke="#9e9e9e" strokeWidth="1.5" />
+          <defs>
+            <radialGradient id="dialBGDetach" cx="35%" cy="30%">
+              <stop offset="0%" stopColor="#f8f8f8" />
+              <stop offset="100%" stopColor="#b8b8b8" />
+            </radialGradient>
+          </defs>
+          {/* ON 刻度（右上） */}
+          <line x1="43" y1="16" x2="40" y2="19" stroke="#4caf50" strokeWidth="2.5" strokeLinecap="round" />
+          {/* OFF 刻度（左下） */}
+          <line x1="14" y1="44" x2="18" y2="41" stroke="#9e9e9e" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="29" cy="29" r="4" fill="#333" />
+        </svg>
+        <div style={{ position: 'absolute', top: -2, right: -16, fontSize: 8, color: '#4caf50', fontWeight: 800 }}>ON</div>
+        <div style={{ position: 'absolute', bottom: 2, left: -18, fontSize: 8, color: '#9e9e9e', fontWeight: 800 }}>OFF</div>
+
+        {/* 指針：從 ON（60°）逆時針轉到 OFF（-180°）*/}
+        <motion.div
+          animate={{ rotate: [60, 60, -180, -180, 60] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', top: 26, left: 14,
+            width: 30, height: 4,
+            background: 'linear-gradient(90deg, #555, #ef5350)',
+            borderRadius: 2, transformOrigin: 'right center',
+          }}
+        />
+        {/* 逆時針弧線 */}
+        <motion.svg width="58" height="58" viewBox="0 0 58 58"
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          animate={{ opacity: [0, 0, 0.4, 0.4, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.22, 0.42, 0.52] }}>
+          <path d="M 40 12 A 20 20 0 1 0 14 46"
+            fill="none" stroke="#ef5350" strokeWidth="1.5" strokeDasharray="5 4" strokeLinecap="round" />
+          <polygon points="12,40 18,46 20,39" fill="#ef5350" opacity="0.7" />
+        </motion.svg>
+      </div>
+
+      {/* ══════════════════════════════════════════
+          Off = 連接線斷開（旋鈕→右側物件，轉到 OFF 時斷）
+          ══════════════════════════════════════════ */}
+      {/* 連接線左半（旋鈕側，OFF 後縮回） */}
+      <motion.div
+        animate={{ width: ['38%', '38%', '38%', '0%', '0%', '38%'], opacity: [0.5, 0.5, 0.5, 0, 0, 0.5] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.46, 0.76, 0.94] }}
+        style={{
+          position: 'absolute', left: 'calc(6% + 60px)', top: 'calc(28% + 27px)', marginTop: -2,
+          height: 3,
+          background: 'linear-gradient(90deg, rgba(76,175,80,0.6), rgba(76,175,80,0.1))',
+          borderRadius: '0 2px 2px 0', zIndex: 6,
+        }}
+      />
+      {/* 斷開瞬間的閃光 */}
+      <motion.div
+        animate={{ scale: [0, 0, 0, 2.5, 0], opacity: [0, 0, 0, 0.8, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.38, 0.42, 0.46, 0.54] }}
+        style={{
+          position: 'absolute', left: '48%', top: 'calc(28% + 20px)',
+          width: 16, height: 16,
+          background: 'radial-gradient(circle, rgba(255,193,7,0.8), transparent 70%)',
+          borderRadius: '50%', zIndex: 9,
+        }}
+      />
+
+      {/* ════════ Scene A：關掉電器 ════════ */}
+      {isPower && <>
+        {/* 燈泡（右側，初始發亮） */}
+        {/* 光暈（ON 時顯示） */}
+        <motion.div
+          animate={{ opacity: [0.4, 0.4, 0.4, 0, 0, 0.4], scale: [1, 1, 1, 0, 0, 1] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.46, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', right: 'calc(10% - 14px)', top: 'calc(14% - 14px)',
+            width: 78, height: 78,
+            background: 'radial-gradient(circle, rgba(255,235,59,0.35), transparent 70%)',
+            borderRadius: '50%', zIndex: 3,
+          }}
+        />
+        {/* 燈泡 emoji */}
+        <motion.div
+          animate={{ filter: ['brightness(1.2)', 'brightness(1.2)', 'brightness(1.2)', 'brightness(0.3)', 'brightness(0.3)', 'brightness(1.2)'] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.48, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', right: '10%', top: '14%',
+            fontSize: 38, zIndex: 5,
+          }}
+        >{obj.emoji}</motion.div>
+        {/* OFF 標籤（斷電後出現） */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.5, 0.56, 0.76, 0.9] }}
+          style={{
+            position: 'absolute', right: 'calc(10% - 4px)', top: 'calc(14% + 42px)',
+            fontSize: 11, fontWeight: 800, color: '#9e9e9e', letterSpacing: 1, zIndex: 8,
+          }}
+        >OFF</motion.div>
+      </>}
+
+      {/* ════════ Scene B：讓人倒胃口 ════════ */}
+      {!isPower && <>
+        {/* ❤️ 好感之心（右側，初始跳動發光，斷電後熄滅）*/}
+        {/* 暖光光暈（ON 時顯示） */}
+        <motion.div
+          animate={{ opacity: [0.45, 0.45, 0.45, 0, 0, 0.45], scale: [1, 1.1, 1, 0, 0, 1] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.2, 0.4, 0.48, 0.76, 0.94] }}
+          style={{
+            position: 'absolute', right: 'calc(12% - 12px)', top: 'calc(12% - 12px)',
+            width: 72, height: 72,
+            background: 'radial-gradient(circle, rgba(244,67,54,0.3), transparent 70%)',
+            borderRadius: '50%', zIndex: 3,
+          }}
+        />
+        {/* ❤️ 跳動（ON 時） → 縮小熄滅（OFF 後） */}
+        <motion.div
+          animate={{
+            scale:   [1, 1.12, 1, 1.08, 1,  0.4, 0.4, 1],
+            opacity: [1, 1,    1, 1,    1,  0.15, 0.15, 1],
+            filter: [
+              'grayscale(0%) drop-shadow(0 0 6px rgba(244,67,54,0.5))',
+              'grayscale(0%) drop-shadow(0 0 6px rgba(244,67,54,0.5))',
+              'grayscale(0%) drop-shadow(0 0 6px rgba(244,67,54,0.5))',
+              'grayscale(0%) drop-shadow(0 0 6px rgba(244,67,54,0.5))',
+              'grayscale(0%) drop-shadow(0 0 6px rgba(244,67,54,0.5))',
+              'grayscale(100%) drop-shadow(0 0 0px transparent)',
+              'grayscale(100%) drop-shadow(0 0 0px transparent)',
+              'grayscale(0%) drop-shadow(0 0 6px rgba(244,67,54,0.5))',
+            ],
+          }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.1, 0.2, 0.3, 0.4, 0.48, 0.76, 0.94] }}
+          style={{ position: 'absolute', right: '12%', top: '12%', fontSize: 36, zIndex: 5 }}
+        >❤️</motion.div>
+
+        {/* ✕ 斷電瞬間出現在心的正中央 */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.5, 1.1, 1.1, 0], opacity: [0, 0, 0, 1, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.46, 0.51, 0.55, 0.72, 0.84] }}
+          style={{
+            position: 'absolute', right: 'calc(12% + 8px)', top: 'calc(12% + 8px)',
+            fontSize: 22, fontWeight: 900, color: '#757575', zIndex: 10, lineHeight: 1,
+          }}
+        >✕</motion.div>
+
+        {/* 😒 emoji（好感熄滅後浮出） */}
+        <motion.div
+          animate={{ scale: [0, 0, 0, 1.15, 1, 0], opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.44, 0.5, 0.58, 0.74, 0.88] }}
+          style={{
+            position: 'absolute', right: 'calc(12% - 2px)', top: '38%',
+            fontSize: 28, zIndex: 12,
+          }}
+        >{obj.emoji}</motion.div>
+      </>}
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.52, 0.56, 0.62, 0.8, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#616161',
+        }}
+      >{meaning}</motion.div>
+    </div>
+  );
+}
+
+function SpinExitScene({ obj, meaning }) {
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fff', overflow: 'hidden' }}>
+
+      {/* ══════════════════════════════════════════
+          Turn = 旋轉旋鈕（左側，轉完整一圈 = 啟動揭曉）
+          ══════════════════════════════════════════ */}
+      <div style={{ position: 'absolute', left: '6%', top: '30%', zIndex: 10 }}>
+        <svg width="58" height="58" viewBox="0 0 58 58">
+          <circle cx="29" cy="29" r="27" fill="none" stroke="#e8e8e8" strokeWidth="2" />
+          <circle cx="29" cy="29" r="22" fill="url(#dialBGExit)" stroke="#9e9e9e" strokeWidth="1.5" />
+          <defs>
+            <radialGradient id="dialBGExit" cx="35%" cy="30%">
+              <stop offset="0%" stopColor="#f8f8f8" />
+              <stop offset="100%" stopColor="#b8b8b8" />
+            </radialGradient>
+          </defs>
+          <circle cx="29" cy="29" r="4" fill="#333" />
+        </svg>
+
+        {/* 指針：順時針完整旋轉（代表「轉動讓結果浮現」）*/}
+        <motion.div
+          animate={{ rotate: [0, 0, 360, 360, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.42, 0.76, 0.94], ease: 'easeInOut' }}
+          style={{
+            position: 'absolute', top: 26, left: 14,
+            width: 30, height: 4,
+            background: 'linear-gradient(90deg, #555, #7b1fa2)',
+            borderRadius: 2, transformOrigin: 'right center',
+          }}
+        />
+        {/* 旋轉弧 */}
+        <motion.svg width="58" height="58" viewBox="0 0 58 58"
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          animate={{ opacity: [0, 0, 0.4, 0.4, 0] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.22, 0.42, 0.52] }}>
+          <circle cx="29" cy="29" r="20"
+            fill="none" stroke="#7b1fa2" strokeWidth="1.5"
+            strokeDasharray="6 4" strokeLinecap="round" />
+        </motion.svg>
+      </div>
+
+      {/* ══════════════════════════════════════════
+          OUT 軌跡：從旋鈕水平射向右邊密封盒
+          ══════════════════════════════════════════ */}
+      <motion.div
+        animate={{ width: ['0%', '0%', '46%', '46%', '0%'], opacity: [0, 0, 0.45, 0.45, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.28, 0.42, 0.72, 0.86] }}
+        style={{
+          position: 'absolute', left: 'calc(6% + 60px)', top: 'calc(30% + 27px)', marginTop: -2,
+          height: 4,
+          background: 'linear-gradient(90deg, rgba(123,31,162,0.5), rgba(123,31,162,0.05))',
+          borderRadius: '0 3px 3px 0', zIndex: 6,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0, 0, 0.65, 0.65, 0], x: [0, 0, 6, 6, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.3, 0.43, 0.72, 0.86] }}
+        style={{
+          position: 'absolute', right: '11%', top: 'calc(30% + 23px)',
+          width: 0, height: 0,
+          borderTop: '6px solid transparent', borderBottom: '6px solid transparent',
+          borderLeft: '9px solid rgba(123,31,162,0.6)', zIndex: 7,
+        }}
+      />
+
+      {/* ══════════════════════════════════════════
+          密封盒子（右側）
+          轉動前：正面有大問號（結果未知）
+          轉動後：蓋子彈開，結果從裡面飛出來
+          ══════════════════════════════════════════ */}
+      {/* 盒身 */}
+      <div style={{
+        position: 'absolute', right: '8%', top: '12%',
+        width: 80, height: 70, background: '#f3e5f5',
+        border: '2.5px solid #ce93d8', borderRadius: 8,
+        zIndex: 4,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: '0 2px 8px rgba(123,31,162,0.12)',
+      }}>
+        {/* 問號（盒子開啟前顯示） */}
+        <motion.div
+          animate={{ opacity: [1, 1, 1, 0, 0, 1] }}
+          transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.48, 0.76, 0.94] }}
+          style={{ fontSize: 24, color: '#9c27b0', fontWeight: 900, lineHeight: 1 }}
+        >?</motion.div>
+      </div>
+
+      {/* 盒蓋（旋鈕轉完後彈開往上飛） */}
+      <motion.div
+        animate={{
+          y: [0, 0, 0, -35, -55],
+          rotate: [0, 0, 0, -25, -40],
+          opacity: [1, 1, 1, 0.7, 0],
+        }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.4, 0.5, 0.6] }}
+        style={{
+          position: 'absolute', right: '8%', top: '10%',
+          width: 80, height: 12,
+          background: '#9c27b0', borderRadius: '6px 6px 0 0', zIndex: 9,
+        }}
+      />
+
+      {/* 結果 emoji 從盒內飛出（往右上彈出）*/}
+      <motion.div
+        animate={{
+          scale:   [0, 0, 0, 0, 1.4, 1,   0],
+          opacity: [0, 0, 0, 0, 1,   1,   0],
+          x:       [0, 0, 0, 0, 12,  16,  16],
+          y:       [0, 0, 0, 0, -22, -28, -28],
+        }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.08, 0.38, 0.44, 0.52, 0.7, 0.84] }}
+        style={{
+          position: 'absolute', right: 'calc(8% + 20px)', top: 'calc(12% + 18px)',
+          fontSize: 30, zIndex: 13,
+          filter: 'drop-shadow(0 3px 10px rgba(123,31,162,0.35))',
+        }}
+      >{obj.emoji}</motion.div>
+
+      {/* 揭曉閃光環 */}
+      <motion.div
+        animate={{ scale: [0, 0, 0, 0, 1.5, 2.5], opacity: [0, 0, 0, 0, 0.45, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.46, 0.5, 0.55, 0.68] }}
+        style={{
+          position: 'absolute', right: 'calc(8% + 16px)', top: 'calc(12% + 14px)',
+          width: 40, height: 40,
+          border: '2px solid rgba(123,31,162,0.35)', borderRadius: '50%', zIndex: 8,
+        }}
+      />
+
+      {/* ─── meaning 文字 ─── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, times: [0, 0.4, 0.48, 0.52, 0.56, 0.62, 0.8, 0.94] }}
+        style={{
+          position: 'absolute', bottom: 4, left: 0, right: 0,
+          textAlign: 'center', fontSize: 12, fontWeight: 700, color: '#7b1fa2',
+        }}
+      >{meaning}</motion.div>
     </div>
   );
 }
@@ -1506,6 +2332,12 @@ const SCENE_MAP = {
   'gaze-target': GazeTargetScene,
   'gaze-advance': GazeAdvanceScene,
   'spin-penetrate': SpinPenetrateScene,
+  'spin-descend': SpinDescendScene,
+  'spin-ascend': SpinAscendScene,
+  'spin-exit': SpinExitScene,
+  'spin-detach': SpinDetachScene,
+  'spin-connect': SpinConnectScene,
+  'spin-reverse': SpinReverseScene,
 };
 
 export default function CoreTrajectoryScene({ coreMotion, meanings }) {
