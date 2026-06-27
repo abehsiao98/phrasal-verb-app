@@ -127,7 +127,7 @@
 
 ---
 
-### 4. 動畫實作規則（從 Look 系列 + Turn 系列歸納）
+### 4. 動畫實作規則
 
 #### A. 動詞視覺元素一致性
 
@@ -137,8 +137,10 @@
 |------|----------|-------------|
 | Look | 眼睛 + 視線光束 | 視線射出，方向由介係詞決定 |
 | Turn | 旋鈕（dial） | 旋鈕旋轉，方向/幅度由介係詞決定 |
+| Get / Break / Go / Run / Bring 等 | 人物（40×54 SVG）+ 場景環境 | 人物在空間中移動，方向由介係詞決定 |
 
-*   同一動詞的所有 Xxxscene 都以這個視覺物件為左側出發點。
+*   Look/Turn 系列：以固定視覺物件（眼/旋鈕）為出發點，搭配介係詞方向。
+*   Get/Break/Go 等動詞：以場景式動畫為主——人物在環境中按照「動詞動作＋介係詞方向」移動。
 *   **不要** 為了「感覺更直觀」就換掉動詞元素——一致性才是學習價值所在。
 
 #### B. CoreMotion 命名規則
@@ -150,21 +152,29 @@
 | `scan-penetrate` | Look（掃描）+ into（穿入）|
 | `gaze-descend` | Look（凝視）+ down on（往下） |
 | `spin-detach` | Turn（旋轉）+ off（脫離接觸）|
-| `spin-connect` | Turn（旋轉）+ on（接上）|
-| `spin-reverse` | Turn（旋轉）+ around（逆轉方向）|
+| `break-burst` | Break（打破）+ out（衝出來）|
+| `go-descend` | Go（移動）+ down（往下）|
+| `get-enter` | Get（進入）+ into（進去）|
 
 *   粒子語意用英文描述**空間動作**，不直接用介係詞本身（因為同一介係詞可能對應多個不同 coreMotion）。
 *   新增場景後**必須立刻**在 `SCENE_MAP` 中登錄，否則瀏覽器只會看到 FallbackScene 而無法除錯。
 
 #### C. Scene 函式結構模式
 
-每個 `SpinXxxScene`（或 `GazeXxxScene`）遵循同一結構：
-
+Look/Turn 系列（固定元素型）：
 ```
 1. 動詞元素（左側）  ── 旋鈕 / 眼睛
 2. 軌跡連接（中段）  ── 連接線 / 光束 / 弧線
 3. 結果物件（右側）  ── 由 obj.emoji / obj.label 決定
 4. 意思文字（底部）  ── {meaning}
+```
+
+Get/Break/Go 等（場景式）：
+```
+1. 初始狀態（intact）  ── 展示事物原本的樣子
+2. 動詞動作（VERB）    ── 衝擊、移動、力量爆發
+3. 介係詞方向（PARTICLE） ── 往上/下/外/穿透/回去/越過
+4. 結果狀態            ── 自然產生的意思
 ```
 
 多意思分支用 `obj.label` 判斷（**不要用 `obj.emoji`**，emoji 可能被改掉）：
@@ -176,54 +186,176 @@ const isReject = obj.emoji === '🙅';   // ❌ 脆弱，emoji 一換就壞
 
 #### D. 對稱設計原則
 
-**意思相反的片語，動畫應設計成彼此的鏡像。** 這讓學習者能感受到語言本身的對稱邏輯。
+**意思相反的片語，動畫應設計成彼此的鏡像。**
 
-*   **Turn off vs Turn on**：旋鈕方向相反（ON→OFF 逆時針 / OFF→ON 順時針）、連接線一縮一長、物件一暗一亮。
-*   **Turn down vs Turn up**：旋鈕從 H→L（逆時針）vs L→H（順時針），音量/提議視覺一降一升。
-*   設計新片語時，先想「這個片語有沒有反義詞？」——如果有，從反義詞的動畫鏡像出發往往最快。
+*   **Turn off vs Turn on**：旋鈕方向相反、連接線一縮一長、物件一暗一亮。
+*   **Go up vs Go down**：折線一個從左下往右上、一個從左上往右下。
+*   **Break up vs Break down**：up = 碎片往上彈飛；down = 東西往下垮塌。
+*   設計新片語時，先想「這個片語有沒有反義詞？」——從反義詞的動畫鏡像出發往往最快。
 
 #### E. SVG 技術規則
 
 1.  **Gradient ID 必須全域唯一**：每個 Scene 函式自己的 `<radialGradient>` 必須用不同 `id`。
-    *   命名規則：`dialBG`（基礎）、`dialBGUp`、`dialBGDetach`、`dialBGConnect`... 依此類推。
-    *   ID 衝突會導致所有使用相同 ID 的場景共用同一個漸層，顏色全部跑掉。
 
 2.  **SVG 路徑繪製動畫**：用 Framer Motion 的 `pathLength` 屬性做「路徑逐漸畫出」效果。
     ```jsx
     <motion.path
-      d="M 70 38 L 162 38 A 27 27 0 0 1 162 92 L 70 92"
       animate={{ pathLength: [0, 0, 1, 1, 0] }}
       transition={{ duration: 5, repeat: Infinity, times: [...] }}
     />
     ```
-    *   不需要手動計算 `strokeDashoffset`，Framer Motion 內建支援。
-    *   `pathLength` 值範圍 0～1，0 = 未畫，1 = 全部畫完。
 
-3.  **動畫時間軸（五段式）**：所有 `times` 陣列遵循同一節奏：
+3.  **動畫時間軸（六段式，2024 確立標準）**：
     ```
-    [0,    0.08,  0.44,  0.76,  0.94]
-     靜止   開始   到位   維持   還原
+    [0,    0.08,  0.34,  0.42,  0.60,  0.76,  0.94]
+     靜置   醞釀   動作   粒子   結果   維持   重置
     ```
-    *   動詞元素（旋鈕）與軌跡連接共用同一時間軸基準，確保視覺同步。
+    - `0 → 0.08`：靜置，展示初始狀態
+    - `0.08 → 0.34`：前置動作，醞釀、移動中
+    - `0.34 → 0.42`：動詞動作（VERB）：衝擊/爆炸/打破/抵達
+    - `0.42 → 0.60`：介係詞方向（PARTICLE）：碎片飛、人衝出、往上升
+    - `0.60 → 0.76`：結果維持
+    - `0.76 → 0.94`：淡出重置
+
+---
+
+#### F. 空間邏輯三段式（最重要，這次 session 確立）
+
+**動畫的核心任務不是「呈現這個片語的意思」，而是「讓人看懂為什麼動詞＋介係詞會產生這個意思」。**
+
+每個場景必須讓學習者看到：
+
+```
+① VERB 的物理動作   → Break = 打裂衝擊 / Go = 自己移動 / Get = 到達
+② PARTICLE 的空間方向 → UP = 往上彈飛 / DOWN = 往下垮 / OUT = 往外衝出
+③ 結果自然成立      → ① + ② 合起來就是這個意思
+```
+
+**空間邏輯對照表（已建立場景的規律）：**
+
+| 介係詞 | 空間邏輯 | 動畫視覺 |
+|--------|----------|----------|
+| UP | 往上彈飛、往上長、往上升 | 碎片/火焰/折線往上弧飛 |
+| DOWN | 往下垮、往下落、往下降 | 螢幕傾斜下掉、折線往右下走 |
+| OUT | 往外衝出、往外散 | 人衝出門、火焰往外竄、煙往外散 |
+| INTO | 打破後進入、穿進去 | 人穿越障礙衝進去 |
+| THROUGH | 從頭穿透到尾 | 人穿越暗區、掃描線逐行掃過 |
+| OVER | 越過、掠過、超過 | 掃描線從頭到尾、數字超過界線 |
+| BACK | 往後走、縮回去、回到原點 | 人轉身走回、指針往左移動 |
+| OFF | 脫離、爆出、離開 | 鬧鐘爆響、食物變色、火焰熄滅 |
+
+**禁止只呈現結果**：不能只 show 一個東西壞掉/消失/移動，要讓人在動畫中同時感受到動詞的動作 + 介係詞的方向。
+
+---
+
+#### G. 人物 SVG 標準規格
+
+所有場景的人物必須使用統一規格：
+
+```jsx
+<svg width="40" height="54" viewBox="0 0 40 54">
+  {/* 頭部 */}
+  <circle cx="20" cy="7" r="7" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2"/>
+  {/* 身體（主線）*/}
+  <line x1="20" y1="14" x2="18" y2="33" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
+  {/* 左臂 */}
+  <line x1="19" y1="21" x2="7"  y2="30" stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
+  {/* 右臂 */}
+  <line x1="19" y1="21" x2="32" y2="27" stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
+  {/* 右腿 */}
+  <line x1="18" y1="33" x2="30" y2="46" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
+  {/* 左腿 */}
+  <line x1="18" y1="33" x2="8"  y2="47" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
+  {/* 右鞋 */}
+  <rect x="26" y="44" width="11" height="5" rx="2.5" fill="#1a237e"/>
+  {/* 左鞋 */}
+  <rect x="4"  y="45" width="11" height="5" rx="2.5" fill="#1a237e"/>
+</svg>
+```
+
+- **Person A（主角）**：身體 `#1a237e`（海軍藍）
+- **Person B（第二人）**：身體 `#e65100`（橘紅），鞋子同色
+- **鏡像**：往左走的人用 `transform: 'scaleX(-1)'` 翻轉，不用重新畫
+- **走路彈動**：`animate={{ y:[0,-4,0,-4,0] }} transition={{ duration:0.50, repeat:Infinity }}`
+
+---
+
+#### H. 速度尾跡（Speed Trails）
+
+水平移動時，人物後方加尾跡強化速度感：
+
+```jsx
+{/* 藍色尾跡（Go/Get 系列，一般正面動作）*/}
+<div style={{
+  position: 'absolute', right: '100%', top: '38%',
+  width: 28, height: 7,
+  background: 'linear-gradient(90deg, transparent, #90caf9)',
+  borderRadius: 4
+}} />
+
+{/* 紅色尾跡（Break 系列，破壞/衝撞感）*/}
+<div style={{
+  position: 'absolute', right: '100%', top: '38%',
+  width: 28, height: 7,
+  background: 'linear-gradient(90deg, transparent, #ef9a9a)',
+  borderRadius: 4
+}} />
+```
+
+**規則：**
+- Go/Get/Run/Come 等一般動詞 → 藍色尾跡 `#90caf9`
+- Break/Throw/Hit 等破壞性動詞 → 紅色尾跡 `#ef9a9a`
+
+---
+
+#### I. 場景標準色盤
+
+| 用途 | 色碼 |
+|------|------|
+| 人物頭部 | `#FDBCB4` / stroke `#E59866` |
+| Person A 身體 | `#1a237e` |
+| Person B 身體 | `#e65100` |
+| 場景背景 | `#fafafa` |
+| 牆/地面 | `#8d6e63` / `#5d4037` |
+| 衝擊閃光（Break） | `rgba(229,57,53,0.9)` → radial gradient |
+| 衝擊閃光（Go） | `rgba(255,152,0,0.9)` → radial gradient |
+| 成功/完成 | `#43a047` |
+| 危險/錯誤 | `#e53935` / `#b71c1c` |
+| 藍色速度尾跡 | `#90caf9` |
+| 紅色速度尾跡 | `#ef9a9a` |
+| 天藍（室外/陽光） | `#87ceeb` |
+| 室內背景 | `#fff8e1` |
+
+---
+
+#### J. 對稱設計原則（補充）
+
+**意思相反的片語，動畫應設計成彼此的鏡像。**
+
+*   **Turn off vs Turn on**：旋鈕方向相反、連接線一縮一長、物件一暗一亮。
+*   **Go up vs Go down**：折線一個往右上、一個往右下。
+*   **Break up vs Break down**：up = 碎片往上彈飛；down = 東西往下垮塌（transformOrigin: bottom center）。
+*   設計新片語時，先想「這個片語有沒有反義詞？」——從反義詞的動畫鏡像出發往往最快。
 
 ---
 
 ### 3. 當前進度與已知問題 (Current Progress & Known Issues)
 
-**已完成的檔案變更：**
-- `src/components/PhraseCard.jsx` — 簡化為：標題 + 每個意思（meaning / plainEnglish / note / UsageLine 用法提示 / example）。已移除推理公式、語法標籤、語法展開區。
-- `src/components/PhrasalVerbPanel.jsx` — 動畫區為三格方程式排版：`[動詞動畫] + [介係詞動畫] = [動詞片語動畫]`
-- `src/animations/CoreTrajectoryScene.jsx` — 已建立場景：`ScanPenetrateScene`（Look into）、`GazeDescendScene`（Look down on）、`ScanAscendScene`（Look up，含三個語意各自的場景）
-- `src/animations/WeldedBlock.jsx` — 已建立焊接方塊元件
-- `src/animations/index.jsx` — 已更新優先使用 CoreTrajectoryScene
-- `src/data/phrasalVerbs.js` — **Look 系列完成完整重構**；其他動詞還是原始格式，重構時只需填：meaning / plainEnglish / grammar / sceneObject / note / example
-
-**已知問題：**
-- 每個 coreMotion 都需要獨立場景，且多語意的片語每個語意要有自己的場景背景
-- 副詞面板（AdverbialPanel）尚未更新 UI 來顯示 isFixedOrder / modificationType / 焊接方塊
+**已完成的動詞系列：**
+- **Look** — 全系列（into / down on / up / out / over / back / after / for / forward to）
+- **Turn** — 全系列（into / down / up / out / off / on / around）
+- **Bring** — 全系列（down / up / out / back / in / about）
+- **Run** — 全系列（into / down / out / over / through / away / across）
+- **Get** — 全系列（into / down / up / out / over / through / along / back / away / on / off）
+- **Break** — 全系列（into / down / up / out / through / even）
+- **Go** — 部分完成（down / up / out / over / through / on / back 已完成；off / ahead / for / with 待完成）
 
 **正確的工作流程：**
 1. 每做一個動詞，同時做資料重構 + 動畫場景
 2. 不要用腳本批量處理，逐一手動做，認真思考每個片語的口語中文、極簡英文、核心腦中畫面
 3. 做完一個就在 TodoList.md 打勾，瀏覽器確認效果
 4. 不要跳過、不要偷懶、有問題就問使用者
+
+**已知問題：**
+- 每個 coreMotion 都需要獨立場景，且多語意的片語每個語意要有自己的場景背景
+- 副詞面板（AdverbialPanel）尚未更新 UI 來顯示 isFixedOrder / modificationType / 焊接方塊

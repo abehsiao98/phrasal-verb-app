@@ -87,62 +87,56 @@ function TurnScene() {
   );
 }
 
-// ── Get：狀態改變 A→B — 人從灰色變成綠色，箭頭標示「狀態改變」 ──
+// ── Get：主動去「取得/達到」某個結果 — 人衝向目標，抵達後圓圈變綠 ✓ ──
 function GetScene() {
   return (
     <div style={S}>
-      {/* A → B 標示 */}
-      <div style={{ position: 'absolute', top: 6, left: 0, right: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-        <motion.div
-          animate={{ color: ['#90a4ae', '#90a4ae', '#ccc', '#ccc'] }}
-          transition={{ duration: 4, repeat: Infinity, times: [0, 0.35, 0.5, 1] }}
-          style={{ fontSize: 10, fontWeight: 'bold' }}
-        >
-          A
-        </motion.div>
-        <div style={{ width: 12, height: 1, background: '#bdbdbd' }} />
-        <div style={{ width: 0, height: 0, borderTop: '3px solid transparent', borderBottom: '3px solid transparent', borderLeft: '5px solid #bdbdbd' }} />
-        <motion.div
-          animate={{ color: ['#ccc', '#ccc', '#4caf50', '#4caf50'] }}
-          transition={{ duration: 4, repeat: Infinity, times: [0, 0.35, 0.5, 1] }}
-          style={{ fontSize: 10, fontWeight: 'bold' }}
-        >
-          B
-        </motion.div>
-      </div>
       {/* 地面 */}
-      <div style={{ position: 'absolute', bottom: 14, left: 0, right: 0, height: 2, background: '#e0e0e0' }} />
-      {/* 人物 — 顏色從灰(A)變綠(B) */}
-      <div style={{ position: 'absolute', left: '50%', marginLeft: -8, bottom: 16 }}>
-        <motion.div
-          animate={{ backgroundColor: ['#90a4ae', '#90a4ae', '#4caf50', '#4caf50'] }}
-          transition={{ duration: 4, repeat: Infinity, times: [0, 0.35, 0.5, 1] }}
-          style={{ width: 16, height: 16, borderRadius: '50%', margin: '0 auto', border: '2px solid #fff' }}
-        />
-        <motion.div
-          animate={{ backgroundColor: ['#90a4ae', '#90a4ae', '#4caf50', '#4caf50'] }}
-          transition={{ duration: 4, repeat: Infinity, times: [0, 0.35, 0.5, 1] }}
-          style={{ width: 6, height: 18, margin: '0 auto', borderRadius: 2 }}
-        />
-        <div style={{ display: 'flex', gap: 5, marginLeft: -2 }}>
-          <motion.div
-            animate={{ backgroundColor: ['#90a4ae', '#90a4ae', '#4caf50', '#4caf50'] }}
-            transition={{ duration: 4, repeat: Infinity, times: [0, 0.35, 0.5, 1] }}
-            style={{ width: 3, height: 12, borderRadius: 1 }}
-          />
-          <motion.div
-            animate={{ backgroundColor: ['#90a4ae', '#90a4ae', '#4caf50', '#4caf50'] }}
-            transition={{ duration: 4, repeat: Infinity, times: [0, 0.35, 0.5, 1] }}
-            style={{ width: 3, height: 12, borderRadius: 1 }}
-          />
-        </div>
-      </div>
-      {/* 變化閃光波紋 */}
+      <div style={{ position: 'absolute', bottom: 16, left: 0, right: 0, height: 2, background: '#e0e0e0' }} />
+      {/* 虛線路徑 */}
+      <svg style={{ position: 'absolute', bottom: 26, left: 0, width: '100%', height: 4, overflow: 'visible' }}>
+        <line x1="14" y1="2" x2="82%" y2="2" stroke="#e0e0e0" strokeWidth="1.5" strokeDasharray="4 3" />
+      </svg>
+
+      {/* 目標圈：灰→綠＋✓（達到結果的瞬間）*/}
       <motion.div
-        animate={{ scale: [0, 0, 2, 2.5], opacity: [0, 0, 0.4, 0] }}
-        transition={{ duration: 4, repeat: Infinity, times: [0, 0.4, 0.55, 0.7] }}
-        style={{ position: 'absolute', left: '50%', marginLeft: -15, bottom: 30, width: 30, height: 30, border: '2px solid #4caf50', borderRadius: '50%' }}
+        animate={{
+          borderColor: ['#bdbdbd','#bdbdbd','#bdbdbd','#4caf50','#4caf50','#bdbdbd'],
+          backgroundColor: ['transparent','transparent','transparent','#4caf50','#4caf50','transparent'],
+          scale: [1,1,1,1.3,1,1],
+        }}
+        transition={{ duration: 3.5, repeat: Infinity, times: [0,0.28,0.48,0.58,0.72,0.90] }}
+        style={{ position: 'absolute', right: 12, bottom: 18, width: 22, height: 22, borderRadius: '50%', border: '2.5px solid #bdbdbd', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3 }}
+      >
+        <motion.span
+          animate={{ opacity: [0,0,0,1,1,0] }}
+          transition={{ duration: 3.5, repeat: Infinity, times: [0,0.28,0.50,0.60,0.72,0.90] }}
+          style={{ fontSize: 10, color: '#fff', fontWeight: 900, lineHeight: 1 }}
+        >✓</motion.span>
+      </motion.div>
+
+      {/* 成就閃光 */}
+      <motion.div
+        animate={{ scale: [0,0,0,2.4,0,0], opacity: [0,0,0,0.8,0,0] }}
+        transition={{ duration: 3.5, repeat: Infinity, times: [0,0.28,0.50,0.60,0.70,0.90] }}
+        style={{ position: 'absolute', right: 6, bottom: 12, width: 34, height: 34, borderRadius: '50%', background: 'radial-gradient(circle, rgba(76,175,80,0.9), transparent 70%)', zIndex: 2 }}
       />
+
+      {/* 人物：主動衝向目標，抵達後停下 */}
+      <motion.div
+        animate={{ x: [0,0,62,58,58,0] }}
+        transition={{ duration: 3.5, repeat: Infinity, times: [0,0.10,0.46,0.56,0.72,0.90], ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: 10, bottom: 18, zIndex: 5 }}
+      >
+        <svg width="16" height="30" viewBox="0 0 16 30">
+          <circle cx="8" cy="5" r="4.5" fill="#FDBCB4" stroke="#E59866" strokeWidth="1"/>
+          <line x1="8" y1="9"  x2="8"  y2="20" stroke="#1a237e" strokeWidth="3"   strokeLinecap="round"/>
+          <line x1="8" y1="13" x2="1"  y2="18" stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
+          <line x1="8" y1="13" x2="15" y2="16" stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
+          <line x1="8" y1="20" x2="3"  y2="29" stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
+          <line x1="8" y1="20" x2="13" y2="29" stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
+        </svg>
+      </motion.div>
     </div>
   );
 }

@@ -44,43 +44,43 @@
 - [x] Bring about
 
 ### Run
-- [ ] Run into
-- [ ] Run down
-- [ ] Run out (of)
-- [ ] Run over
-- [ ] Run through
-- [ ] Run away
-- [ ] Run across
+- [x] Run into
+- [x] Run down
+- [x] Run out (of)
+- [x] Run over
+- [x] Run through
+- [x] Run away
+- [x] Run across
 
 ### Get
-- [ ] Get into
-- [ ] Get down (to)
-- [ ] Get up
-- [ ] Get out (of)
-- [ ] Get over
-- [ ] Get through
-- [ ] Get along (with)
-- [ ] Get back
-- [ ] Get away
-- [ ] Get on
-- [ ] Get off
+- [x] Get into
+- [x] Get down (to)
+- [x] Get up
+- [x] Get out (of)
+- [x] Get over
+- [x] Get through
+- [x] Get along (with)
+- [x] Get back
+- [x] Get away
+- [x] Get on
+- [x] Get off
 
 ### Break
-- [ ] Break into
-- [ ] Break down
-- [ ] Break up
-- [ ] Break out
-- [ ] Break through
-- [ ] Break even
+- [x] Break into
+- [x] Break down
+- [x] Break up
+- [x] Break out
+- [x] Break through
+- [x] Break even
 
 ### Go
-- [ ] Go down
-- [ ] Go up
-- [ ] Go out
-- [ ] Go over
-- [ ] Go through
-- [ ] Go on
-- [ ] Go back
+- [x] Go down
+- [x] Go up
+- [x] Go out
+- [x] Go over
+- [x] Go through
+- [x] Go on
+- [x] Go back
 - [ ] Go off
 - [ ] Go ahead
 - [ ] Go for
