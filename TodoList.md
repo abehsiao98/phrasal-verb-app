@@ -81,97 +81,97 @@
 - [x] Go through
 - [x] Go on
 - [x] Go back
-- [ ] Go off
-- [ ] Go ahead
-- [ ] Go for
-- [ ] Go with
+- [x] Go off
+- [x] Go ahead
+- [x] Go for
+- [x] Go with
 
 ### Set
-- [ ] Set up
-- [ ] Set out
-- [ ] Set off
-- [ ] Set back
-- [ ] Set aside
+- [x] Set up
+- [x] Set out
+- [x] Set off
+- [x] Set back
+- [x] Set aside
 
 ### Take
-- [ ] Take off
-- [ ] Take on
-- [ ] Take up
-- [ ] Take over
-- [ ] Take out
-- [ ] Take in
-- [ ] Take back
-- [ ] Take down
-- [ ] Take away
+- [x] Take off
+- [x] Take on
+- [x] Take up
+- [x] Take over
+- [x] Take out
+- [x] Take in
+- [x] Take back
+- [x] Take down
+- [x] Take away
 
 ### Put
-- [ ] Put on
-- [ ] Put off
-- [ ] Put up (with)
-- [ ] Put down
-- [ ] Put out
-- [ ] Put away
-- [ ] Put in
-- [ ] Put together
+- [x] Put on
+- [x] Put off
+- [x] Put up (with)
+- [x] Put down
+- [x] Put out
+- [x] Put away
+- [x] Put in
+- [x] Put together
 
 ### Come
-- [ ] Come up
-- [ ] Come down (to)
-- [ ] Come in
-- [ ] Come out
-- [ ] Come back
-- [ ] Come across
-- [ ] Come along
-- [ ] Come over
+- [x] Come up
+- [x] Come down (to)
+- [x] Come in
+- [x] Come out
+- [x] Come back
+- [x] Come across
+- [x] Come along
+- [x] Come over
 
 ### Give
-- [ ] Give up
-- [ ] Give in
-- [ ] Give out
-- [ ] Give away
-- [ ] Give back
+- [x] Give up
+- [x] Give in
+- [x] Give out
+- [x] Give away
+- [x] Give back
 
 ### Make
-- [ ] Make up
-- [ ] Make out
+- [x] Make up
+- [x] Make out
 
 ### Pick
-- [ ] Pick up
-- [ ] Pick out
-- [ ] Pick on
+- [x] Pick up
+- [x] Pick out
+- [x] Pick on
 
 ### Hold
-- [ ] Hold on
-- [ ] Hold up
-- [ ] Hold back
+- [x] Hold on
+- [x] Hold up
+- [x] Hold back
 
 ### Keep
-- [ ] Keep up (with)
-- [ ] Keep on
-- [ ] Keep out (of)
+- [x] Keep up (with)
+- [x] Keep on
+- [x] Keep out (of)
 
 ### Hang
-- [ ] Hang out
-- [ ] Hang up
-- [ ] Hang on
+- [x] Hang out
+- [x] Hang up
+- [x] Hang on
 
 ### Fall
-- [ ] Fall apart
-- [ ] Fall behind
-- [ ] Fall for
-- [ ] Fall through
+- [x] Fall apart
+- [x] Fall behind
+- [x] Fall for
+- [x] Fall through
 
 ### Carry
-- [ ] Carry on
-- [ ] Carry out
+- [x] Carry on
+- [x] Carry out
 
 ### Cut
-- [ ] Cut off
-- [ ] Cut out
-- [ ] Cut down (on)
+- [x] Cut off
+- [x] Cut out
+- [x] Cut down (on)
 
 ### Work
-- [ ] Work out
+- [x] Work out
 - [ ] Work on
 
 ### Find
