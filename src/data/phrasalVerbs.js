@@ -2971,12 +2971,12 @@ export const phrasalVerbData = {
       coreMotion: 'work-on',
       meanings: [
         {
-          meaning: "持續努力做",
+          meaning: "認真搞/努力投入",
           plainEnglish: "to keep working at",
           grammar: 'inseparable',
           followedBy: 'noun',
-          sceneObject: { emoji: "🎹", label: "作品" },
-          note: "「一直在」某件事上面用力 → 持續投入",
+          sceneObject: { emoji: "✏️", label: "作品" },
+          note: "「一直停在」某件事上面用力 → 持續投入，不放棄",
           example: "She's been working on her piano piece for a whole month.",
         },
         {
@@ -2984,8 +2984,8 @@ export const phrasalVerbData = {
           plainEnglish: "to get better at",
           grammar: 'inseparable',
           followedBy: 'noun',
-          sceneObject: { emoji: "🎯", label: "弱點" },
-          note: "在某個弱點上「持續施工打磨」→ 讓它變好",
+          sceneObject: { emoji: "📉", label: "弱點" },
+          note: "「一直壓在」那個下滑的弱點上反覆施工 → 讓它慢慢往上走",
           example: "You really need to work on your punctuality — you're late every day.",
         },
       ],
@@ -2993,120 +2993,534 @@ export const phrasalVerbData = {
   },
 
   Find: {
-    out: { title: "Find out", spatial: "找到後翻到外面。", meanings: [
-      { meaning: "發現/查明", note: "把藏著的真相「翻出來」→ 得知原本不知道的事", example: "We need to find out what caused the outage last night." },
-      { meaning: "被發現", note: "做的壞事被「翻出來」→ 秘密曝光", example: "He was copying code from Stack Overflow and got found out." },
-    ]},
+    out: {
+      title: "Find out",
+      spatial: "FIND（去搜）+ OUT（翻到外面）= 把原本藏著的事翻出來 → 得知 / 被揭穿。",
+      coreMotion: 'find-out',
+      meanings: [
+        {
+          meaning: "查出來/弄清楚",
+          plainEnglish: "to discover or learn",
+          grammar: 'separable',
+          followedBy: 'noun / that-clause',
+          sceneObject: { emoji: "❓", label: "真相" },
+          note: "答案/真相藏在某處，find 去搜，out = 翻出來 → 知道了",
+          example: "I need to find out what time the meeting starts.",
+        },
+        {
+          meaning: "被抓包",
+          plainEnglish: "to get caught",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🤫", label: "秘密" },
+          note: "你偷偷做的事本來藏好，別人 find 到了，out = 曝光 → 被抓包",
+          example: "He was cheating on tests and eventually got found out.",
+        },
+      ],
+    },
   },
 
   Figure: {
-    out: { title: "Figure out", spatial: "推理把答案理出來。", meanings: [
-      { meaning: "想出/弄清楚", note: "把混亂的線索「理出」邏輯 → 透過思考找到答案", example: "I finally figured out why the tests were failing — it was a race condition." },
-      { meaning: "理解", note: "把看不懂的「理出」頭緒 → 搞懂", example: "I can't figure out how this legacy code works." },
-    ]},
+    out: {
+      title: "Figure out",
+      spatial: "FIGURE（腦子裡排列整理）+ OUT（答案理出來）= 把亂的東西在腦中排一排 → 想通了。",
+      coreMotion: 'figure-out',
+      meanings: [
+        {
+          meaning: "想通/弄清楚",
+          plainEnglish: "to solve by thinking",
+          grammar: 'separable',
+          followedBy: 'noun / how-to',
+          sceneObject: { emoji: "🧩", label: "難題" },
+          note: "腦中把散落的線索「排」出邏輯 → 靠思考找到答案",
+          example: "I finally figured out why the tests were failing — it was a race condition.",
+        },
+        {
+          meaning: "搞懂了",
+          plainEnglish: "to understand how",
+          grammar: 'separable',
+          followedBy: 'noun / how-to',
+          sceneObject: { emoji: "🌀", label: "邏輯" },
+          note: "把看起來一團亂的東西「理出」頭緒 → 搞懂它怎麼運作",
+          example: "I can't figure out how this legacy code works.",
+        },
+      ],
+    },
   },
 
   Show: {
-    up: { title: "Show up", spatial: "展示往上現身。", meanings: [
-      { meaning: "出現/到場", note: "從隱形「浮上來」被看見 → 人到了", example: "He didn't show up to the meeting — again." },
-      { meaning: "使某人難堪", note: "表現「凸顯出來」讓別人相形見絀", example: "The intern's code quality showed up some of the senior engineers." },
-    ]},
-    off: { title: "Show off", spatial: "展示到外面。", meanings: [
-      { meaning: "炫耀", note: "把東西「亮出去」讓大家看 → 故意引人注目", example: "He loves to show off his new mechanical keyboard." },
-      { meaning: "展示", note: "正面地把成果「展現出來」", example: "Let me show off the new dashboard we just built." },
-    ]},
+    up: {
+      title: "Show up",
+      spatial: "SHOW（被看見）+ UP（冒上來）= 從沒人看到的狀態「冒出來」現身。",
+      coreMotion: 'show-up',
+      meanings: [
+        {
+          meaning: "現身/到場",
+          plainEnglish: "to arrive",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🙋", label: "人到場" },
+          note: "本來不見人影，時間到「冒出來」→ 出現在該到的地方",
+          example: "He didn't show up to the meeting — again.",
+        },
+        {
+          meaning: "把人比下去",
+          plainEnglish: "to outshine",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🌟", label: "被比下去的人" },
+          note: "你表現太亮眼，旁邊的人「相形見絀」→ 顯得別人很弱",
+          example: "The intern's code quality showed up some of the senior engineers.",
+        },
+      ],
+    },
+    off: {
+      title: "Show off",
+      spatial: "SHOW（亮出來）+ OFF（朝外秀出去）= 把東西轉向大家炫耀。",
+      coreMotion: 'show-off',
+      meanings: [
+        {
+          meaning: "炫耀/愛現",
+          plainEnglish: "to show off",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "💎", label: "炫耀的東西" },
+          note: "把好東西「亮出去」轉一圈給大家看 → 故意引人注目",
+          example: "He loves to show off his new mechanical keyboard.",
+        },
+        {
+          meaning: "展現成果",
+          plainEnglish: "to show proudly",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "📊", label: "成果" },
+          note: "正大光明把做出來的成果「秀出去」給大家看",
+          example: "Let me show off the new dashboard we just built.",
+        },
+      ],
+    },
   },
 
   Check: {
-    out: { title: "Check out", spatial: "檢查看出去。", meanings: [
-      { meaning: "查看/了解", note: "把視線「投出去」仔細看 → 看看這個東西", example: "Check out this new VS Code extension — it's really useful." },
-      { meaning: "結帳", note: "結算完「走出去」→ 付款", example: "I added the items to my cart but haven't checked out yet." },
-      { meaning: "退房", note: "辦完手續「走出去」→ 退房", example: "We need to check out of the hotel by noon." },
-    ]},
-    in: { title: "Check in", spatial: "檢查走進去登記。", meanings: [
-      { meaning: "報到/登記", note: "「走進」櫃台辦手續 → 登記", example: "You can check in online 24 hours before your flight." },
-      { meaning: "關心問候", note: "「走進」對方的狀況了解一下；check in with somebody", example: "I'll check in with the team to see how the sprint is going." },
-    ]},
+    out: {
+      title: "Check out",
+      spatial: "CHECK（確認）+ OUT（往外）= 看一眼確認 / 結清走人。",
+      coreMotion: 'check-out',
+      meanings: [
+        {
+          meaning: "瞧瞧/看一下",
+          plainEnglish: "to take a look",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "👀", label: "看看" },
+          note: "把目光「投出去」瞄一眼 → 來看看這個東西",
+          example: "Check out this new VS Code extension — it's really useful.",
+        },
+        {
+          meaning: "結帳",
+          plainEnglish: "to pay and leave",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🛒", label: "結帳" },
+          note: "東西結算完、付完錢「走出去」→ 結帳",
+          example: "I added the items to my cart but haven't checked out yet.",
+        },
+        {
+          meaning: "退房",
+          plainEnglish: "to leave a hotel",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🏨", label: "退房" },
+          note: "辦完手續、把房卡交回「走出去」→ 退房",
+          example: "We need to check out of the hotel by noon.",
+        },
+      ],
+    },
+    in: {
+      title: "Check in",
+      spatial: "CHECK（確認）+ IN（往內）= 走進櫃台報到 / 進去看一下對方狀況。",
+      coreMotion: 'check-in',
+      meanings: [
+        {
+          meaning: "報到/入住",
+          plainEnglish: "to register on arrival",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🛎️", label: "報到" },
+          note: "「走進」櫃台辦手續、領房卡 → 報到登記",
+          example: "You can check in online 24 hours before your flight.",
+        },
+        {
+          meaning: "關心一下",
+          plainEnglish: "to check on someone",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "💬", label: "關心" },
+          note: "「進去」對方的狀況問一下 → 關心近況（check in with somebody）",
+          example: "I'll check in with the team to see how the sprint is going.",
+        },
+      ],
+    },
   },
 
   End: {
-    up: { title: "End up", spatial: "結束走到底停住。", meanings: [
-      { meaning: "最終（成為/到達）", note: "「走到最後」停在意外的結局 → 結果竟然...", example: "We started with a simple script and ended up building a whole framework." },
-    ]},
+    up: {
+      title: "End up",
+      spatial: "END（結束）+ UP（停住定下來）= 繞來繞去，最後停在一個沒預期的結局。",
+      coreMotion: 'end-up',
+      meanings: [
+        {
+          meaning: "結果竟然/最後變成",
+          plainEnglish: "to finally become",
+          grammar: 'intransitive',
+          followedBy: 'V-ing / 地點',
+          sceneObject: { emoji: "🤷", label: "意外結局" },
+          note: "一路繞來繞去，「走到最後」停在一個沒料到的地方 → 結果竟然這樣",
+          example: "We started with a simple script and ended up building a whole framework.",
+        },
+      ],
+    },
   },
 
   Catch: {
-    up: { title: "Catch up", spatial: "抓住往上追趕。", meanings: [
-      { meaning: "趕上進度", note: "加速「追上」前方 → 補上落後的部分；catch up on", example: "I need to catch up on the emails I missed while on vacation." },
-      { meaning: "敘舊", note: "走散後「追上」彼此 → 聊聊近況", example: "Let's grab coffee and catch up — it's been ages!" },
-    ]},
+    up: {
+      title: "Catch up",
+      spatial: "CATCH（追）+ UP（追到並排）= 加速追上前面落後的距離 / 追上彼此聊近況。",
+      coreMotion: 'catch-up',
+      meanings: [
+        {
+          meaning: "趕上進度",
+          plainEnglish: "to catch up",
+          grammar: 'intransitive',
+          followedBy: 'on + noun',
+          sceneObject: { emoji: "📚", label: "進度" },
+          note: "落後了，加速「追上」前面 → 把落後的部分補回來（catch up on）",
+          example: "I need to catch up on the emails I missed while on vacation.",
+        },
+        {
+          meaning: "敘舊/聊近況",
+          plainEnglish: "to catch up",
+          grammar: 'intransitive',
+          followedBy: 'with + noun',
+          sceneObject: { emoji: "☕", label: "敘舊" },
+          note: "好久不見，「追上」彼此的近況 → 碰面聊聊（catch up with）",
+          example: "Let's grab coffee and catch up — it's been ages!",
+        },
+      ],
+    },
   },
 
   Point: {
-    out: { title: "Point out", spatial: "指向外面。", meanings: [
-      { meaning: "指出/提醒", note: "「指出去」讓大家注意 → 提醒某個事實或問題", example: "She pointed out a critical flaw in the database schema." },
-    ]},
+    out: {
+      title: "Point out",
+      spatial: "POINT（用手指指）+ OUT（指出來）= 把某個重點或問題指出來，提醒大家注意。",
+      coreMotion: 'point-out',
+      meanings: [
+        {
+          meaning: "指出/點出來",
+          plainEnglish: "to point out",
+          grammar: 'separable',
+          followedBy: 'noun / that-clause',
+          sceneObject: { emoji: "❗", label: "重點" },
+          note: "用手指把藏在一堆裡的重點/問題「指出來」→ 提醒大家注意這個",
+          example: "She pointed out a critical flaw in the database schema.",
+        },
+      ],
+    },
   },
 
   Throw: {
-    away: { title: "Throw away", spatial: "扔向遠方。", meanings: [
-      { meaning: "丟掉/扔掉", note: "把不要的「扔向遠方」→ 丟棄", example: "Don't throw away that old laptop — we can recycle it." },
-      { meaning: "浪費", note: "把好東西「扔掉」→ 白白浪費機會", example: "Don't throw away this opportunity by being unprepared." },
-    ]},
-    out: { title: "Throw out", spatial: "扔到外面。", meanings: [
-      { meaning: "丟掉", note: "「扔出去」→ 丟棄", example: "We should throw out these outdated config files." },
-      { meaning: "趕出去", note: "把人「扔到外面」→ 驅逐", example: "The bouncer threw him out of the club for causing trouble." },
-      { meaning: "提出（想法）", note: "把點子「拋出去」給大家討論", example: "Let me throw out a few ideas and see what sticks." },
-    ]},
-    up: { title: "Throw up", spatial: "往上噴。", meanings: [
-      { meaning: "嘔吐", note: "胃的內容物「往上噴出」→ 吐", example: "He felt so sick that he threw up in the bathroom." },
-    ]},
+    away: {
+      title: "Throw away",
+      spatial: "THROW（扔）+ AWAY（往遠方離開）= 把東西扔到遠遠的，不要了。",
+      coreMotion: 'throw-away',
+      meanings: [
+        {
+          meaning: "丟掉/扔掉",
+          plainEnglish: "to throw away",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🥫", label: "垃圾" },
+          note: "把不要的東西「扔到遠方」→ 丟棄",
+          example: "Don't throw away that old laptop — we can recycle it.",
+        },
+        {
+          meaning: "白白浪費",
+          plainEnglish: "to waste",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "💎", label: "好機會" },
+          note: "把好東西/好機會「隨手扔掉」→ 白白浪費",
+          example: "Don't throw away this opportunity by being unprepared.",
+        },
+      ],
+    },
+    out: {
+      title: "Throw out",
+      spatial: "THROW（扔）+ OUT（往外）= 把東西／人往外扔出去。",
+      coreMotion: 'throw-out',
+      meanings: [
+        {
+          meaning: "丟掉",
+          plainEnglish: "to throw out",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🗞️", label: "丟垃圾" },
+          note: "把不要的「扔出去」→ 丟棄",
+          example: "We should throw out these outdated config files.",
+        },
+        {
+          meaning: "把人趕出去",
+          plainEnglish: "to kick out",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🧍", label: "鬧事的人" },
+          note: "把人「扔到門外」→ 驅逐、趕走",
+          example: "The bouncer threw him out of the club for causing trouble.",
+        },
+        {
+          meaning: "拋出（想法）",
+          plainEnglish: "to suggest",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "💡", label: "點子" },
+          note: "把點子「拋出去」給大家 → 提出來討論",
+          example: "Let me throw out a few ideas and see what sticks.",
+        },
+      ],
+    },
+    up: {
+      title: "Throw up",
+      spatial: "THROW（噴）+ UP（往上）= 胃裡的東西往上衝出來 → 吐。",
+      coreMotion: 'throw-up',
+      meanings: [
+        {
+          meaning: "吐了/嘔吐",
+          plainEnglish: "to vomit",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🤮", label: "嘔吐" },
+          note: "胃裡的東西「往上噴出來」→ 吐",
+          example: "He felt so sick that he threw up in the bathroom.",
+        },
+      ],
+    },
   },
 
   Stand: {
-    out: { title: "Stand out", spatial: "站出來。", meanings: [
-      { meaning: "突出/引人注目", note: "「站得比別人高」→ 在人群中特別顯眼", example: "Her resume really stands out from the other candidates." },
-    ]},
-    up: { title: "Stand up", spatial: "站起來。", meanings: [
-      { meaning: "站起來", note: "身體「立起來」", example: "Everyone stood up when the CEO walked in." },
-      { meaning: "放鴿子", note: "讓對方「站著等」卻沒出現 → 爽約", example: "She stood me up — I waited at the restaurant for an hour." },
-      { meaning: "站得住腳", note: "論點能「站穩」不倒 → 經得起檢驗", example: "Will this argument stand up in a code review?" },
-    ]},
-    for: { title: "Stand for", spatial: "站在前面代表。", meanings: [
-      { meaning: "代表", note: "「站在」符號前面 → 象徵某個意思", example: "What does API stand for? Application Programming Interface." },
-      { meaning: "容忍", note: "「站著」承受壓力 → 忍受（常用否定）", example: "I won't stand for this kind of behavior in the workplace." },
-    ]},
-    by: { title: "Stand by", spatial: "站在旁邊。", meanings: [
-      { meaning: "待命/備用", note: "「站在旁邊」隨時準備上場 → 待命支援", example: "The DevOps team is standing by during the server migration." },
-      { meaning: "支持", note: "「站在旁邊」不離開 → 堅定支持", example: "She stood by her decision despite all the criticism." },
-    ]},
+    out: {
+      title: "Stand out",
+      spatial: "STAND（站）+ OUT（突出來）= 站得比別人高、特別顯眼。",
+      coreMotion: 'stand-out',
+      meanings: [
+        {
+          meaning: "特別顯眼/亮眼",
+          plainEnglish: "to stand out",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🌟", label: "顯眼" },
+          note: "在一排人裡「站得比別人高、亮」→ 一眼就被看到",
+          example: "Her resume really stands out from the other candidates.",
+        },
+      ],
+    },
+    up: {
+      title: "Stand up",
+      spatial: "STAND（站）+ UP（往上立起）= 身體立起來 / 讓人空等 / 論點站得穩。",
+      coreMotion: 'stand-up',
+      meanings: [
+        {
+          meaning: "站起來",
+          plainEnglish: "to stand up",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🧍", label: "站起來" },
+          note: "身體從坐著「立起來」",
+          example: "Everyone stood up when the CEO walked in.",
+        },
+        {
+          meaning: "被放鴿子/爽約",
+          plainEnglish: "to not show up",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🕐", label: "被放鴿子" },
+          note: "讓對方「站著空等」自己卻沒出現 → 放鴿子",
+          example: "She stood me up — I waited at the restaurant for an hour.",
+        },
+        {
+          meaning: "站得住腳/說得通",
+          plainEnglish: "to hold up",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "⚖️", label: "論點" },
+          note: "論點被質疑也「站得穩」不倒 → 經得起檢驗",
+          example: "Will this argument stand up in a code review?",
+        },
+      ],
+    },
+    for: {
+      title: "Stand for",
+      spatial: "STAND（站）+ FOR（代表/支撐）= 站在背後代表某意思 / 撐著忍受。",
+      coreMotion: 'stand-for',
+      meanings: [
+        {
+          meaning: "代表/縮寫",
+          plainEnglish: "to represent",
+          grammar: 'inseparable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🔤", label: "代表" },
+          note: "這個符號/縮寫「站在背後代表」某個意思",
+          example: "What does API stand for? Application Programming Interface.",
+        },
+        {
+          meaning: "容忍（不爽就不忍）",
+          plainEnglish: "to tolerate",
+          grammar: 'inseparable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🚫", label: "不容忍" },
+          note: "「站著」承受 → 忍受（常用否定：I won't stand for it）",
+          example: "I won't stand for this kind of behavior in the workplace.",
+        },
+      ],
+    },
+    by: {
+      title: "Stand by",
+      spatial: "STAND（站）+ BY（在旁邊）= 站在旁邊待命 / 站在你這邊挺你。",
+      coreMotion: 'stand-by',
+      meanings: [
+        {
+          meaning: "待命",
+          plainEnglish: "to stand by",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🟢", label: "待命" },
+          note: "「站在旁邊」隨時準備上場 → 待命支援",
+          example: "The DevOps team is standing by during the server migration.",
+        },
+        {
+          meaning: "挺你/支持",
+          plainEnglish: "to support",
+          grammar: 'inseparable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "🤝", label: "挺你" },
+          note: "「站在你旁邊」不離開 → 不管怎樣都挺你",
+          example: "She stood by her decision despite all the criticism.",
+        },
+      ],
+    },
   },
 
   Blow: {
-    up: { title: "Blow up", spatial: "氣往上炸。", meanings: [
-      { meaning: "爆炸", note: "壓力累積「往上炸開」", example: "The gas pipeline blew up and caused a massive fire." },
-      { meaning: "暴怒", note: "情緒「膨脹爆炸」→ 突然大發脾氣", example: "The manager blew up when he saw the production bug." },
-      { meaning: "爆紅", note: "知名度「爆炸式擴大」→ 突然走紅；同一套邏輯", example: "That TikTok video blew up overnight — it got 10 million views." },
-    ]},
-    off: { title: "Blow off", spatial: "吹離。", meanings: [
-      { meaning: "放鴿子/不去", note: "把約定「吹掉」→ 故意不出席", example: "He blew off the team meeting to play video games." },
-      { meaning: "發洩", note: "把壓力像蒸汽「吹出去」；blow off steam", example: "I need to blow off some steam after that stressful sprint." },
-    ]},
+    up: {
+      title: "Blow up",
+      spatial: "BLOW（氣）+ UP（往上膨脹炸開）= 壓力累積到一口氣炸開。",
+      coreMotion: 'blow-up',
+      meanings: [
+        {
+          meaning: "爆炸",
+          plainEnglish: "to explode",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "💥", label: "爆炸" },
+          note: "壓力累積，「砰」一聲往上炸開 → 爆炸",
+          example: "The gas pipeline blew up and caused a massive fire.",
+        },
+        {
+          meaning: "暴怒/抓狂",
+          plainEnglish: "to lose it",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "😡", label: "暴怒" },
+          note: "情緒像氣球「膨脹到爆」→ 突然大發脾氣",
+          example: "The manager blew up when he saw the production bug.",
+        },
+        {
+          meaning: "爆紅",
+          plainEnglish: "to go viral",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🔥", label: "爆紅" },
+          note: "知名度「爆炸式衝上去」→ 一夕之間爆紅",
+          example: "That TikTok video blew up overnight — it got 10 million views.",
+        },
+      ],
+    },
+    off: {
+      title: "Blow off",
+      spatial: "BLOW（吹）+ OFF（吹離開）= 把約定吹掉不去 / 把壓力吹出去發洩。",
+      coreMotion: 'blow-off',
+      meanings: [
+        {
+          meaning: "放鴿子/翹掉",
+          plainEnglish: "to skip",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "📅", label: "放鴿子" },
+          note: "把約好的事「一吹就掉」→ 故意不去、翹掉",
+          example: "He blew off the team meeting to play video games.",
+        },
+        {
+          meaning: "發洩",
+          plainEnglish: "to let off steam",
+          grammar: 'separable',
+          followedBy: 'noun',
+          sceneObject: { emoji: "💨", label: "發洩" },
+          note: "把累積的壓力像蒸汽「吹出去」→ 發洩一下（blow off steam）",
+          example: "I need to blow off some steam after that stressful sprint.",
+        },
+      ],
+    },
   },
 
   Sign: {
-    up: { title: "Sign up", spatial: "簽上去。", meanings: [
-      { meaning: "註冊/報名", note: "把名字「簽上」名單 → 加入或登記", example: "Over 500 people signed up for the free trial in the first week." },
-    ]},
-    in: { title: "Sign in", spatial: "簽進去。", meanings: [
-      { meaning: "登入", note: "「簽名進入」系統 → 輸入帳密登入", example: "You need to sign in with your company email to access the dashboard." },
-    ]},
-    out: { title: "Sign out", spatial: "簽出去。", meanings: [
-      { meaning: "登出", note: "「簽名離開」系統 → 結束連線", example: "Don't forget to sign out when you leave a shared computer." },
-    ]},
-    off: { title: "Sign off (on)", spatial: "簽完移開放行。", meanings: [
-      { meaning: "簽核/批准", note: "簽完「移開放行」→ 同意通過；sign off on something", example: "We need the tech lead to sign off on this deployment." },
-    ]},
+    up: {
+      title: "Sign up",
+      spatial: "SIGN（簽名）+ UP（加上名單）= 把名字簽上去，加入。",
+      coreMotion: 'sign-up',
+      meanings: [
+        {
+          meaning: "報名/註冊",
+          plainEnglish: "to sign up",
+          grammar: 'intransitive',
+          followedBy: 'for + noun',
+          sceneObject: { emoji: "📋", label: "報名" },
+          note: "把名字「簽上」名單 → 報名、註冊加入",
+          example: "Over 500 people signed up for the free trial in the first week.",
+        },
+      ],
+    },
+    in: {
+      title: "Sign in",
+      spatial: "SIGN（簽名）+ IN（進去）= 簽名進入系統。",
+      coreMotion: 'sign-in',
+      meanings: [
+        {
+          meaning: "登入",
+          plainEnglish: "to sign in",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🔓", label: "登入" },
+          note: "「簽名進入」系統 → 輸入帳密登入",
+          example: "You need to sign in with your company email to access the dashboard.",
+        },
+      ],
+    },
+    out: {
+      title: "Sign out",
+      spatial: "SIGN（簽名）+ OUT（出去）= 簽名離開系統。",
+      coreMotion: 'sign-out',
+      meanings: [
+        {
+          meaning: "登出",
+          plainEnglish: "to sign out",
+          grammar: 'intransitive',
+          sceneObject: { emoji: "🔒", label: "登出" },
+          note: "「簽名離開」系統 → 結束連線登出",
+          example: "Don't forget to sign out when you leave a shared computer.",
+        },
+      ],
+    },
+    off: {
+      title: "Sign off (on)",
+      spatial: "SIGN（簽名）+ OFF（簽完放行）= 簽核同意，放行通過。",
+      coreMotion: 'sign-off',
+      meanings: [
+        {
+          meaning: "簽核/批准",
+          plainEnglish: "to approve",
+          grammar: 'intransitive',
+          followedBy: 'on + noun',
+          sceneObject: { emoji: "✅", label: "簽核" },
+          note: "簽完名「放行」→ 同意、批准通過（sign off on something）",
+          example: "We need the tech lead to sign off on this deployment.",
+        },
+      ],
+    },
   },
 
   Shut: {

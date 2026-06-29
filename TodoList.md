@@ -172,51 +172,51 @@
 
 ### Work
 - [x] Work out
-- [ ] Work on
+- [x] Work on
 
 ### Find
-- [ ] Find out
+- [x] Find out
 
 ### Figure
-- [ ] Figure out
+- [x] Figure out
 
 ### Show
-- [ ] Show up
-- [ ] Show off
+- [x] Show up
+- [x] Show off
 
 ### Check
-- [ ] Check out
-- [ ] Check in
+- [x] Check out
+- [x] Check in
 
 ### End
-- [ ] End up
+- [x] End up
 
 ### Catch
-- [ ] Catch up
+- [x] Catch up
 
 ### Point
-- [ ] Point out
+- [x] Point out
 
 ### Throw
-- [ ] Throw away
-- [ ] Throw out
-- [ ] Throw up
+- [x] Throw away
+- [x] Throw out
+- [x] Throw up
 
 ### Stand
-- [ ] Stand out
-- [ ] Stand up
-- [ ] Stand for
-- [ ] Stand by
+- [x] Stand out
+- [x] Stand up
+- [x] Stand for
+- [x] Stand by
 
 ### Blow
-- [ ] Blow up
-- [ ] Blow off
+- [x] Blow up
+- [x] Blow off
 
 ### Sign
-- [ ] Sign up
-- [ ] Sign in
-- [ ] Sign out
-- [ ] Sign off (on)
+- [x] Sign up
+- [x] Sign in
+- [x] Sign out
+- [x] Sign off (on)
 
 ### Shut
 - [ ] Shut down

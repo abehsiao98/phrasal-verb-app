@@ -3453,6 +3453,28 @@ const SCENE_MAP = {
   'cut-down': CutDownScene,
   'work-out': WorkOutScene,
   'work-on': WorkOnScene,
+  'find-out': FindOutScene,
+  'figure-out': FigureOutScene,
+  'show-up': ShowUpScene,
+  'show-off': ShowOffScene,
+  'check-out': CheckOutScene,
+  'check-in': CheckInScene,
+  'end-up': EndUpScene,
+  'catch-up': CatchUpScene,
+  'point-out': PointOutScene,
+  'throw-away': ThrowAwayScene,
+  'throw-out': ThrowOutScene,
+  'throw-up': ThrowUpScene,
+  'stand-out': StandOutScene,
+  'stand-up': StandUpScene,
+  'stand-for': StandForScene,
+  'stand-by': StandByScene,
+  'blow-up': BlowUpScene,
+  'blow-off': BlowOffScene,
+  'sign-up': SignScene,
+  'sign-in': SignScene,
+  'sign-out': SignScene,
+  'sign-off': SignScene,
 };
 
 function RunExitScene({ obj, meaning }) {
@@ -12361,82 +12383,77 @@ function CarryOutScene({ obj }) {
 
 // ─────────────────────────────────────────────────
 // Work on  (work-on)
-// WORK（用力）+ ON（持續在上面）= 持續打磨
+// WORK（用力）+ ON（一直壓在上面）= 大工具反覆「壓在物件上」加工 → 物件慢慢變好
+//   作品 ✏️ → 🌟（完成）   弱點 📉 → 📈（補強）
 // ─────────────────────────────────────────────────
 function WorkOnScene({ obj }) {
   const isProject = obj.label === '作品';
-  const dur = isProject ? 4 : 5;
-  const kf = [0, 0.08, 0.24, 0.34, 0.50, 0.60, 0.76, 0.86, 1];
+  const dur = 4.5;
+  const tool = isProject ? '🖌️' : '🔧';
+  const result = isProject ? '🌟' : '📈';
+
+  // 一條時間軸：三次「壓下」(接觸點 0.18 / 0.38 / 0.58)，再展示成果，再重置
+  const T = [0, 0.10, 0.18, 0.30, 0.38, 0.50, 0.58, 0.74, 1];
 
   return (
     <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', bottom: 18, left: 0, right: 0, height: 2, background: '#e0e0e0' }} />
 
-      {/* 物件放在地板上（左側） */}
-      {isProject ? (
-        <div style={{ position: 'absolute', bottom: 20, left: '14%', fontSize: 40, zIndex: 4 }}>{obj.emoji}</div>
-      ) : (
-        <motion.div
-          animate={{ scale: [1.35, 1.35, 1.0, 1.0, 1.35], opacity: [0.45, 0.45, 1.0, 1.0, 0.45] }}
-          transition={{ duration: dur, repeat: Infinity, times: [0, 0.08, 0.55, 0.76, 0.94] }}
-          style={{ position: 'absolute', bottom: 20, left: '14%', fontSize: 40, zIndex: 4 }}
-        >{obj.emoji}</motion.div>
-      )}
+      {/* ── 工作台 ── */}
+      <div style={{ position: 'absolute', bottom: '34%', left: '12%', right: '10%', height: 8, background: '#8d6e63', borderRadius: 4, zIndex: 3 }} />
+      <div style={{ position: 'absolute', bottom: '16%', left: '18%', width: 5, height: '18%', background: '#795548', zIndex: 2 }} />
+      <div style={{ position: 'absolute', bottom: '16%', right: '14%', width: 5, height: '18%', background: '#795548', zIndex: 2 }} />
 
-      {/* ON 標示 */}
-      <div style={{ position: 'absolute', bottom: '60%', left: '10%', fontSize: 10, fontWeight: 900, color: '#1a237e', zIndex: 6 }}>ON ↓</div>
+      {/* ── ON ↓ 標示（工具壓下的方向）── */}
+      <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', fontSize: 12, fontWeight: 900, color: '#e65100', zIndex: 9 }}>ON ↓</div>
 
-      {/* 人物：身體微微前傾（leaning in），左手臂獨立向下擺動 */}
+      {/* ── 大工具：反覆「壓下 → 抬起」，垂直位移約 36px，清楚可見 ── */}
       <motion.div
-        animate={{ y: [0, 0, 5, 0, 5, 0, 5, 0, 0] }}
-        transition={{ duration: dur, repeat: Infinity, times: kf, ease: 'easeInOut' }}
-        style={{ position: 'absolute', bottom: 20, left: '28%', zIndex: 5 }}
-      >
-        <svg width="40" height="54" viewBox="0 0 40 54">
-          <circle cx="20" cy="7" r="7" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2"/>
-          <line x1="20" y1="14" x2="18" y2="33" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
-          {/* 左手臂：向下擺動敲擊（y2: 30→44 = 明確往下打） */}
-          <motion.line
-            x1="19" y1="21"
-            animate={{ x2: [7, 7, 3, 7, 3, 7, 3, 7, 7], y2: [30, 30, 44, 30, 44, 30, 44, 30, 30] }}
-            transition={{ duration: dur, repeat: Infinity, times: kf, ease: 'easeInOut' }}
-            stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"
-          />
-          <line x1="19" y1="21" x2="32" y2="27" stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
-          <line x1="18" y1="33" x2="30" y2="46" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="18" y1="33" x2="8"  y2="47" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
-          <rect x="26" y="44" width="11" height="5" rx="2.5" fill="#1a237e"/>
-          <rect x="4"  y="45" width="11" height="5" rx="2.5" fill="#1a237e"/>
-        </svg>
+        animate={{
+          y:      [-34, -34,  4, -34,  4, -34,  4, -34, -34],
+          rotate: isProject ? [-18, -18, 6, -18, 6, -18, 6, -18, -18] : [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeIn' }}
+        style={{ position: 'absolute', bottom: '40%', left: '50%', marginLeft: -18, fontSize: 36, zIndex: 7, transformOrigin: 'bottom center' }}
+      >{tool}</motion.div>
+
+      {/* ── 被加工的物件（每次壓到就壓扁回彈）── */}
+      <motion.div
+        animate={{ scaleY: [1, 1, 0.7, 1, 0.7, 1, 0.7, 1, 1] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'backOut' }}
+        style={{ position: 'absolute', bottom: '35%', left: '50%', marginLeft: -16, fontSize: 30, lineHeight: 1, zIndex: 4, transformOrigin: 'bottom' }}
+      >{obj.emoji}</motion.div>
+
+      {/* ── 接觸火花（每次壓下時迸出）── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 1, 0, 1, 0, 1, 0, 0], scale: [0.4, 0.4, 1.4, 0.4, 1.4, 0.4, 1.4, 0.4, 0.4] }}
+        transition={{ duration: dur, repeat: Infinity, times: T }}
+        style={{ position: 'absolute', bottom: '40%', left: '50%', marginLeft: -8, fontSize: 16, zIndex: 8 }}>
+        ✨
       </motion.div>
 
-      {/* 接觸閃光：手臂打下去時從物件冒出 */}
-      {[0, 1].map(i => (
-        <motion.div key={i}
-          animate={{ opacity: [0, 0, 0, 1, 0, 0, 1, 0, 0], y: [0, 0, 0, -10 - i*6, -18 - i*6, 0, -10 - i*6, -18 - i*6, 0] }}
-          transition={{ duration: dur, repeat: Infinity, times: [0, 0.20, 0.26, 0.30, 0.40, 0.56, 0.62, 0.70, 0.80], delay: i * 0.09 }}
-          style={{ position: 'absolute', bottom: 50, left: `${17 + i * 8}%`, fontSize: 11, zIndex: 7 }}>
-          ✨
-        </motion.div>
-      ))}
-
-      {/* Scene B 特有：✅ 改善後出現 */}
-      {!isProject && (
+      {/* ── 進度條：每壓一次往上一階，逼近滿格 ── */}
+      <div style={{ position: 'absolute', bottom: '26%', left: '50%', marginLeft: -40, width: 80, height: 8, background: '#e0e0e0', borderRadius: 4, zIndex: 5 }}>
         <motion.div
-          animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.3, 0.3, 0.3, 1.3, 1.0, 0.3] }}
-          transition={{ duration: dur, repeat: Infinity, times: [0, 0.08, 0.52, 0.64, 0.76, 0.94], ease: [0.34, 1.56, 0.64, 1] }}
-          style={{ position: 'absolute', bottom: 22, left: '26%', fontSize: 22, zIndex: 8 }}>
-          ✅
-        </motion.div>
-      )}
+          animate={{ width: ['4%', '4%', '38%', '38%', '68%', '68%', '96%', '96%', '4%'] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+          style={{ height: 8, background: '#43a047', borderRadius: 4 }}
+        />
+      </div>
+
+      {/* ── 成果：加工完成後彈出（作品→🌟 / 弱點→📈）── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 0, 0, 1, 0], scale: [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 1.3, 0.3], y: [0, 0, 0, 0, 0, 0, 0, -6, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ position: 'absolute', bottom: '44%', left: '50%', marginLeft: 20, fontSize: 30, zIndex: 9 }}>
+        {result}
+      </motion.div>
 
       <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 4, whiteSpace: 'nowrap' }}>
-        {isProject ? 'WORK + ON = 一直在上面用力打磨' : 'WORK + ON = 持續在弱點施工改善'}
+        {isProject ? 'WORK + ON = 一直在作品上加工 → 越做越好' : 'WORK + ON = 一直修那個弱點 → 補強起來'}
       </div>
     </div>
   );
 }
-// // ─────────────────────────────────────────────────
 
 // ─────────────────────────────────────────────────
 // Work out  (work-out)
@@ -14298,6 +14315,1555 @@ function BreakBurstScene({ obj, meaning }) {
         {/* 😣 */}
         <div style={{ position: 'absolute', left: '50%', marginLeft: -10, top: '8%', fontSize: 18, zIndex: 5 }}>{obj.emoji}</div>
       </>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Sign up / in / out / off  (sign-*)
+// SIGN（簽名）+ 方向 = 簽名加入名單 / 進系統 / 離開系統 / 簽核放行
+// 共用一個簽名動作，再依方向給不同結果
+// ─────────────────────────────────────────────────
+function SignScene({ obj }) {
+  const dur = 4.5;
+  const kind = obj.label; // 報名 / 登入 / 登出 / 簽核
+  // 流程：① 簽名 ② 名牌🪪冒出 ③ 名牌往 particle 方向跑 ④ 變成那個意思
+  const T = [0, 0.16, 0.30, 0.58, 0.78, 0.92, 1];
+
+  const cfg = {
+    報名: { particle: 'UP',  pcolor: '#2e7d32', meaning: '報名' },
+    登入: { particle: 'IN',  pcolor: '#1565c0', meaning: '登入' },
+    登出: { particle: 'OUT', pcolor: '#e65100', meaning: '登出' },
+    簽核: { particle: 'OFF', pcolor: '#6a1b9a', meaning: '放行' },
+  }[kind];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 上方公式：SIGN ＋ particle ＝ 意思（說明為什麼合起來變這個意思）── */}
+      <div style={{ position: 'absolute', top: '6%', left: '50%', transform: 'translateX(-50%)', fontSize: 14, fontWeight: 900, zIndex: 9, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span style={{ color: '#1a237e' }}>SIGN</span>
+        <span style={{ color: '#bbb' }}>＋</span>
+        <motion.span
+          animate={{ scale: [1, 1, 1.3, 1.3, 1, 1, 1] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ color: cfg.pcolor }}>{cfg.particle}</motion.span>
+        <span style={{ color: '#bbb' }}>＝</span>
+        <motion.span
+          animate={{ opacity: [0.3, 0.3, 0.3, 0.3, 1, 1, 0.3] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ color: cfg.pcolor }}>{cfg.meaning}</motion.span>
+      </div>
+
+      {/* ── ① 簽名區（動詞 SIGN：寫名字）── */}
+      <div style={{ position: 'absolute', left: '10%', top: '52%', width: 56, height: 1.5, background: '#ddd', zIndex: 3 }} />
+      <motion.div
+        animate={{ scaleX: [0, 1, 1, 1, 1, 1, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+        style={{ position: 'absolute', left: '10%', top: '46%', width: 52, height: 7, background: 'repeating-linear-gradient(90deg,#1a237e 0 3px,transparent 3px 6px)', borderRadius: 2, transformOrigin: 'left', zIndex: 4 }}
+      />
+      <motion.div
+        animate={{ left: ['9%', '20%', '20%', '20%', '20%', '20%', '9%'], opacity: [1, 1, 1, 0, 0, 0, 1] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeInOut' }}
+        style={{ position: 'absolute', top: '40%', fontSize: 20, zIndex: 6 }}>
+        ✍️
+      </motion.div>
+
+      {/* ── ② 名牌🪪 從簽名處冒出來（這就是「你簽下的名字」這個 token）── */}
+      {/* ── ③ 名牌往 particle 方向跑 ④ 落點變成意思（每個分支不同）── */}
+
+      {/* ════ 報名：🪪 往「上 ↑」貼到名單 📋 ════ */}
+      {kind === '報名' && <>
+        <div style={{ position: 'absolute', left: '54%', top: '22%', marginLeft: -30, width: 60, height: 64, background: '#fff', border: '2.5px solid #43a047', borderRadius: 6, zIndex: 4 }}>
+          <div style={{ textAlign: 'center', fontSize: 16, marginTop: 2 }}>📋</div>
+          {[0, 1].map(i => <div key={i} style={{ height: 5, margin: '5px 7px 0', background: '#c8e6c9', borderRadius: 3 }} />)}
+        </div>
+        <motion.div
+          animate={{
+            left: ['16%', '16%', '20%', '50%', '52%', '52%', '16%'],
+            top:  ['50%', '50%', '50%', '30%', '30%', '30%', '50%'],
+            opacity: [0, 0, 1, 1, 1, 1, 0],
+            scale: [0.5, 0.5, 1, 1, 1, 1, 0.5],
+          }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', fontSize: 26, zIndex: 7 }}>
+          🪪
+        </motion.div>
+        {/* 往上的大箭頭 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 1, 0, 0, 0], y: [10, 10, 0, -10, -10, -10, 10] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', left: '34%', top: '40%', fontSize: 22, fontWeight: 900, color: '#2e7d32', zIndex: 8 }}>
+          ↑
+        </motion.div>
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0, 1, 1, 0], scale: [0.3, 0.3, 0.3, 0.3, 1.4, 1, 0.3] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '66%', top: '24%', fontSize: 18, zIndex: 8 }}>
+          ✅
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          簽名(SIGN) → 名字往「上(UP)」貼到名單 → 報名加入
+        </div>
+      </>}
+
+      {/* ════ 登入：🪪 往右「進到 IN」系統框裡，框亮起 ════ */}
+      {kind === '登入' && <>
+        {/* 系統框 */}
+        <motion.div
+          animate={{ borderColor: ['#bdbdbd', '#bdbdbd', '#bdbdbd', '#bdbdbd', '#1565c0', '#1565c0', '#bdbdbd'], boxShadow: ['none', 'none', 'none', 'none', '0 0 12px #64b5f6', '0 0 12px #64b5f6', 'none'] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', right: '12%', top: '30%', width: 78, height: 58, background: '#fff', border: '2.5px solid #bdbdbd', borderRadius: 8, zIndex: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
+          💻
+        </motion.div>
+        {/* 名牌從簽名處往右進入框內 */}
+        <motion.div
+          animate={{
+            left: ['16%', '16%', '22%', '64%', '70%', '70%', '16%'],
+            top:  ['50%', '50%', '48%', '40%', '40%', '40%', '50%'],
+            opacity: [0, 0, 1, 1, 0, 0, 0],
+            scale: [0.5, 0.5, 1, 0.9, 0.6, 0.6, 0.5],
+          }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeIn' }}
+          style={{ position: 'absolute', fontSize: 26, zIndex: 7 }}>
+          🪪
+        </motion.div>
+        <div style={{ position: 'absolute', left: '46%', top: '34%', fontSize: 22, fontWeight: 900, color: '#1565c0', zIndex: 8 }}>→]</div>
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0, 1, 1, 0], scale: [0.4, 0.4, 0.4, 0.4, 1.3, 1, 0.4] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', right: '14%', top: '22%', fontSize: 20, zIndex: 8 }}>
+          🔓
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          簽名(SIGN) → 名字往「裡面(IN)」進系統 → 登入
+        </div>
+      </>}
+
+      {/* ════ 登出：🪪 從系統框裡往右「出來 OUT」，框暗掉（和登入相反）════ */}
+      {kind === '登出' && <>
+        <motion.div
+          animate={{ borderColor: ['#1565c0', '#1565c0', '#1565c0', '#bdbdbd', '#bdbdbd', '#bdbdbd', '#1565c0'], boxShadow: ['0 0 12px #64b5f6', '0 0 12px #64b5f6', '0 0 12px #64b5f6', 'none', 'none', 'none', '0 0 12px #64b5f6'] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', left: '14%', top: '30%', width: 78, height: 58, background: '#fff', border: '2.5px solid #1565c0', borderRadius: 8, zIndex: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
+          💻
+        </motion.div>
+        {/* 名牌從框內往右跑出去 */}
+        <motion.div
+          animate={{
+            left: ['24%', '24%', '26%', '64%', '84%', '84%', '24%'],
+            top:  ['40%', '40%', '40%', '44%', '44%', '44%', '40%'],
+            opacity: [0, 0, 1, 1, 1, 0, 0],
+            scale: [0.6, 0.6, 0.9, 1, 1, 0.6, 0.6],
+          }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+          style={{ position: 'absolute', fontSize: 26, zIndex: 7 }}>
+          🪪
+        </motion.div>
+        <div style={{ position: 'absolute', left: '50%', top: '34%', fontSize: 22, fontWeight: 900, color: '#e65100', zIndex: 8 }}>]→</div>
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0, 1, 1, 0], scale: [0.4, 0.4, 0.4, 0.4, 1.3, 1, 0.4] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '18%', top: '22%', fontSize: 20, zIndex: 8 }}>
+          🔒
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          簽名(SIGN) → 名字往「外面(OUT)」離開系統 → 登出
+        </div>
+      </>}
+
+      {/* ════ 簽核：🪪 往「下 ↓ 蓋 OFF」到文件上 → 放行 ════ */}
+      {kind === '簽核' && <>
+        <div style={{ position: 'absolute', left: '54%', top: '46%', marginLeft: -24, width: 48, height: 56, background: '#fff', border: '2px solid #bdbdbd', borderRadius: 4, zIndex: 4 }}>
+          <div style={{ height: 4, margin: '9px 7px 0', background: '#eee' }} />
+          <div style={{ height: 4, margin: '5px 7px 0', background: '#eee' }} />
+          <div style={{ height: 4, margin: '5px 7px 0', background: '#eee' }} />
+        </div>
+        {/* 名牌從簽名處往右上拿起，再往下蓋章 */}
+        <motion.div
+          animate={{
+            left: ['16%', '16%', '22%', '52%', '52%', '52%', '16%'],
+            top:  ['50%', '50%', '46%', '20%', '46%', '46%', '50%'],
+            opacity: [0, 0, 1, 1, 1, 1, 0],
+            scale: [0.5, 0.5, 1, 1, 1, 1, 0.5],
+          }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeIn' }}
+          style={{ position: 'absolute', fontSize: 26, zIndex: 7 }}>
+          🪪
+        </motion.div>
+        <div style={{ position: 'absolute', left: '40%', top: '34%', fontSize: 22, fontWeight: 900, color: '#6a1b9a', zIndex: 8 }}>↓</div>
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0, 1, 1, 0], scale: [0.3, 0.3, 0.3, 0.3, 1.5, 1.1, 0.3] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '52%', top: '50%', marginLeft: -14, fontSize: 26, zIndex: 8 }}>
+          ✅
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          簽名(SIGN) → 往「下蓋(OFF)」在文件上 → 簽核放行
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Blow up  (blow-up)
+// BLOW（氣）+ UP（往上膨脹炸開）= 壓力累積一口氣炸開 / 暴怒 / 爆紅
+// ─────────────────────────────────────────────────
+function BlowUpScene({ obj }) {
+  const dur = 4;
+  const isBomb = obj.label === '爆炸';
+  const isAnger = obj.label === '暴怒';
+  // 累積 → 炸開 ≈ 0.55
+  const T = [0, 0.3, 0.5, 0.58, 0.8, 1];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 爆炸：💣 引信 → 💥 ── */}
+      {isBomb && <>
+        <motion.div
+          animate={{ scale: [1, 1.15, 1.3, 0, 0, 1], opacity: [1, 1, 1, 0, 0, 1] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeIn' }}
+          style={{ position: 'absolute', left: '42%', top: '38%', fontSize: 42, zIndex: 5 }}>
+          💣
+        </motion.div>
+      </>}
+
+      {/* ── 暴怒：人 + 頭頂蒸汽 → 😡 → 💥 ── */}
+      {isAnger && <>
+        <div style={{ position: 'absolute', left: '44%', top: '44%', zIndex: 5 }}><StandPerson color="#c62828" /></div>
+        <motion.div
+          animate={{ scale: [0.6, 1, 1.3, 0, 0, 0.6], opacity: [0, 1, 1, 0, 0, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', left: '45%', top: '30%', fontSize: 26, zIndex: 7 }}>
+          😡
+        </motion.div>
+        {[0, 1].map(i => (
+          <motion.div key={i}
+            animate={{ opacity: [0, 0.8, 1, 0, 0, 0], y: [0, -8, -14, 0, 0, 0] }}
+            transition={{ duration: dur, repeat: Infinity, times: T, delay: i * 0.15 }}
+            style={{ position: 'absolute', left: `${42 + i * 8}%`, top: '32%', fontSize: 14, zIndex: 6 }}>
+            💨
+          </motion.div>
+        ))}
+      </>}
+
+      {/* ── 爆紅：📱 + 數字往上飆 → 🔥🚀 ── */}
+      {!isBomb && !isAnger && <>
+        <div style={{ position: 'absolute', left: '20%', top: '38%', fontSize: 34, zIndex: 5 }}>📱</div>
+        {[0, 1, 2].map(i => (
+          <motion.div key={i}
+            animate={{ opacity: [0, 1, 1, 0], y: [0, -30 - i * 6, -50 - i * 10, -60], scale: [0.6, 1, 1.1, 0.6] }}
+            transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3, ease: 'easeOut' }}
+            style={{ position: 'absolute', left: `${30 + i * 6}%`, top: '40%', fontSize: 14, fontWeight: 900, color: '#e53935', zIndex: 6 }}>
+            +1M
+          </motion.div>
+        ))}
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 1, 1, 0], scale: [0.3, 0.3, 1.3, 1.1, 1.1, 0.3], y: [0, 0, -6, -6, -6, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '52%', top: '24%', fontSize: 34, zIndex: 8 }}>
+          🔥
+        </motion.div>
+      </>}
+
+      {/* ── 💥 大爆炸（爆炸 / 暴怒共用） ── */}
+      {(isBomb || isAnger) && (
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 0, 0], scale: [0.2, 0.2, 0.2, 1.8, 2.4, 0.2] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+          style={{ position: 'absolute', left: '50%', top: '34%', marginLeft: -30, fontSize: 60, zIndex: 9 }}>
+          💥
+        </motion.div>
+      )}
+
+      <div style={{ position: 'absolute', left: '50%', top: '8%', transform: 'translateX(-50%)', fontSize: 11, fontWeight: 900, color: '#c62828', zIndex: 9 }}>UP ↑ 炸開</div>
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        {isBomb ? 'BLOW + UP = 壓力累積 → 砰一聲炸開'
+          : isAnger ? 'BLOW + UP = 情緒膨脹到爆 → 突然抓狂'
+          : 'BLOW + UP = 知名度爆炸式衝上去 → 爆紅'}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Blow off  (blow-off)
+// BLOW（吹）+ OFF（吹離開）= 把約定吹掉不去 / 把壓力吹出去發洩
+// ─────────────────────────────────────────────────
+function BlowOffScene({ obj }) {
+  const dur = 4.5;
+  const isSkip = obj.label === '放鴿子';
+  const T = [0, 0.3, 0.5, 0.7, 1];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 放鴿子：📅 約定被一吹就飛走 ── */}
+      {isSkip && <>
+        {/* 翹掉的人 😎 */}
+        <div style={{ position: 'absolute', left: '12%', top: '36%', fontSize: 32, zIndex: 6 }}>😎</div>
+        {/* 一陣風 */}
+        <motion.div
+          animate={{ opacity: [0, 1, 1, 0, 0], x: [0, 20, 40, 60, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', left: '24%', top: '34%', fontSize: 22, zIndex: 7 }}>
+          💨
+        </motion.div>
+        {/* 約定 📅 被吹飛走 */}
+        <motion.div
+          animate={{ x: [0, 0, 40, 110, 0], y: [0, 0, -10, -30, 0], rotate: [0, 0, 30, 90, 0], opacity: [1, 1, 1, 0, 1] }}
+          transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeIn' }}
+          style={{ position: 'absolute', left: '44%', top: '38%', fontSize: 30, zIndex: 5 }}>
+          📅
+        </motion.div>
+        <div style={{ position: 'absolute', right: '12%', top: '20%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 9 }}>OFF →→</div>
+        {/* 被放鴿子的人 😞 */}
+        <div style={{ position: 'absolute', right: '10%', top: '50%', fontSize: 22, zIndex: 6 }}>😞</div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          BLOW + OFF = 把約好的事一吹就掉 → 翹掉、放鴿子
+        </div>
+      </>}
+
+      {/* ── 發洩：壓力像蒸汽吹出去 → 輕鬆 ── */}
+      {!isSkip && <>
+        {/* 人：先憋著 😤 → 吐氣 😌 */}
+        <div style={{ position: 'absolute', left: '34%', top: '40%', zIndex: 5 }}><StandPerson color="#1565c0" /></div>
+        <motion.div
+          animate={{ opacity: [1, 1, 0, 0, 1] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', left: '35%', top: '30%', fontSize: 22, zIndex: 7 }}>
+          😤
+        </motion.div>
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 1, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', left: '35%', top: '30%', fontSize: 22, zIndex: 7 }}>
+          😌
+        </motion.div>
+        {/* 壓力蒸汽往外吹出 */}
+        {[0, 1, 2].map(i => (
+          <motion.div key={i}
+            animate={{ opacity: [0, 0, 1, 0, 0], x: [0, 0, 30 + i * 12, 60 + i * 16, 0], y: [0, 0, -6 - i * 4, -12 - i * 6, 0], scale: [0.5, 0.5, 1.2, 1.5, 0.5] }}
+            transition={{ duration: dur, repeat: Infinity, times: T, delay: i * 0.1 }}
+            style={{ position: 'absolute', left: '44%', top: '32%', fontSize: 18, zIndex: 6 }}>
+            💨
+          </motion.div>
+        ))}
+        <div style={{ position: 'absolute', right: '14%', top: '22%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 9 }}>OFF →</div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          BLOW + OFF = 把累積的壓力吹出去 → 發洩一下
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// 共用：站立的人
+function StandPerson({ color = '#1a237e' }) {
+  return (
+    <svg width="30" height="48" viewBox="0 0 30 48">
+      <circle cx="15" cy="7" r="6" fill="#FDBCB4" stroke="#E59866" strokeWidth="1"/>
+      <line x1="15" y1="13" x2="15" y2="30" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+      <line x1="15" y1="17" x2="5"  y2="23" stroke={color} strokeWidth="2.3" strokeLinecap="round"/>
+      <line x1="15" y1="17" x2="25" y2="23" stroke={color} strokeWidth="2.3" strokeLinecap="round"/>
+      <line x1="15" y1="30" x2="22" y2="44" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+      <line x1="15" y1="30" x2="8"  y2="44" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Stand out  (stand-out)
+// STAND（站）+ OUT（突出來）= 站得比別人高、特別顯眼
+// ─────────────────────────────────────────────────
+function StandOutScene({ obj }) {
+  const dur = 4.5;
+  const T = [0, 0.3, 0.5, 0.8, 1];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+      {/* 地面 */}
+      <div style={{ position: 'absolute', left: '6%', right: '6%', top: '70%', height: 3, background: '#e0e0e0', zIndex: 2 }} />
+
+      {/* 一排普通人（灰、矮） */}
+      {[0, 1, 3, 4].map(i => (
+        <div key={i} style={{ position: 'absolute', left: `${14 + i * 16}%`, top: '40%', transform: 'scale(0.85)', opacity: 0.45, zIndex: 4 }}>
+          <StandPerson color="#9e9e9e" />
+        </div>
+      ))}
+
+      {/* 你：站得更高、發光、🌟 */}
+      <motion.div
+        animate={{ y: [0, 0, -14, -14, 0], scale: [0.85, 0.85, 1.35, 1.35, 0.85] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ position: 'absolute', left: `${14 + 2 * 16}%`, top: '40%', transformOrigin: 'bottom', zIndex: 6 }}>
+        <StandPerson color="#1565c0" />
+      </motion.div>
+      <motion.div
+        animate={{ opacity: [0, 0, 0.7, 0.7, 0], scale: [0.8, 0.8, 1.2, 1.2, 0.8] }}
+        transition={{ duration: dur, repeat: Infinity, times: T }}
+        style={{ position: 'absolute', left: '44%', top: '30%', width: 52, height: 64, marginLeft: -10, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,213,79,0.5), transparent 70%)', zIndex: 5 }}
+      />
+      <motion.div
+        animate={{ opacity: [0, 0, 1, 1, 0], y: [0, 0, -4, -4, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T }}
+        style={{ position: 'absolute', left: '47%', top: '22%', fontSize: 22, zIndex: 8 }}>
+        🌟
+      </motion.div>
+      <div style={{ position: 'absolute', left: '58%', top: '30%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 9 }}>OUT ↑</div>
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        STAND + OUT = 站得比別人高 → 在人群中特別顯眼
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Stand up  (stand-up)
+// STAND（站）+ UP（往上立起）= 站起來 / 被放鴿子空等 / 論點站得穩
+// ─────────────────────────────────────────────────
+function StandUpScene({ obj }) {
+  const dur = 4.5;
+  const isRise = obj.label === '站起來';
+  const isStood = obj.label === '被放鴿子';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 站起來：坐 → 立起來 ── */}
+      {isRise && <>
+        <div style={{ position: 'absolute', left: '50%', top: '60%', width: 60, height: 4, marginLeft: -30, background: '#e0e0e0', zIndex: 2 }} />
+        <motion.div
+          animate={{ y: [16, 16, 0, 0, 16], scaleY: [0.7, 0.7, 1, 1, 0.7] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.8, 1], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '50%', top: '30%', marginLeft: -15, transformOrigin: 'bottom', zIndex: 6 }}>
+          <StandPerson color="#1565c0" />
+        </motion.div>
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 1, 0], y: [0, 0, -6, -6, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.8, 1] }}
+          style={{ position: 'absolute', left: '62%', top: '28%', fontSize: 13, fontWeight: 900, color: '#2e7d32', zIndex: 8 }}>
+          ↑ UP
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          STAND + UP = 身體立起來 → 站起來
+        </div>
+      </>}
+
+      {/* ── 被放鴿子：你站著空等，對方沒來 ── */}
+      {isStood && <>
+        {/* 你站著等 */}
+        <div style={{ position: 'absolute', left: '20%', top: '34%', zIndex: 6 }}><StandPerson color="#1565c0" /></div>
+        {/* 🕐 時間一直過 */}
+        <motion.div
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+          style={{ position: 'absolute', left: '22%', top: '24%', fontSize: 18, zIndex: 7 }}>
+          🕐
+        </motion.div>
+        {/* 空位（對方該來卻沒來） */}
+        <div style={{ position: 'absolute', right: '22%', top: '40%', fontSize: 30, zIndex: 4 }}>🪑</div>
+        <motion.div
+          animate={{ opacity: [0, 0.4, 0, 0, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.8, 1] }}
+          style={{ position: 'absolute', right: '20%', top: '34%', fontSize: 28, zIndex: 5 }}>
+          👤
+        </motion.div>
+        {/* 😞 + 「放鴿子」 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.7, 1] }}
+          style={{ position: 'absolute', left: '24%', top: '24%', fontSize: 18, zIndex: 8 }}>
+          😞
+        </motion.div>
+        <div style={{ position: 'absolute', right: '20%', top: '26%', fontSize: 20, zIndex: 8 }}>🕊️</div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          STAND + UP = 讓你站著空等、人沒出現 → 被放鴿子
+        </div>
+      </>}
+
+      {/* ── 站得住腳：論點被推也不倒 ── */}
+      {!isRise && !isStood && <>
+        <div style={{ position: 'absolute', left: '6%', right: '6%', top: '64%', height: 3, background: '#e0e0e0', zIndex: 2 }} />
+        {/* 論點柱子 ⚖️ */}
+        <motion.div
+          animate={{ rotate: [0, -8, 4, -6, 0, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.25, 0.4, 0.55, 0.7, 1], ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '44%', top: '32%', fontSize: 44, zIndex: 5, transformOrigin: 'bottom center' }}>
+          🏛️
+        </motion.div>
+        {/* 質疑的箭頭撞上來 */}
+        {[0, 1].map(i => (
+          <motion.div key={i}
+            animate={{ opacity: [0, 1, 1, 0, 0, 0], x: [40, 10, 0, 0, 0, 40] }}
+            transition={{ duration: dur, repeat: Infinity, times: [0, 0.2, 0.3, 0.4, 0.7, 1], delay: i * 0.15 }}
+            style={{ position: 'absolute', left: `${64 - i * 4}%`, top: `${34 + i * 8}%`, fontSize: 18, zIndex: 6 }}>
+            👊
+          </motion.div>
+        ))}
+        {/* ✅ 站穩 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.3, 0.3, 0.3, 1.4, 1, 0.3] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.6, 0.72, 0.88, 1], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '46%', top: '20%', fontSize: 24, zIndex: 8 }}>
+          ✅
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          STAND + UP = 被質疑也不倒 → 論點站得住腳
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Stand for  (stand-for)
+// STAND（站）+ FOR（代表/支撐）= 站在背後代表某意思 / 撐著忍受
+// ─────────────────────────────────────────────────
+function StandForScene({ obj }) {
+  const dur = 4.5;
+  const isRepresent = obj.label === '代表';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 代表/縮寫：API = 完整意思 ── */}
+      {isRepresent && <>
+        <div style={{ position: 'absolute', left: '14%', top: '38%', padding: '8px 14px', background: '#1565c0', color: '#fff', fontSize: 22, fontWeight: 900, borderRadius: 8, zIndex: 5 }}>API</div>
+        <motion.div
+          animate={{ opacity: [0, 1, 1, 1, 0], x: [0, 6, 6, 6, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.8, 1] }}
+          style={{ position: 'absolute', left: '38%', top: '40%', fontSize: 22, fontWeight: 900, color: '#757575', zIndex: 6 }}>
+          =
+        </motion.div>
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 1, 0], scale: [0.6, 0.6, 1, 1, 0.6] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.8, 1], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '48%', top: '36%', fontSize: 12, fontWeight: 700, color: '#1a237e', zIndex: 6, lineHeight: 1.4 }}>
+          Application<br/>Programming<br/>Interface
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          STAND + FOR = 這個縮寫「代表」完整的意思
+        </div>
+      </>}
+
+      {/* ── 容忍（不爽就不忍）：擋下來、拒絕 ── */}
+      {!isRepresent && <>
+        <div style={{ position: 'absolute', left: '18%', top: '32%', zIndex: 6 }}><StandPerson color="#c62828" /></div>
+        {/* 舉手擋 ✋ */}
+        <motion.div
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '30%', top: '34%', fontSize: 26, zIndex: 7 }}>
+          ✋
+        </motion.div>
+        {/* 討厭的東西衝過來被擋下 */}
+        {[0, 1].map(i => (
+          <motion.div key={i}
+            animate={{ opacity: [0, 1, 1, 0, 0], x: [40, 6, 0, -4, 40] }}
+            transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.45, 0.55, 1], delay: i * 0.2 }}
+            style={{ position: 'absolute', left: `${56 - i * 4}%`, top: `${32 + i * 8}%`, fontSize: 18, zIndex: 5 }}>
+            💢
+          </motion.div>
+        ))}
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 1, 0], scale: [0.4, 0.4, 1.3, 1, 0.4] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.55, 0.8, 1], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '40%', top: '22%', fontSize: 26, zIndex: 8 }}>
+          🚫
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          STAND + FOR = 站出來擋下 → 我不容忍這種事
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Stand by  (stand-by)
+// STAND（站）+ BY（在旁邊）= 站在旁邊待命 / 站在你這邊挺你
+// ─────────────────────────────────────────────────
+function StandByScene({ obj }) {
+  const dur = 4.5;
+  const isReady = obj.label === '待命';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 待命：站旁邊，🟢 燈閃，隨時上 ── */}
+      {isReady && <>
+        <div style={{ position: 'absolute', left: '38%', top: '34%', zIndex: 6 }}><StandPerson color="#1565c0" /></div>
+        {/* 待命綠燈閃爍 */}
+        <motion.div
+          animate={{ opacity: [1, 0.3, 1], scale: [1, 1.2, 1] }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '50%', top: '30%', fontSize: 20, zIndex: 7 }}>
+          🟢
+        </motion.div>
+        <motion.div
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '54%', top: '32%', fontSize: 11, fontWeight: 900, color: '#2e7d32', zIndex: 8 }}>
+          READY
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          STAND + BY = 站在旁邊隨時準備上場 → 待命
+        </div>
+      </>}
+
+      {/* ── 挺你：站你旁邊，批評也不離開 ── */}
+      {!isReady && <>
+        <div style={{ position: 'absolute', left: '34%', top: '34%', zIndex: 6 }}><StandPerson color="#1565c0" /></div>
+        <div style={{ position: 'absolute', left: '46%', top: '34%', zIndex: 6 }}><StandPerson color="#6a1b9a" /></div>
+        {/* 🤝 */}
+        <motion.div
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '43%', top: '40%', fontSize: 20, zIndex: 7 }}>
+          🤝
+        </motion.div>
+        {/* 批評箭頭飛來被彈開 */}
+        {[0, 1].map(i => (
+          <motion.div key={i}
+            animate={{ opacity: [0, 1, 1, 0, 0], x: [40, 8, 0, -6, 40] }}
+            transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.45, 0.55, 1], delay: i * 0.25 }}
+            style={{ position: 'absolute', left: `${62 - i * 4}%`, top: `${30 + i * 9}%`, fontSize: 16, zIndex: 5 }}>
+            💬❌
+          </motion.div>
+        ))}
+        {/* ❤️ 不離不棄 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 1, 0], y: [0, 0, -8, -8, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.55, 0.8, 1] }}
+          style={{ position: 'absolute', left: '40%', top: '22%', fontSize: 20, zIndex: 8 }}>
+          ❤️
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          STAND + BY = 站你旁邊不離開 → 不管怎樣都挺你
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// 共用：丟東西的人（手舉高作勢扔出）
+function Thrower({ color = '#1a237e', flip = false }) {
+  return (
+    <svg width="40" height="54" viewBox="0 0 40 54" style={flip ? { transform: 'scaleX(-1)' } : undefined}>
+      <circle cx="20" cy="7" r="7" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2"/>
+      <line x1="20" y1="14" x2="20" y2="33" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+      {/* 後手 */}
+      <line x1="20" y1="18" x2="8"  y2="24" stroke={color} strokeWidth="2.5" strokeLinecap="round"/>
+      {/* 扔出去的手（高舉朝前） */}
+      <line x1="20" y1="18" x2="36" y2="6"  stroke={color} strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="20" y1="33" x2="28" y2="48" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+      <line x1="20" y1="33" x2="12" y2="48" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Throw away  (throw-away)
+// THROW（扔）+ AWAY（往遠方離開）= 把東西扔到遠遠的，不要了 / 白白浪費
+// ─────────────────────────────────────────────────
+function ThrowAwayScene({ obj }) {
+  const dur = 4.5;
+  const isWaste = obj.label === '好機會';
+  // 扔出 → 飛大弧線 → 遠方消失
+  const T = [0, 0.22, 0.36, 0.56, 0.78, 0.96];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* 扔東西的人 */}
+      <div style={{ position: 'absolute', left: '8%', top: '40%', zIndex: 5 }}><Thrower /></div>
+
+      {/* 垃圾桶（丟掉時放遠方） */}
+      {!isWaste && <div style={{ position: 'absolute', right: '6%', top: '46%', fontSize: 34, zIndex: 4 }}>🗑️</div>}
+
+      {/* 飛出去的東西：大弧線飛到遠方 + 縮小消失 */}
+      <motion.div
+        animate={{
+          left: ['18%', '30%', '46%', '66%', '84%', '18%'],
+          top:  ['38%', '16%', '12%', '26%', '46%', '38%'],
+          scale: [1, 1, 0.85, 0.6, 0.3, 1],
+          opacity: [1, 1, 1, 1, 0, 0],
+          rotate: [0, 180, 360, 540, 720, 0],
+        }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeIn' }}
+        style={{ position: 'absolute', fontSize: 26, zIndex: 6 }}>
+        {obj.emoji}
+      </motion.div>
+
+      {/* AWAY →→ */}
+      <div style={{ position: 'absolute', left: '46%', top: '6%', fontSize: 11, fontWeight: 900, color: '#c62828', zIndex: 8 }}>AWAY →→</div>
+
+      {/* 浪費：💸 + 😢 可惜 */}
+      {isWaste && <>
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 0, 1, 0], y: [0, 0, 0, 0, -12, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', right: '14%', top: '34%', fontSize: 22, zIndex: 7 }}>
+          💸
+        </motion.div>
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', left: '14%', top: '30%', fontSize: 18, zIndex: 7 }}>
+          😢
+        </motion.div>
+      </>}
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        {isWaste ? 'THROW + AWAY = 好機會隨手扔掉 → 白白浪費' : 'THROW + AWAY = 把不要的扔到遠方 → 丟掉'}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Throw out  (throw-out)
+// THROW（扔）+ OUT（往外）= 把東西／人往外扔 / 把點子拋出來討論
+// ─────────────────────────────────────────────────
+function ThrowOutScene({ obj }) {
+  const dur = 4.5;
+  const isKick = obj.label === '鬧事的人';
+  const isIdea = obj.label === '點子';
+  const T = [0, 0.22, 0.4, 0.6, 0.8, 0.96];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* 扔東西的人 */}
+      <div style={{ position: 'absolute', left: '8%', top: '40%', zIndex: 5 }}><Thrower color={isKick ? '#c62828' : '#1a237e'} /></div>
+
+      {/* 場景道具：垃圾桶 / 門 / 一群人 */}
+      {!isKick && !isIdea && <div style={{ position: 'absolute', right: '8%', top: '46%', fontSize: 32, zIndex: 4 }}>🗑️</div>}
+      {isKick && <div style={{ position: 'absolute', right: '10%', top: '34%', fontSize: 40, zIndex: 4 }}>🚪</div>}
+      {isIdea && <div style={{ position: 'absolute', right: '8%', top: '40%', fontSize: 30, zIndex: 4 }}>👥</div>}
+
+      {/* 扔出去的東西：飛到右邊「外面」 */}
+      <motion.div
+        animate={{
+          left: ['18%', '34%', '52%', '70%', '78%', '18%'],
+          top:  ['38%', '24%', '24%', '36%', '40%', '38%'],
+          rotate: [0, 120, 240, 360, 360, 0],
+          opacity: [1, 1, 1, 1, isIdea ? 1 : 0, isIdea ? 1 : 0],
+        }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+        style={{ position: 'absolute', fontSize: 26, zIndex: 6 }}>
+        {obj.emoji}
+      </motion.div>
+
+      {/* OUT → */}
+      <div style={{ position: 'absolute', left: '50%', top: '12%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 8 }}>OUT →</div>
+
+      {/* 趕人：😡 / 點子：🤔💬 反應 */}
+      {isKick && (
+        <motion.div
+          animate={{ opacity: [0, 1, 1, 1, 0, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', left: '16%', top: '32%', fontSize: 18, zIndex: 7 }}>
+          😡
+        </motion.div>
+      )}
+      {isIdea && (
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0], y: [0, 0, 0, -10, -14, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: T }}
+          style={{ position: 'absolute', right: '6%', top: '28%', fontSize: 18, zIndex: 7 }}>
+          🤔💬
+        </motion.div>
+      )}
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        {isKick ? 'THROW + OUT = 把鬧事的人扔到門外 → 趕出去'
+          : isIdea ? 'THROW + OUT = 把點子拋出去 → 提出來討論'
+          : 'THROW + OUT = 把不要的扔出去 → 丟掉'}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Throw up  (throw-up)
+// THROW（噴）+ UP（往上）= 胃裡的東西往上衝出來 → 吐
+// ─────────────────────────────────────────────────
+function ThrowUpScene({ obj }) {
+  const dur = 3.5;
+  const T = [0, 0.3, 0.45, 0.6, 0.8, 1];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* 難受 → 嘔吐的人（身體前傾抖一下） */}
+      <motion.div
+        animate={{ rotate: [0, -3, -10, -6, 0, 0], x: [0, -2, -4, -2, 0, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '30%', top: '34%', zIndex: 5, transformOrigin: 'bottom center' }}>
+        <svg width="44" height="58" viewBox="0 0 44 58">
+          {/* 身體 */}
+          <line x1="22" y1="20" x2="22" y2="40" stroke="#1a237e" strokeWidth="3.5" strokeLinecap="round"/>
+          <line x1="22" y1="24" x2="10" y2="32" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="22" y1="24" x2="34" y2="30" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="22" y1="40" x2="30" y2="54" stroke="#1a237e" strokeWidth="3.5" strokeLinecap="round"/>
+          <line x1="22" y1="40" x2="14" y2="54" stroke="#1a237e" strokeWidth="3.5" strokeLinecap="round"/>
+        </svg>
+      </motion.div>
+      {/* 🤮 臉 */}
+      <motion.div
+        animate={{ scale: [1, 1, 1.2, 1.1, 1, 1] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+        style={{ position: 'absolute', left: '30%', top: '24%', fontSize: 26, zIndex: 7 }}>
+        🤮
+      </motion.div>
+
+      {/* 往上噴出來的東西（綠色顆粒，往上衝再灑落） */}
+      {[0, 1, 2, 3].map(i => (
+        <motion.div key={i}
+          animate={{
+            opacity: [0, 0, 1, 1, 0, 0],
+            x: [0, 0, 6 + i * 6, 14 + i * 10, 18 + i * 12, 0],
+            y: [0, 0, -10, -24, -6, 0],
+            scale: [0.4, 0.4, 1, 1, 0.6, 0.4],
+          }}
+          transition={{ duration: dur, repeat: Infinity, times: T, delay: i * 0.05, ease: 'easeOut' }}
+          style={{ position: 'absolute', left: '40%', top: '28%', fontSize: 12, zIndex: 8 }}>
+          🟢
+        </motion.div>
+      ))}
+      {/* UP ↑ */}
+      <div style={{ position: 'absolute', left: '56%', top: '18%', fontSize: 11, fontWeight: 900, color: '#2e7d32', zIndex: 9 }}>↑ UP</div>
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        THROW + UP = 胃裡的東西往上噴出來 → 吐了
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Point out  (point-out)
+// POINT（用手指指）+ OUT（指出來）= 把一堆裡的重點/問題指出來，提醒大家
+// ─────────────────────────────────────────────────
+function PointOutScene({ obj }) {
+  const dur = 4.5;
+  // 手指指到的瞬間 ≈ 0.45
+  const T = [0, 0.30, 0.45, 0.58, 0.82, 0.96];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 一排東西，中間那個是「重點/問題」── */}
+      {[0, 1, 2].map(i => {
+        const isTarget = i === 1;
+        return (
+          <motion.div key={i}
+            animate={isTarget ? { scale: [1, 1, 1.35, 1.25, 1.25, 1] } : { scale: [1, 1, 0.9, 0.9, 0.9, 1], opacity: [1, 1, 0.5, 0.5, 0.5, 1] }}
+            transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+            style={{ position: 'absolute', left: `${36 + i * 13}%`, top: '38%', fontSize: 30, zIndex: isTarget ? 6 : 4 }}>
+            📄
+          </motion.div>
+        );
+      })}
+
+      {/* ── 紅圈圈住重點 ── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 1, 1, 1, 0], scale: [1.6, 1.6, 1.1, 1, 1, 1.6] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+        style={{ position: 'absolute', left: '49%', top: '36%', width: 42, height: 42, marginLeft: -21, borderRadius: '50%', border: '3px solid #e53935', zIndex: 7 }}
+      />
+
+      {/* ── 👉 手指從左下指過來，停在重點上 ── */}
+      <motion.div
+        animate={{ left: ['18%', '40%', '44%', '44%', '44%', '18%'], opacity: [0, 1, 1, 1, 1, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+        style={{ position: 'absolute', top: '48%', fontSize: 30, zIndex: 8 }}>
+        👉
+      </motion.div>
+
+      {/* ── ❗ 重點從上方彈出 + OUT ── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.3, 0.3, 0.3, 1.5, 1.1, 0.3], y: [0, 0, 0, -10, -10, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ position: 'absolute', left: '50%', top: '20%', marginLeft: -12, fontSize: 30, zIndex: 9 }}>
+        {obj.emoji}
+      </motion.div>
+
+      <div style={{ position: 'absolute', left: '64%', top: '24%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 9 }}>OUT ↑</div>
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        POINT + OUT = 從一堆裡把重點「指出來」→ 提醒大家注意
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Catch up  (catch-up)
+// CATCH（追）+ UP（追到並排）= 加速追上落後的距離 / 追上彼此聊近況
+// ─────────────────────────────────────────────────
+function CatchUpScene({ obj }) {
+  const dur = 4.5;
+  const isProgress = obj.label === '進度';
+
+  const Runner = ({ color = '#1a237e' }) => (
+    <svg width="34" height="46" viewBox="0 0 40 54">
+      <circle cx="20" cy="7" r="7" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2"/>
+      <line x1="20" y1="14" x2="20" y2="33" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+      <line x1="20" y1="17" x2="6"  y2="22" stroke={color} strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="20" y1="17" x2="34" y2="12" stroke={color} strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="20" y1="33" x2="32" y2="42" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+      <line x1="20" y1="33" x2="8"  y2="44" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+    </svg>
+  );
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 趕上進度：你在後面，加速追上前方標竿 ── */}
+      {isProgress && <>
+        {/* 跑道 */}
+        <div style={{ position: 'absolute', left: '6%', right: '6%', top: '58%', height: 3, background: '#e0e0e0', borderRadius: 2, zIndex: 2 }} />
+        {/* 前方進度標竿 🏁（在右邊，微微前進） */}
+        <motion.div
+          animate={{ left: ['66%', '72%', '74%', '74%', '66%'] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.6, 0.8, 1], ease: 'linear' }}
+          style={{ position: 'absolute', top: '34%', fontSize: 30, zIndex: 4 }}>
+          🏁
+        </motion.div>
+        {/* 你：從後面加速追上來，停在標竿旁 */}
+        <motion.div
+          animate={{ left: ['8%', '40%', '62%', '62%', '8%'] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.62, 0.8, 1], ease: 'easeOut' }}
+          style={{ position: 'absolute', top: '36%', zIndex: 6 }}>
+          <Runner color="#1565c0" />
+        </motion.div>
+        {/* 速度線 */}
+        {[0, 1, 2].map(i => (
+          <motion.div key={i}
+            animate={{ opacity: [0, 0.8, 0, 0, 0], x: [0, -22, -22, -22, 0] }}
+            transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.55, 0.8, 1], delay: i * 0.08 }}
+            style={{ position: 'absolute', left: '34%', top: `${40 + i * 4}%`, width: 18, height: 2, background: '#90caf9', borderRadius: 1, zIndex: 5 }}
+          />
+        ))}
+        {/* ✅ 趕上了 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 0], scale: [0.3, 0.3, 0.3, 1.4, 0.3] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.62, 0.72, 0.92], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '64%', top: '22%', fontSize: 24, zIndex: 8 }}>
+          ✅
+        </motion.div>
+        <div style={{ position: 'absolute', left: '80%', top: '32%', fontSize: 11, fontWeight: 900, color: '#2e7d32', zIndex: 9 }}>UP</div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          CATCH + UP = 加速追上 → 補回落後的進度
+        </div>
+      </>}
+
+      {/* ── 敘舊：兩人從兩邊走近 → 碰面聊近況 ── */}
+      {!isProgress && <>
+        {/* 你（左→中） */}
+        <motion.div
+          animate={{ left: ['8%', '34%', '34%', '34%', '8%'] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.36, 0.6, 0.82, 1], ease: 'easeOut' }}
+          style={{ position: 'absolute', top: '38%', zIndex: 6 }}>
+          <Runner color="#1565c0" />
+        </motion.div>
+        {/* 老友（右→中） */}
+        <motion.div
+          animate={{ left: ['86%', '54%', '54%', '54%', '86%'] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.36, 0.6, 0.82, 1], ease: 'easeOut' }}
+          style={{ position: 'absolute', top: '38%', zIndex: 6, transform: 'scaleX(-1)' }}>
+          <Runner color="#6a1b9a" />
+        </motion.div>
+        {/* ☕ + 💬 碰面聊天 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.4, 0.4, 0.4, 1.2, 1, 0.4] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.36, 0.55, 0.66, 0.85, 0.97], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '45%', top: '46%', fontSize: 22, zIndex: 7 }}>
+          ☕
+        </motion.div>
+        {['💬', '😄', '❤️'].map((e, i) => (
+          <motion.div key={i}
+            animate={{ opacity: [0, 0, 0, 1, 0], y: [0, 0, 0, -14, -24] }}
+            transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.6, 0.72, 0.95], delay: i * 0.12 }}
+            style={{ position: 'absolute', left: `${42 + i * 6}%`, top: '26%', fontSize: 16, zIndex: 8 }}>
+            {e}
+          </motion.div>
+        ))}
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          CATCH + UP = 久違碰面 → 追上彼此的近況（敘舊）
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// End up  (end-up)
+// END（結束）+ UP（停住定下來）= 繞來繞去，最後停在沒預期的結局
+// ─────────────────────────────────────────────────
+function EndUpScene({ obj }) {
+  const dur = 4.5;
+  // 球沿著彎彎曲曲的路走，最後「停」在意外終點
+  const T = [0, 0.18, 0.34, 0.50, 0.66, 0.78, 0.90, 1];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 起點標示 ── */}
+      <div style={{ position: 'absolute', left: '8%', top: '24%', fontSize: 11, fontWeight: 700, color: '#9e9e9e', zIndex: 4 }}>START</div>
+      <div style={{ position: 'absolute', left: '9%', top: '34%', fontSize: 18, zIndex: 4 }}>📝</div>
+
+      {/* ── 彎曲的路徑（虛線分段，表現繞來繞去）── */}
+      {[
+        { l: '16%', t: '40%', w: 60, r: 0 },
+        { l: '34%', t: '30%', w: 60, r: 28 },
+        { l: '50%', t: '46%', w: 60, r: -30 },
+        { l: '66%', t: '34%', w: 56, r: 24 },
+      ].map((s, i) => (
+        <div key={i} style={{ position: 'absolute', left: s.l, top: s.t, width: s.w, height: 0, borderTop: '3px dashed #c5cae9', transform: `rotate(${s.r}deg)`, transformOrigin: 'left', zIndex: 2 }} />
+      ))}
+
+      {/* ── 球：沿路繞行，最後停住 ── */}
+      <motion.div
+        animate={{
+          left: ['12%', '30%', '46%', '60%', '74%', '78%', '78%', '78%'],
+          top:  ['36%', '40%', '30%', '46%', '34%', '40%', '40%', '40%'],
+          rotate: [0, 180, 360, 540, 720, 760, 760, 760],
+        }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeInOut' }}
+        style={{ position: 'absolute', fontSize: 22, zIndex: 6 }}>
+        🔵
+      </motion.div>
+
+      {/* ── 終點「停！」震一下 ── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0], scale: [0.4, 0.4, 0.4, 0.4, 0.4, 1.5, 1, 0.4] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ position: 'absolute', left: '76%', top: '26%', fontSize: 16, fontWeight: 900, color: '#c62828', zIndex: 8 }}>
+        STOP!
+      </motion.div>
+
+      {/* ── 意外結局 🤷 從終點彈出 ── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 0, 0, 1, 1, 0], scale: [0.3, 0.3, 0.3, 0.3, 0.3, 1.4, 1.1, 0.3], y: [0, 0, 0, 0, 0, -10, -10, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ position: 'absolute', left: '74%', top: '46%', fontSize: 32, zIndex: 8 }}>
+        {obj.emoji}
+      </motion.div>
+
+      {/* ── UP（停下定住）標示 ── */}
+      <div style={{ position: 'absolute', left: '84%', top: '38%', fontSize: 11, fontWeight: 900, color: '#2e7d32', zIndex: 9 }}>UP</div>
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        END + UP = 繞來繞去 → 最後竟然停在這裡（沒料到的結局）
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Check out  (check-out)
+// CHECK（確認）+ OUT（往外）= 看一眼確認 / 結清走人
+// ─────────────────────────────────────────────────
+function CheckOutScene({ obj }) {
+  const dur = 4.5;
+  const isLook = obj.label === '看看';
+  const isPay = obj.label === '結帳';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 看看：👀 投出目光瞄一眼 → ✓ ── */}
+      {isLook && <>
+        {/* 被看的東西 */}
+        <motion.div
+          animate={{ scale: [0.9, 1.1, 1, 1, 0.9] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.8, 1], ease: 'easeInOut' }}
+          style={{ position: 'absolute', right: '20%', top: '30%', fontSize: 44, zIndex: 4 }}>
+          📦
+        </motion.div>
+        {/* 👀 從左邊把目光投出去 */}
+        <motion.div
+          animate={{ x: [0, 60, 60, 60, 0], opacity: [0.4, 1, 1, 1, 0.4] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.8, 1], ease: 'easeOut' }}
+          style={{ position: 'absolute', left: '18%', top: '34%', fontSize: 30, zIndex: 6 }}>
+          👀
+        </motion.div>
+        <div style={{ position: 'absolute', left: '40%', top: '24%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 8 }}>OUT →</div>
+        {/* ✓ 看過了 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.3, 0.3, 0.3, 1.4, 1, 0.3] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.6, 0.82, 0.96], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', right: '16%', top: '24%', fontSize: 26, zIndex: 8 }}>
+          ✅
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          CHECK + OUT = 把目光投出去瞄一眼 → 來看看這個
+        </div>
+      </>}
+
+      {/* ── 結帳：🛒 → 🧾 → 💰 付完走 OUT ── */}
+      {isPay && <>
+        <div style={{ position: 'absolute', left: '14%', top: '32%', fontSize: 40, zIndex: 4 }}>🛒</div>
+        {/* 掃描收據 */}
+        <motion.div
+          animate={{ opacity: [0, 1, 1, 0, 0], y: [0, 0, 0, 0, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.2, 0.45, 0.6, 1] }}
+          style={{ position: 'absolute', left: '34%', top: '30%', fontSize: 26, zIndex: 6 }}>
+          🧾
+        </motion.div>
+        {/* 💰 付款 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 1, 0], scale: [0.4, 0.4, 1.3, 1, 0.4] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.45, 0.58, 0.78, 0.96], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '34%', top: '34%', fontSize: 26, zIndex: 7 }}>
+          💰
+        </motion.div>
+        {/* ✅ + OUT */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0], x: [0, 0, 0, 40, 60, 40], scale: [0.3, 0.3, 0.3, 1.3, 1, 0.3] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.45, 0.6, 0.7, 0.85, 0.96], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', right: '20%', top: '32%', fontSize: 26, zIndex: 8 }}>
+          ✅
+        </motion.div>
+        <div style={{ position: 'absolute', right: '6%', top: '26%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 9 }}>OUT →</div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          CHECK + OUT = 結算付完錢 → 走出去（結帳）
+        </div>
+      </>}
+
+      {/* ── 退房：🏨 → 🔑 交回 → 人+🧳 走 OUT ── */}
+      {!isLook && !isPay && <>
+        <div style={{ position: 'absolute', left: '12%', top: '20%', fontSize: 46, zIndex: 4 }}>🏨</div>
+        {/* 🔑 房卡交回櫃台 */}
+        <motion.div
+          animate={{ opacity: [0, 1, 1, 0, 0], x: [20, 0, 0, 0, 20], y: [0, 0, 0, 0, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.22, 0.4, 0.5, 1] }}
+          style={{ position: 'absolute', left: '30%', top: '28%', fontSize: 22, zIndex: 6 }}>
+          🔑
+        </motion.div>
+        {/* 人 + 行李 走出去 OUT → */}
+        <motion.div
+          animate={{ x: [0, 0, 0, 60, 110], opacity: [0, 0, 1, 1, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.42, 0.5, 0.78, 0.98], ease: 'easeIn' }}
+          style={{ position: 'absolute', left: '40%', top: '34%', fontSize: 28, zIndex: 7 }}>
+          🧍🧳
+        </motion.div>
+        <div style={{ position: 'absolute', right: '6%', top: '28%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 9 }}>OUT →</div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          CHECK + OUT = 交回房卡 → 走出飯店（退房）
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Check in  (check-in)
+// CHECK（確認）+ IN（往內）= 走進櫃台報到 / 進去看一下對方狀況
+// ─────────────────────────────────────────────────
+function CheckInScene({ obj }) {
+  const dur = 4.5;
+  const isRegister = obj.label === '報到';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 報到/入住：人+🧳 走進櫃台 🛎️ → ✓ → 🎫 ── */}
+      {isRegister && <>
+        {/* 櫃台 */}
+        <div style={{ position: 'absolute', right: '16%', top: '24%', fontSize: 40, zIndex: 4 }}>🛎️</div>
+        <div style={{ position: 'absolute', right: '8%', top: '22%', fontSize: 11, fontWeight: 900, color: '#1565c0', zIndex: 9 }}>← IN</div>
+        {/* 人+行李 從左邊走進來 */}
+        <motion.div
+          animate={{ x: [-10, 70, 70, 70, -10], opacity: [0, 1, 1, 1, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.5, 0.8, 1], ease: 'easeOut' }}
+          style={{ position: 'absolute', left: '12%', top: '34%', fontSize: 28, zIndex: 6 }}>
+          🧍🧳
+        </motion.div>
+        {/* ✅ 報到完成 + 🎫 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.3, 0.3, 0.3, 1.4, 1, 0.3] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.55, 0.65, 0.85, 0.97], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', right: '20%', top: '40%', fontSize: 24, zIndex: 8 }}>
+          ✅
+        </motion.div>
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0], y: [0, 0, 0, -8, -8, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.4, 0.6, 0.7, 0.86, 0.97] }}
+          style={{ position: 'absolute', right: '30%', top: '24%', fontSize: 22, zIndex: 8 }}>
+          🎫
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          CHECK + IN = 走進櫃台辦手續 → 報到入住
+        </div>
+      </>}
+
+      {/* ── 關心一下：💬「還好嗎?」進去問 → 對方 🙂 回應 ── */}
+      {!isRegister && <>
+        {/* 你（左） */}
+        <div style={{ position: 'absolute', left: '12%', top: '34%', fontSize: 34, zIndex: 5 }}>🧑</div>
+        {/* 💬 關心訊息往對方那邊 IN */}
+        <motion.div
+          animate={{ opacity: [0, 1, 1, 1, 0], x: [0, 70, 70, 70, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.5, 0.7, 1], ease: 'easeOut' }}
+          style={{ position: 'absolute', left: '26%', top: '28%', fontSize: 24, zIndex: 7 }}>
+          💬
+        </motion.div>
+        <div style={{ position: 'absolute', left: '44%', top: '20%', fontSize: 10, fontWeight: 900, color: '#1565c0', zIndex: 9 }}>還好嗎?</div>
+        {/* 對方（右）收到 → 🙂 回應 */}
+        <div style={{ position: 'absolute', right: '14%', top: '34%', fontSize: 34, zIndex: 5 }}>🧑‍💻</div>
+        <motion.div
+          animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.4, 0.4, 0.4, 1.3, 1, 0.4] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.3, 0.55, 0.66, 0.85, 0.97], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', right: '12%', top: '24%', fontSize: 22, zIndex: 8 }}>
+          🙂
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          CHECK + IN = 進去問一下近況 → 關心對方
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Show up  (show-up)
+// SHOW（被看見）+ UP（冒上來）= 從沒人看到「冒出來」現身 / 太亮眼把人比下去
+// ─────────────────────────────────────────────────
+function ShowUpScene({ obj }) {
+  const isAppear = obj.label === '人到場';
+  const dur = 4.5;
+
+  // 共用一個小人 SVG
+  const Person = ({ color = '#1a237e' }) => (
+    <svg width="34" height="48" viewBox="0 0 40 54">
+      <circle cx="20" cy="7" r="7" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2"/>
+      <line x1="20" y1="14" x2="20" y2="33" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+      <line x1="20" y1="18" x2="7"  y2="26" stroke={color} strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="20" y1="18" x2="33" y2="26" stroke={color} strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="20" y1="33" x2="28" y2="48" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+      <line x1="20" y1="33" x2="12" y2="48" stroke={color} strokeWidth="3" strokeLinecap="round"/>
+    </svg>
+  );
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── Scene A：現身/到場 — 空位 → 人「冒上來」現身 ── */}
+      {isAppear && <>
+        {/* 地點舞台 */}
+        <div style={{ position: 'absolute', left: '50%', top: '64%', width: 70, height: 14, marginLeft: -35, background: '#e0e0e0', borderRadius: '50%', zIndex: 2 }} />
+        {/* 虛線空位 + ❓（還沒人）*/}
+        <motion.div
+          animate={{ opacity: [1, 1, 0, 0, 0, 1] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.26, 0.40, 0.70, 0.88, 0.96] }}
+          style={{ position: 'absolute', left: '50%', top: '30%', width: 40, height: 50, marginLeft: -20, border: '2.5px dashed #bdbdbd', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, color: '#bdbdbd', zIndex: 3 }}>
+          ❓
+        </motion.div>
+        {/* 人從下方冒上來現身 */}
+        <motion.div
+          animate={{ y: [44, 44, 0, 0, 0, 44], opacity: [0, 0, 1, 1, 1, 0], scale: [0.7, 0.7, 1.1, 1, 1, 0.7] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.30, 0.46, 0.62, 0.82, 0.96], ease: [0.34, 1.56, 0.64, 1] }}
+          style={{ position: 'absolute', left: '50%', top: '28%', marginLeft: -17, zIndex: 6 }}>
+          <Person />
+        </motion.div>
+        {/* ✨ 現身亮光 */}
+        <motion.div
+          animate={{ opacity: [0, 0, 1, 0, 0, 0], scale: [0.4, 0.4, 1.6, 0.4, 0.4, 0.4] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.36, 0.48, 0.60, 0.80, 0.96] }}
+          style={{ position: 'absolute', left: '50%', top: '34%', marginLeft: -12, fontSize: 22, zIndex: 7 }}>
+          ✨
+        </motion.div>
+        {/* UP ↑ */}
+        <div style={{ position: 'absolute', left: '63%', top: '32%', fontSize: 11, fontWeight: 900, color: '#2e7d32', zIndex: 8 }}>↑ UP</div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          SHOW + UP = 人「冒出來」現身 → 到場了
+        </div>
+      </>}
+
+      {/* ── Scene B：把人比下去 — 你發光站挺，旁邊的人相形見絀 ── */}
+      {!isAppear && <>
+        {/* 你：發光、往上挺、頭上 🌟 */}
+        <motion.div
+          animate={{ y: [0, -6, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.5, 1], ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '24%', top: '34%', zIndex: 6 }}>
+          <Person color="#1565c0" />
+        </motion.div>
+        {/* 光環 */}
+        <motion.div
+          animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.9, 1.15, 0.9] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '24%', top: '32%', width: 50, height: 60, marginLeft: -8, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,213,79,0.55), transparent 70%)', zIndex: 4 }}
+        />
+        <motion.div
+          animate={{ y: [0, -4, 0], scale: [1, 1.2, 1] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '27%', top: '24%', fontSize: 20, zIndex: 7 }}>
+          🌟
+        </motion.div>
+        {/* 旁邊的人：垂頭、縮小、冒汗 😓 */}
+        <motion.div
+          animate={{ y: [0, 6, 0], scale: [1, 0.82, 1], opacity: [1, 0.6, 1] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.5, 1], ease: 'easeInOut' }}
+          style={{ position: 'absolute', left: '58%', top: '38%', zIndex: 5, transformOrigin: 'bottom' }}>
+          <Person color="#9e9e9e" />
+        </motion.div>
+        <motion.div
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: dur, repeat: Infinity, times: [0, 0.5, 1] }}
+          style={{ position: 'absolute', left: '62%', top: '30%', fontSize: 18, zIndex: 7 }}>
+          😓
+        </motion.div>
+        <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+          SHOW + UP = 你太亮眼 → 把旁邊的人比下去
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Show off  (show-off)
+// SHOW（亮出來）+ OFF（朝外秀出去）= 把東西轉向大家炫耀 / 展現成果
+// ─────────────────────────────────────────────────
+function ShowOffScene({ obj }) {
+  const isFlaunt = obj.label === '炫耀的東西';
+  const dur = 4.5;
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 炫耀的人（左側，手舉高）── */}
+      <motion.div
+        animate={{ y: [0, -3, 0] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '8%', top: '34%', zIndex: 6 }}>
+        <svg width="40" height="54" viewBox="0 0 40 54">
+          <circle cx="20" cy="7" r="7" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.2"/>
+          <line x1="20" y1="14" x2="20" y2="33" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
+          {/* 一手叉腰，一手高舉展示 */}
+          <line x1="20" y1="18" x2="9"  y2="24" stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
+          <line x1="20" y1="18" x2="34" y2="8"  stroke="#1a237e" strokeWidth="2.5" strokeLinecap="round"/>
+          <line x1="20" y1="33" x2="28" y2="48" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="20" y1="33" x2="12" y2="48" stroke="#1a237e" strokeWidth="3" strokeLinecap="round"/>
+        </svg>
+      </motion.div>
+      {/* 😎 / 😏 得意表情 */}
+      <div style={{ position: 'absolute', left: '15%', top: '30%', fontSize: 14, zIndex: 7 }}>{isFlaunt ? '😎' : '😀'}</div>
+
+      {/* ── 高舉的東西：轉一圈閃亮（OFF = 朝外秀）── */}
+      <motion.div
+        animate={{ rotate: [-12, 12, -12], scale: [1, 1.18, 1] }}
+        transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '20%', top: '14%', fontSize: 32, zIndex: 8 }}>
+        {obj.emoji}
+      </motion.div>
+      {/* 閃光 */}
+      {[0, 1, 2].map(i => (
+        <motion.div key={i}
+          animate={{ opacity: [0, 1, 0], scale: [0.4, 1.2, 0.4] }}
+          transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.4 }}
+          style={{ position: 'absolute', left: `${24 + i * 4}%`, top: `${10 + i * 3}%`, fontSize: 12, zIndex: 9 }}>
+          ✨
+        </motion.div>
+      ))}
+
+      {/* ── 光線朝右邊觀眾「秀出去」── */}
+      <motion.div
+        animate={{ opacity: [0, 1, 0], x: [0, 40, 80], scale: [0.4, 1, 0.4] }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+        style={{ position: 'absolute', left: '32%', top: '20%', fontSize: 16, zIndex: 7 }}>
+        ➡️
+      </motion.div>
+      <div style={{ position: 'absolute', left: '40%', top: '12%', fontSize: 11, fontWeight: 900, color: '#e65100', zIndex: 9 }}>OFF →</div>
+
+      {/* ── 右邊觀眾：被秀到，反應 ── */}
+      <motion.div
+        animate={{ scale: [1, 1.25, 1] }}
+        transition={{ duration: dur, repeat: Infinity, times: [0, 0.5, 1], ease: 'easeInOut' }}
+        style={{ position: 'absolute', right: '10%', top: '40%', fontSize: 30, zIndex: 6 }}>
+        {isFlaunt ? '😍' : '👏'}
+      </motion.div>
+      <motion.div
+        animate={{ opacity: [0, 1, 0], y: [0, -10, -18] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
+        style={{ position: 'absolute', right: '8%', top: '32%', fontSize: 14, zIndex: 7 }}>
+        ❗
+      </motion.div>
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        {isFlaunt ? 'SHOW + OFF = 把好東西亮出去 → 故意引人注目' : 'SHOW + OFF = 把成果秀出去 → 給大家看'}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Figure out  (figure-out)
+// FIGURE（腦中排列整理）+ OUT（答案理出來）= 把亂的線索在腦中排一排 → 想通了
+// ─────────────────────────────────────────────────
+function FigureOutScene({ obj }) {
+  const isPuzzle = obj.label === '難題';
+  const dur = 4.5;
+  // aha 想通的瞬間 ≈ 0.55
+  const ahaT = [0, 0.20, 0.50, 0.58, 0.78, 0.92];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 思考的人（手托下巴）── */}
+      <motion.div
+        animate={{ y: [0, -2, 0, -2, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: '6%', bottom: '8%', zIndex: 6 }}>
+        <svg width="64" height="78" viewBox="0 0 64 78">
+          {/* 頭 */}
+          <circle cx="24" cy="20" r="13" fill="#FDBCB4" stroke="#E59866" strokeWidth="1.5"/>
+          {/* 眼睛 */}
+          <circle cx="20" cy="19" r="1.6" fill="#333"/>
+          <circle cx="29" cy="19" r="1.6" fill="#333"/>
+          {/* 身體 */}
+          <line x1="24" y1="33" x2="23" y2="62" stroke="#1a237e" strokeWidth="4" strokeLinecap="round"/>
+          {/* 托下巴的手臂：肩 → 肘 → 手到下巴 */}
+          <line x1="24" y1="40" x2="36" y2="46" stroke="#1a237e" strokeWidth="3.5" strokeLinecap="round"/>
+          <line x1="36" y1="46" x2="28" y2="30" stroke="#1a237e" strokeWidth="3.5" strokeLinecap="round"/>
+          {/* 另一手 */}
+          <line x1="24" y1="40" x2="11" y2="52" stroke="#1a237e" strokeWidth="3.5" strokeLinecap="round"/>
+        </svg>
+      </motion.div>
+
+      {/* ── 思考泡泡的小尾巴（兩顆小圓往上接到泡泡）── */}
+      {[0, 1].map(i => (
+        <div key={i} style={{ position: 'absolute', left: `${26 + i * 3}%`, bottom: `${44 - i * 5}%`, width: 7 + i * 3, height: 7 + i * 3, borderRadius: '50%', background: '#fff', border: '2px solid #90caf9', zIndex: 5 }} />
+      ))}
+
+      {/* ── 大思考泡泡（橢圓）── */}
+      <div style={{ position: 'absolute', left: '34%', top: '10%', width: '54%', height: '54%', background: '#fff', border: '3px solid #90caf9', borderRadius: '50%', zIndex: 4 }} />
+
+      {/* ── 泡泡裡：兩個齒輪一直轉（=腦子在運轉），想通時停下淡出 ── */}
+      <motion.div
+        animate={{ rotate: [0, 360], opacity: [1, 1, 1, 0, 0, 1] }}
+        transition={{ rotate: { duration: 2, repeat: Infinity, ease: 'linear' }, opacity: { duration: dur, repeat: Infinity, times: ahaT } }}
+        style={{ position: 'absolute', left: '46%', top: '26%', fontSize: 26, zIndex: 6 }}>
+        ⚙️
+      </motion.div>
+      <motion.div
+        animate={{ rotate: [0, -360], opacity: [1, 1, 1, 0, 0, 1] }}
+        transition={{ rotate: { duration: 1.6, repeat: Infinity, ease: 'linear' }, opacity: { duration: dur, repeat: Infinity, times: ahaT } }}
+        style={{ position: 'absolute', left: '58%', top: '34%', fontSize: 20, zIndex: 6 }}>
+        ⚙️
+      </motion.div>
+
+      {/* ── 泡泡裡：被想的東西（難題🧩 / 邏輯🌀），想通前在抖，想通時淡出 ── */}
+      <motion.div
+        animate={{ rotate: isPuzzle ? [-10, 10, -10] : [0, 360], opacity: [1, 1, 1, 0, 0, 1] }}
+        transition={{
+          rotate: { duration: isPuzzle ? 0.6 : 1.4, repeat: Infinity, repeatType: isPuzzle ? 'mirror' : 'loop', ease: isPuzzle ? 'easeInOut' : 'linear' },
+          opacity: { duration: dur, repeat: Infinity, times: ahaT },
+        }}
+        style={{ position: 'absolute', left: '40%', top: '22%', fontSize: 24, zIndex: 6 }}>
+        {obj.emoji}
+      </motion.div>
+
+      {/* ── 想通閃光環 ── */}
+      <motion.div
+        animate={{ scale: [0, 0, 0, 2.6, 0, 0], opacity: [0, 0, 0.9, 0, 0, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: ahaT }}
+        style={{ position: 'absolute', left: '54%', top: '22%', width: 40, height: 40, marginLeft: -20, marginTop: -20, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,193,7,0.9), transparent 70%)', zIndex: 7 }}
+      />
+
+      {/* ── 💡 想通！從泡泡裡冒出來，大大彈一下 ── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 1, 1, 0], scale: [0.2, 0.2, 0.2, 1.4, 1.1, 0.2], y: [0, 0, 0, -8, -8, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: ahaT, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ position: 'absolute', left: '50%', top: '18%', fontSize: 40, zIndex: 8 }}>
+        💡
+      </motion.div>
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        {isPuzzle ? 'FIGURE + OUT = 腦子轉一轉 → 💡 想通了！' : 'FIGURE + OUT = 把一團亂在腦中理順 → 💡 搞懂了！'}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
+// Find out  (find-out)
+// FIND（去搜）+ OUT（翻到外面）= 把藏著的東西翻出來 → 查出真相 / 被抓包
+// ─────────────────────────────────────────────────
+function FindOutScene({ obj }) {
+  const isTruth = obj.label === '真相';
+  const dur = 4.5;
+  // 蓋子掀開的瞬間 ≈ 0.42，掀開後真相曝光
+  const T = [0, 0.30, 0.42, 0.56, 0.80, 0.94];
+  const coverEmoji = isTruth ? '❓' : '🤫';   // 蓋子上代表「還不知道 / 還藏著」
+  const reveal     = isTruth ? '💡' : '😱';   // 掀開後露出的東西
+  const flyOut     = isTruth ? '✅' : '🚨';   // 往 OUT 飛出去的結果
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, background: '#fafafa', overflow: 'hidden' }}>
+
+      {/* ── 箱子本體（藏東西的地方）── */}
+      <div style={{ position: 'absolute', left: '20%', top: '40%', width: 96, height: 56, background: '#d7ccc8', border: '3px solid #8d6e63', borderRadius: 6, zIndex: 3 }} />
+
+      {/* ── 箱子裡藏的東西：掀蓋後才亮出來，發光放大 ── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 1, 1, 1, 0], scale: [0.4, 0.4, 1.3, 1.1, 1.1, 0.4] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ position: 'absolute', left: '27%', top: '42%', fontSize: 34, zIndex: 5 }}>
+        {reveal}
+      </motion.div>
+
+      {/* ── 曝光光環（掀蓋瞬間爆出）── */}
+      <motion.div
+        animate={{ scale: [0, 0, 2.4, 0, 0, 0], opacity: [0, 0, 0.9, 0, 0, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T }}
+        style={{ position: 'absolute', left: '31%', top: '46%', width: 44, height: 44, marginLeft: -22, marginTop: -22, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,193,7,0.85), transparent 70%)', zIndex: 4 }}
+      />
+
+      {/* ── 蓋子：被「掀開」往上 + 往右飛走（= OUT），露出底下的真相 ── */}
+      <motion.div
+        animate={{ y: [0, -2, -46, -60, -60, 0], x: [0, 0, 20, 48, 48, 0], rotate: [0, -3, -22, -40, -40, 0], opacity: [1, 1, 1, 0, 0, 1] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+        style={{ position: 'absolute', left: '20%', top: '34%', width: 96, height: 22, background: '#8d6e63', borderRadius: '6px 6px 0 0', zIndex: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, transformOrigin: 'right center' }}>
+        {coverEmoji}
+      </motion.div>
+
+      {/* ── 🔍 / 🔦 在掀蓋前湊近箱子 ── */}
+      <motion.div
+        animate={{ x: [40, 10, 0, 0, 0, 40], opacity: [0, 1, 1, 0, 0, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: 'easeOut' }}
+        style={{ position: 'absolute', left: '40%', top: '30%', fontSize: 26, zIndex: 8 }}>
+        {isTruth ? '🔍' : '🔦'}
+      </motion.div>
+
+      {/* ── 結果往 OUT 飛出去 ── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 1, 1, 0], x: [0, 0, 0, 70, 90, 70], y: [0, 0, 0, -18, -22, -18], scale: [0.3, 0.3, 0.3, 1.3, 1.1, 0.3] }}
+        transition={{ duration: dur, repeat: Infinity, times: T, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{ position: 'absolute', left: '40%', top: '36%', fontSize: 28, zIndex: 8 }}>
+        {flyOut}
+      </motion.div>
+
+      {/* ── OUT → 標示 ── */}
+      <motion.div
+        animate={{ opacity: [0, 0, 0, 1, 1, 0] }}
+        transition={{ duration: dur, repeat: Infinity, times: T }}
+        style={{ position: 'absolute', right: '6%', top: '24%', fontSize: 10, fontWeight: 900, color: '#1a237e', zIndex: 9 }}>
+        OUT →
+      </motion.div>
+
+      <div style={{ position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)', fontSize: 10, fontWeight: 700, color: '#757575', zIndex: 9, whiteSpace: 'nowrap' }}>
+        {isTruth ? 'FIND + OUT = 掀開蓋子 → 藏著的真相露出來了' : 'FIND + OUT = 蓋子被掀開 → 偷偷做的事被抓包'}
+      </div>
     </div>
   );
 }
